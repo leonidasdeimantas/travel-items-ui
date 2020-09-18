@@ -1,7 +1,6 @@
 import React from 'react';
 import ItemList from './components/ItemList'
 import ItemEnter from './components/ItemEnter'
-import itemData from './itemData'
 import './App.css';
 
 class App extends React.Component  {
