@@ -51,6 +51,9 @@ body {
 }
 
 .InputEntry {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   width: 80%;
   border: 1px solid rgb(133, 235, 230);
   border-radius:50px;
@@ -61,9 +64,6 @@ body {
 }
 
 .InputBtnEntry {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   width: 18%;
   border: 1px solid rgb(133, 235, 230);
   background-color: rgb(133, 235, 230);
@@ -79,6 +79,9 @@ body {
 }
 
 .AsigneeBox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   width: 40%;
   border: 1px solid rgb(133, 235, 230);
   border-radius:50px;
