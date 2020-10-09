@@ -195,6 +195,12 @@ body {
   background-color: var(--hove_color);
 }
 
+@media (max-width: 1000px) {
+  .ItemEntry:hover {
+    background-color: rgb(220, 243, 241);
+  }
+}
+
 .ListEntry {
   margin-top: 20px;
   border: 1px solid var(--bord_color);
