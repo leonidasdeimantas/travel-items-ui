@@ -83,15 +83,18 @@ class App extends React.Component  {
             <ItemEnter 
               handleAddItem={this.handleAddItem}
             />
-            <ItemList 
-              items={this.state.items}
-              hovered={this.state.hovered} 
-              handleHover={this.handleHover} 
-              clicked={this.state.clicked} 
-              handleClick={this.handleClick} 
-              handleDone={this.handleDone}
-              handleAsignee={this.handleAsignee}
-            />
+            {
+              (this.state.items.length > 0) &&
+              <ItemList 
+                items={this.state.items}
+                hovered={this.state.hovered} 
+                handleHover={this.handleHover} 
+                clicked={this.state.clicked} 
+                handleClick={this.handleClick} 
+                handleDone={this.handleDone}
+                handleAsignee={this.handleAsignee}
+              />
+            }
           </div>
         </header>
       </div>

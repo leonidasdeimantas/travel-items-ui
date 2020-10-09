@@ -70,7 +70,7 @@ class Item extends React.Component  {
           style={this.props.item.completed ? completedStyleAsignee: null}
           onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked)}
         >
-          {!clicked && (this.props.item.asignee ? this.props.item.asignee : <p className="NoAsignee">Click to assign</p>)}
+          {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="NoAsignee">Click to assign</p> : null)}
           {clicked && 
             <span>
               <input 
@@ -85,7 +85,7 @@ class Item extends React.Component  {
                 className="AsigneeBtn" 
                 onClick={() => this.handleButton(this.props.item.id)}
               >
-                <img src={ok_img} />
+                →
               </button>
             </span>
           }
