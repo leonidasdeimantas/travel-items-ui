@@ -13,6 +13,24 @@
   --list_border_radius: calc(10px + 1vmin);
 }
 
+@media (max-width: 1000px) {
+  :root {
+    --entry_font_size: calc(18px + 1vmin);
+    --main_font_size: calc(12px + 1vmin);
+    --medium_font_size: calc(10px + 1vmin);
+    --small_font_size: calc(8px + 1vmin);
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --entry_font_size: calc(20px + 1vmin);
+    --main_font_size: calc(14px + 1vmin);
+    --medium_font_size: calc(12px + 1vmin);
+    --small_font_size: calc(10px + 1vmin);
+  }
+}
+
 /*
 .App {
   text-align: center;
@@ -56,6 +74,18 @@ body {
   padding-top: 10%;
   padding-bottom: 5%;
   margin: 0 auto 0 auto;
+}
+
+@media (max-width: 1000px) {
+  .ItemBox {
+    width: 70%;
+  }
+}
+
+@media (max-width: 600px) {
+  .ItemBox {
+    width: 90%;
+  }
 }
 
 .InputEntry {
