@@ -49,10 +49,7 @@ class Item extends React.Component  {
       <div 
         className="ItemEntry" 
         onMouseOver={() => this.props.handleHover(this.props.item.id)}
-        onMouseLeave={() => {
-          this.props.handleHover(-1)
-          if (!this.state.typing) this.props.handleClick(-1)
-        }}
+        onMouseLeave={() => this.props.handleHover(-1)}
       >
 
         {/* Item text and checkbox */}
