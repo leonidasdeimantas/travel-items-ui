@@ -31,7 +31,7 @@ class Item extends React.Component  {
   }
 
   componentDidUpdate() {
-    let inputBox = document.getElementById("inputAsigneeBox")
+    let inputBox = document.getElementById("ItemAsigneeInputID")
     if (inputBox) {
       inputBox.focus()
     }
@@ -55,40 +55,44 @@ class Item extends React.Component  {
 
     return (
       <div 
-        className="ItemEntry" 
+        className="ItemContainer" 
         onMouseOver={() => this.props.handleHover(this.props.item.id)}
         onMouseLeave={() => this.props.handleHover(-1)}
       >
 
         {/* Item text and checkbox */}
-        <div className="ItemEntryText" style={this.props.item.completed ? completedStyle: null}>
-          {hovered && <input type="checkbox" 
-                             checked={this.props.item.completed} 
-                             onChange={() => this.props.handleDone(this.props.item.id)}
-                     />}
+        <div className="ItemMainText" style={this.props.item.completed ? completedStyle: null}>
+          {
+            hovered && 
+            <input type="checkbox" 
+              checked={this.props.item.completed} 
+              onChange={() => this.props.handleDone(this.props.item.id)}
+            />
+          }
           {this.props.item.text}
         </div>
 
         {/* Asignee field */}
         <div 
-          className="Asignee" 
+          className="ItemAsignee" 
           style={this.props.item.completed ? completedStyleAsignee: null}
           onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked)}
         >
-          {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="NoAsignee">Click to assign</p> : null)}
-          {clicked && 
+          {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="ItemNoAsignee">Click to assign</p> : null)}
+          {
+            clicked && 
             <span>
               <form onSubmit={e => this.handleButton(e, this.props.item.id)}>
                 <input 
-                  id="inputAsigneeBox"
-                  className="AsigneeBox"
+                  id="ItemAsigneeInputID"
+                  className="ItemAsigneeInput"
                   type="textbox" 
                   placeholder="Enter name..."
                   value={this.state.asignee}
                   onChange={e => this.handleTyping(e.target.value)}
                   autoFocus
                 />
-                <input type="submit" className="AsigneeBtn" value="→"/>
+                <input type="submit" className="ItemAsigneeButton" value="→"/>
               </form>
             </span>
           }

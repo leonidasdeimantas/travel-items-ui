@@ -78,8 +78,8 @@ class App extends React.Component  {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <div className="ItemBox">
+        <header className="AppHeader">
+          <div className="MainItemBox">
             <ItemEnter 
               handleAddItem={this.handleAddItem}
             />

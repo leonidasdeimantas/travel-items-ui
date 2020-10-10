@@ -31,44 +31,19 @@
   }
 }
 
-/*
-.App {
-  text-align: center;
-}
-*/
-
 body {
   background-color: var(--back_color);
 }
 
-.App-header {
+.AppHeader {
   background-color: var(--back_color);
-/*
-  margin: 0 5% 0 5%;
-  -webkit-box-shadow: 0px 1px 15px -1px rgba(0,0,0,0.53); 
-  box-shadow: 0px 1px 15px -1px rgba(0,0,0,0.53);
-  border: 1px solid var(--bord_color);
-*/
   min-height: 100vh;
   display: block;
-/*
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-*/
   font-size: var(--main_font_size);
   color: var(--font_color);
 }
 
-.Asignee {
-  font-size: var(--medium_font_size);
-  color: rgb(120, 216, 211);
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ItemBox {
+.MainItemBox {
   display: block;
   width: 50%;
   padding-top: 10%;
@@ -77,18 +52,18 @@ body {
 }
 
 @media (max-width: 1000px) {
-  .ItemBox {
+  .MainItemBox {
     width: 70%;
   }
 }
 
 @media (max-width: 600px) {
-  .ItemBox {
+  .MainItemBox {
     width: 90%;
   }
 }
 
-.InputEntry {
+.ItemEnterInput {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -101,11 +76,11 @@ body {
   font-size: var(--entry_font_size);
 }
 
-.InputEntry:focus {
+.ItemEnterInput:focus {
   outline: none;
 }
 
-.InputBtnEntry {
+.ItemEnterButton {
   width: 19%;
   border: 1px solid rgb(133, 235, 230);
   background-color: rgb(133, 235, 230);
@@ -122,15 +97,59 @@ body {
   transition: 0.2s;
 }
 
-.InputBtnEntry:focus {
+.ItemEnterButton:focus {
   outline: none;
 }
 
-.InputBtnEntry:hover {
+.ItemEnterButton:hover {
   opacity: 0.7;
 }
 
-.AsigneeBox {
+.ItemListContainer {
+  margin-top: 20px;
+  border: 1px solid var(--bord_color);
+  border-radius: var(--list_border_radius);
+  -moz-border-radius: var(--list_border_radius);
+  -webkit-border-radius: var(--list_border_radius);
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.ItemContainer {
+  margin: 5px 0px 5px 0px;
+  padding-bottom: 3px;
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: 0.4s;
+}
+
+@media (min-width: 1000px) {
+  .ItemContainer:hover {
+    word-wrap: break-word;
+    background-color: var(--hove_color);
+  }
+}
+
+.ItemMainText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ItemNoAsignee {
+  font-style: italic;
+  font-size: var(--small_font_size);
+  color: #dddddd;
+  margin-bottom: 0;
+}
+
+.ItemAsignee {
+  font-size: var(--medium_font_size);
+  color: rgb(120, 216, 211);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ItemAsigneeInput {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -144,11 +163,11 @@ body {
   font-size: var(--medium_font_size);
 }
 
-.AsigneeBox:focus {
+.ItemAsigneeInput:focus {
   outline: none;
 }
 
-.AsigneeBtn {
+.ItemAsigneeButton {
   width: 15%;
   padding: 0 0 2px 0;
   margin-left: 1%;
@@ -165,52 +184,12 @@ body {
   transition: 0.2s;
 }
 
-.AsigneeBtn:focus {
+.ItemAsigneeButton:focus {
   outline: none;
 }
 
-.AsigneeBtn:hover {
+.ItemAsigneeButton:hover {
   opacity: 0.7;
-}
-
-.ItemEntry {
-  margin: 5px 0px 5px 0px;
-  padding-bottom: 3px;
-  padding-left: 20px;
-  padding-right: 20px;
-  transition: 0.4s;
-}
-
-.ItemEntryText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ItemEntryDone {
-  text-decoration: line-through;
-}
- 
-@media (min-width: 1000px) {
-  .ItemEntry:hover {
-    word-wrap: break-word;
-    background-color: var(--hove_color);
-  }
-}
-/*
-@media (max-width: 1000px) {
-  .ItemEntry:hover {
-    background-color: rgb(220, 243, 241);
-  }
-}
-*/
-.ListEntry {
-  margin-top: 20px;
-  border: 1px solid var(--bord_color);
-  border-radius: var(--list_border_radius);
-  -moz-border-radius: var(--list_border_radius);
-  -webkit-border-radius: var(--list_border_radius);
-  padding-top: 5px;
-  padding-bottom: 10px;
 }
 
 input[type=checkbox] {
@@ -221,11 +200,4 @@ input[type=checkbox] {
 
 input[type=checkbox]:focus {
   outline: 0;
-}
-
-.NoAsignee {
-  font-style: italic;
-  font-size: var(--small_font_size);
-  color: #dddddd;
-  margin-bottom: 0;
 }

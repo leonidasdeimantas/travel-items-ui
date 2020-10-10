@@ -15,7 +15,7 @@ class ItemList extends React.Component {
     />)
 
     return (
-      <div className="ListEntry">
+      <div className="ItemListContainer">
         {list}
       </div>
     );
