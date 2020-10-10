@@ -23,7 +23,8 @@ class Item extends React.Component  {
     this.props.handleClick(this.props.item.id)
   }
 
-  handleButton(id) {
+  handleButton(event, id) {
+    event.preventDefault()
     this.setState({ typing: false })
     this.props.handleAsignee(id, this.state.asignee)
     this.props.handleClick(-1);
@@ -77,19 +78,18 @@ class Item extends React.Component  {
           {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="NoAsignee">Click to assign</p> : null)}
           {clicked && 
             <span>
-              <input  
-                id="inputAsigneeBox"
-                className="AsigneeBox"
-                type="textbox" 
-                placeholder="Enter name..."
-                value={this.state.asignee}
-                onChange={e => this.handleTyping(e.target.value)}
-              />
-              <button 
-                type="button" 
-                className="AsigneeBtn" 
-                onClick={() => this.handleButton(this.props.item.id)}
-              >→</button>
+              <form onSubmit={e => this.handleButton(e, this.props.item.id)}>
+                <input 
+                  id="inputAsigneeBox"
+                  className="AsigneeBox"
+                  type="textbox" 
+                  placeholder="Enter name..."
+                  value={this.state.asignee}
+                  onChange={e => this.handleTyping(e.target.value)}
+                  autoFocus
+                />
+                <input type="submit" className="AsigneeBtn" value="→"/>
+              </form>
             </span>
           }
         </div>
