@@ -29,6 +29,13 @@ class Item extends React.Component  {
     this.props.handleClick(-1);
   }
 
+  componentDidUpdate() {
+    let inputBox = document.getElementById("inputAsigneeBox")
+    if (inputBox) {
+      inputBox.focus()
+    }
+  }
+
   render() {
     const completedStyle = {
       fontStyle: "italic",
@@ -70,7 +77,8 @@ class Item extends React.Component  {
           {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="NoAsignee">Click to assign</p> : null)}
           {clicked && 
             <span>
-              <input 
+              <input  
+                id="inputAsigneeBox"
                 className="AsigneeBox"
                 type="textbox" 
                 placeholder="Enter name..."
@@ -81,9 +89,7 @@ class Item extends React.Component  {
                 type="button" 
                 className="AsigneeBtn" 
                 onClick={() => this.handleButton(this.props.item.id)}
-              >
-                →
-              </button>
+              >→</button>
             </span>
           }
         </div>
