@@ -149,6 +149,7 @@ body {
   transform: translate(-50%, -50%);
   height: 22px;
   width: 22px;
+  padding:0;
 }
 
 .ItemCompleteButton:focus {
