@@ -133,6 +133,38 @@ body {
 .ItemMainText {
   overflow: hidden;
   text-overflow: ellipsis;
+  width: auto;
+}
+
+.ItemCompleteButton {
+  background: transparent;
+  border-radius: 100%;
+  box-shadow: inset 0px 0px 0px 3px white;
+  border: 1px solid rgb(133, 235, 230);
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  height: 22px;
+  width: 22px;
+}
+
+.ItemCompleteButton:focus {
+  outline: none;
+}
+
+.ItemCompleteButton:hover {
+  background: rgb(133, 235, 230);
+  opacity: 0.3;
+}
+
+@media (max-width: 768px) {
+  .ItemCompleteButton {
+    height: 30px;
+    width: 30px;
+  }
 }
 
 .ItemNoAsignee {
@@ -208,6 +240,9 @@ body {
 }
 
 input[type=checkbox] {
+  vertical-align: middle;
+  zoom: 1.5;
+  float: right;
   margin-right: 10px;
   font-size: 30px;
   outline: 0;

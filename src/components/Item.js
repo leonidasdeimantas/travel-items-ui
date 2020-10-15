@@ -65,6 +65,12 @@ class Item extends React.Component  {
       fontStyle: "italic",
       color: "#dddddd",
     }
+    const completedStyleButton = {
+      background: "rgb(133, 235, 230)"
+    }
+    const zeroPaddingStyle = {
+      padding: "0"
+    }
 
     let hovered = false;
     let clicked = false;
@@ -73,50 +79,50 @@ class Item extends React.Component  {
 
     return (
       <div 
-        className="ItemContainer" 
+        className="ItemContainer row"
+        style={zeroPaddingStyle}
         onMouseOver={() => this.props.handleHover(this.props.item.id)}
         onMouseLeave={() => this.props.handleHover(-1)}
       >
-
-        {/* Item text and checkbox */}
-        <div className="ItemMainText" style={this.props.item.completed ? completedStyle: null}>
-          {
-            hovered && 
-            <input type="checkbox" 
-              checked={this.props.item.completed} 
-              onChange={() => this.props.handleDone(this.props.item.id)}
-            />
-          }
-          {this.props.item.text}
+        <div className="col-2 col-md-1" style={zeroPaddingStyle}>
+          <button type="button" className="ItemCompleteButton"
+            style={this.props.item.completed ? completedStyleButton : null} 
+            onClick={() => this.props.handleDone(this.props.item.id)}>
+          </button>
         </div>
 
-        {/* Asignee field */}
-        <div 
-          className="ItemAsignee" 
-          style={this.props.item.completed ? completedStyleAsignee: null}
-          onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked)}
-        >
-          {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="ItemNoAsignee">Click to assign</p> : null)}
-          {
-            clicked && 
-            <span>
-              <form onSubmit={e => this.handleButton(e, this.props.item.id)}>
-                <input 
-                  id="ItemAsigneeInputID"
-                  className="ItemAsigneeInput"
-                  type="textbox" 
-                  placeholder="Enter name..."
-                  value={this.state.asignee}
-                  onChange={e => this.handleTyping(e.target.value)}
-                  autoFocus
-                />
-                <input type="submit" className="ItemAsigneeButton" value="✓"/>
-                <button type="button" className="ItemAsigneeButtonX" onClick={() => this.handleButtonX()}>✕</button>
-              </form>
-            </span>
-          }
-        </div>
+        <div className="col-10 col-md-11" style={zeroPaddingStyle}>
+          <div className="ItemMainText" style={this.props.item.completed ? completedStyle : null}>
+            {this.props.item.text}
+          </div>
 
+          {/* Asignee field */}
+          <div 
+            className="ItemAsignee" 
+            style={this.props.item.completed ? completedStyleAsignee: null}
+            onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked)}
+          >
+            {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="ItemNoAsignee">Click to assign</p> : null)}
+            {
+              clicked && 
+              <span>
+                <form onSubmit={e => this.handleButton(e, this.props.item.id)}>
+                  <input 
+                    id="ItemAsigneeInputID"
+                    className="ItemAsigneeInput"
+                    type="textbox" 
+                    placeholder="Enter name..."
+                    value={this.state.asignee}
+                    onChange={e => this.handleTyping(e.target.value)}
+                    autoFocus
+                  />
+                  <input type="submit" className="ItemAsigneeButton" value="✓"/>
+                  <button type="button" className="ItemAsigneeButtonX" onClick={() => this.handleButtonX()}>✕</button>
+                </form>
+              </span>
+            }
+          </div>
+        </div>
       </div>
     );
   }
