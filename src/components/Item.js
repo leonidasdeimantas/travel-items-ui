@@ -1,5 +1,4 @@
 import React from 'react';
-import ok_img from '../ok_btn.svg';
 
 class Item extends React.Component  {
   constructor(){
@@ -11,6 +10,8 @@ class Item extends React.Component  {
     this.handleTyping = this.handleTyping.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleButton = this.handleButton.bind(this)
+    this.handleButtonX = this.handleButtonX.bind(this)
+    this.handleKey = this.handleKey.bind(this)
   }
 
   handleTyping(value) {
@@ -28,6 +29,23 @@ class Item extends React.Component  {
     this.setState({ typing: false })
     this.props.handleAsignee(id, this.state.asignee)
     this.props.handleClick(-1);
+  }
+
+  handleKey(event) {
+    if(event.keyCode === 27) this.handleButtonX()
+  }
+
+  handleButtonX() {
+    this.setState({ typing: false })
+    this.props.handleClick(-1);
+  }
+
+  componentDidMount(){
+    document.addEventListener("keydown", this.handleKey, false)
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener("keydown", this.handleKey, false)
   }
 
   componentDidUpdate() {
@@ -92,7 +110,8 @@ class Item extends React.Component  {
                   onChange={e => this.handleTyping(e.target.value)}
                   autoFocus
                 />
-                <input type="submit" className="ItemAsigneeButton" value="→"/>
+                <input type="submit" className="ItemAsigneeButton" value="✓"/>
+                <button type="button" className="ItemAsigneeButtonX" onClick={() => this.handleButtonX()}>✕</button>
               </form>
             </span>
           }

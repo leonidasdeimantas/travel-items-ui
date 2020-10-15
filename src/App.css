@@ -13,7 +13,7 @@
   --list_border_radius: calc(10px + 1vmin);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   :root {
     --entry_font_size: calc(18px + 1vmin);
     --main_font_size: calc(12px + 1vmin);
@@ -51,7 +51,7 @@ body {
   margin: 0 auto 0 auto;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .MainItemBox {
     width: 70%;
   }
@@ -154,11 +154,9 @@ body {
   -moz-appearance: none;
   appearance: none;
   width: 40%;
-  border: 1px solid var(--bord_color);
-  border-radius:50px;
-  -moz-border-radius:50px;
-  -webkit-border-radius:50px;
-  padding: 0px 5px 2px 15px;
+  background: transparent;
+  border: none;
+  padding: 0 5px 2px 0;
   margin: 0 0 0 0;
   font-size: var(--medium_font_size);
 }
@@ -168,11 +166,28 @@ body {
 }
 
 .ItemAsigneeButton {
-  width: 15%;
+  width: 30px;
   padding: 0 0 2px 0;
   margin-left: 1%;
-  border: 1px solid rgb(133, 235, 230);
-  background-color: rgb(133, 235, 230);
+  border: none;
+  background-color: #dddddd;
+  border-radius:50px;
+  -moz-border-radius:50px;
+  -webkit-border-radius:50px;
+  text-align: center;
+  /*margin-right: 1%;*/
+  font-size: var(--medium_font_size);
+  color: white;
+  opacity: 1;
+  transition: 0.2s;
+}
+
+.ItemAsigneeButtonX {
+  width: 30px;
+  padding: 0 0 2px 0;
+  margin-left: 3px;
+  border: none;
+  background-color: #f0d9d9;
   border-radius:50px;
   -moz-border-radius:50px;
   -webkit-border-radius:50px;
