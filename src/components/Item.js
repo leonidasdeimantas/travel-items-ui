@@ -96,7 +96,7 @@ class Item extends React.Component  {
               {this.props.item.text}
             </div>
             {hovered &&
-              <button className="XButtonButton">✕</button>
+              <button className="XButtonButton" onClick={() => this.props.handleRemoveItem(this.props.item.id)}>✕</button>
             }
 
           </div>

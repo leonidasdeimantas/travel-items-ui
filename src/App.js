@@ -12,6 +12,7 @@ class App extends React.Component  {
         clicked: -1
     }
     this.handleAddItem = this.handleAddItem.bind(this)
+    this.handleRemoveItem = this.handleRemoveItem.bind(this)
     this.handleHover = this.handleHover.bind(this)
     this.handleDone = this.handleDone.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -28,6 +29,26 @@ class App extends React.Component  {
         completed: false
       }
       updatedItems.push(newItem)
+
+      return {
+        items: updatedItems
+      }
+    })
+  }
+
+  handleRemoveItem(id) {
+    this.setState(prevState => {
+      let updatedItems = prevState.items;
+      let i = 0;
+
+      while (i < updatedItems.length) {
+        if (updatedItems[i].id === id) {
+          updatedItems.splice(i, 1)
+          break
+        } else {
+          ++i
+        }
+      }
 
       return {
         items: updatedItems
@@ -93,6 +114,7 @@ class App extends React.Component  {
                 handleClick={this.handleClick} 
                 handleDone={this.handleDone}
                 handleAsignee={this.handleAsignee}
+                handleRemoveItem={this.handleRemoveItem}
               />
             }
           </div>

@@ -12,6 +12,7 @@ class ItemList extends React.Component {
       handleClick={this.props.handleClick} 
       handleDone={this.props.handleDone}
       handleAsignee={this.props.handleAsignee}
+      handleRemoveItem={this.props.handleRemoveItem}
     />)
 
     return (
