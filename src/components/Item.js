@@ -91,8 +91,17 @@ class Item extends React.Component  {
         </div>
 
         <div className="col-10 col-md-11" style={zeroPaddingStyle}>
-          <div className="ItemMainText" style={this.props.item.completed ? completedStyle : null}>
-            {this.props.item.text}
+          <div className="FlexRow">
+            <div className="ItemMainText" style={this.props.item.completed ? completedStyle : null}>
+              {this.props.item.text}
+            </div>
+            {hovered &&
+              <button className="XButtonButton">
+                <div className="XButtonDiv1"/>
+                <div className="XButtonDiv2"/>
+              </button>
+            }
+
           </div>
 
           {/* Properties field */}

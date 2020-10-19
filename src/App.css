@@ -40,6 +40,11 @@ body {
   font-size: var(--main_font_size);
 }
 
+.FlexRow {
+  display: flex;
+  flex-direction: row;
+}
+
 .MainItemBox {
   display: block;
   width: 50%;
@@ -143,6 +148,7 @@ body {
   font-weight: 400;
   font-size: var(--main_font_size);
   padding-top: 3px;
+  margin-right: 10px;
 }
 
 .ItemPropertiesText {
@@ -277,6 +283,35 @@ body {
 
 .ItemAsigneeButton:hover {
   opacity: 0.7;
+}
+
+.XButtonButton {
+  margin-left: auto;
+  order: 2;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  position: relative;
+}
+.XButtonDiv1 {
+  background-color: rgba(0, 0, 0, 0.3);
+  left: 0px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%) rotate(45deg);
+  height: 1px;
+  width: 100%;
+}
+.XButtonDiv2 {
+  background-color: rgba(0, 0, 0, 0.3);
+  left: 50%;
+  position: absolute;
+  top: 0px;
+  transform: translate(-50%, 0%) rotate(45deg);
+  height: 100%;
+  width: 1px;
 }
 
 input[type=checkbox] {
