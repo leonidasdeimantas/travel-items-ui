@@ -110,6 +110,7 @@ body {
 
 .ItemEnterButton:hover {
   opacity: 0.7;
+  color: #26c5c5;
 }
 
 .ItemListContainer {
@@ -249,7 +250,6 @@ body {
   -moz-border-radius:50px;
   -webkit-border-radius:50px;
   text-align: center;
-  /*margin-right: 1%;*/
   font-size: var(--small_font_size);
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
@@ -268,7 +268,6 @@ body {
   -moz-border-radius:50px;
   -webkit-border-radius:50px;
   text-align: center;
-  /*margin-right: 1%;*/
   font-size: var(--small_font_size);
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
