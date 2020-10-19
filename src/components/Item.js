@@ -96,10 +96,7 @@ class Item extends React.Component  {
               {this.props.item.text}
             </div>
             {hovered &&
-              <button className="XButtonButton">
-                <div className="XButtonDiv1"/>
-                <div className="XButtonDiv2"/>
-              </button>
+              <button className="XButtonButton">✕</button>
             }
 
           </div>
