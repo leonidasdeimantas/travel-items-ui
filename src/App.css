@@ -85,10 +85,9 @@ body {
 }
 
 .ItemEnterButton {
-  width: 9%;
   border: none;
   background-color: transparent;
-  padding: 4px 0px 4px 0px;
+  padding: 4px 20px 4px 0px;
   text-align: center;
   margin-left: 0;
   /*margin-right: 1%;*/
