@@ -1,16 +1,14 @@
 /* Global Variables */
 :root {
-  --back_color: white;
-  --font_color: #808080;
-  --bord_color: #ececec;
-  --hove_color: #fafafa;
-  --bord_color_d: #888888;
+  --back_color:  #ffffff;
+  --bord_color: #313131;
+  --main_button_font_size: calc(16px + 2vmin);
   --entry_font_size: calc(14px + 1vmin);
-  --main_font_size: calc(8px + 1vmin);
-  --medium_font_size: calc(6px + 1vmin);
-  --small_font_size: calc(4px + 1vmin);
-  --entry_border_radius: calc(30px + 1vmin);
-  --list_border_radius: calc(10px + 1vmin);
+  --main_font_size: calc(9px + 1vmin);
+  --medium_font_size: calc(7px + 1vmin);
+  --small_font_size: calc(5px + 1vmin);
+  --entry_border_radius: calc(0);
+  --list_border_radius: calc(0);
 }
 
 @media (max-width: 1200px) {
@@ -40,7 +38,6 @@ body {
   min-height: 100vh;
   display: block;
   font-size: var(--main_font_size);
-  color: var(--font_color);
 }
 
 .MainItemBox {
@@ -63,17 +60,24 @@ body {
   }
 }
 
+.ItemEnterForm {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid var(--bord_color);
+}
+
 .ItemEnterInput {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 80%;
-  border: 1px solid var(--bord_color);
-  border-radius: var(--entry_border_radius);
-  -moz-border-radius: var(--entry_border_radius);
-  -webkit-border-radius: var(--entry_border_radius);
-  padding: 4px 10px 4px 20px;
+  background-color: transparent;
+  color: var(--bord_color);
+  border: none;
+  padding: 4px 10px 0px 20px;
   font-size: var(--entry_font_size);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  flex: 1;
 }
 
 .ItemEnterInput:focus {
@@ -81,18 +85,17 @@ body {
 }
 
 .ItemEnterButton {
-  width: 19%;
-  border: 1px solid rgb(133, 235, 230);
-  background-color: rgb(133, 235, 230);
-  border-radius:50px;
-  -moz-border-radius:50px;
-  -webkit-border-radius:50px;
+  width: 9%;
+  border: none;
+  background-color: transparent;
   padding: 4px 0px 4px 0px;
   text-align: center;
-  margin-left: 1%;
+  margin-left: 0;
   /*margin-right: 1%;*/
-  font-size: var(--entry_font_size);
-  color: white;
+  font-size: var(--main_button_font_size);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  color: var(--bord_color);
   opacity: 1;
   transition: 0.2s;
 }
@@ -107,12 +110,11 @@ body {
 
 .ItemListContainer {
   margin-top: 20px;
-  border: 1px solid var(--bord_color);
-  border-radius: var(--list_border_radius);
-  -moz-border-radius: var(--list_border_radius);
-  -webkit-border-radius: var(--list_border_radius);
+  border: none;
   padding-top: 5px;
   padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .ItemContainer {
@@ -120,27 +122,50 @@ body {
   padding-bottom: 3px;
   padding-left: 20px;
   padding-right: 20px;
-  transition: 0.4s;
 }
 
 @media (min-width: 1000px) {
   .ItemContainer:hover {
     word-wrap: break-word;
-    background-color: var(--hove_color);
+    background-color: rgb(248, 248, 248);
   }
+}
+
+.ItemPropertiesContainer {
+  padding-top: 1px;
+  padding-bottom: 5px;
 }
 
 .ItemMainText {
   overflow: hidden;
   text-overflow: ellipsis;
   width: auto;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: var(--main_font_size);
+  padding-top: 3px;
 }
+
+.ItemPropertiesText {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: var(--small_font_size);
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .ItemPropertiesText {
+    display: none;
+  }
+}
+
 
 .ItemCompleteButton {
   background: transparent;
   border-radius: 100%;
   box-shadow: inset 0px 0px 0px 3px white;
-  border: 1px solid rgb(133, 235, 230);
+  border: 1px solid var(--bord_color);
   margin: 0;
   position: absolute;
   top: 50%;
@@ -157,7 +182,7 @@ body {
 }
 
 .ItemCompleteButton:hover {
-  background: rgb(133, 235, 230);
+  background: var(--bord_color);
   opacity: 0.3;
 }
 
@@ -168,15 +193,24 @@ body {
   }
 }
 
+.ItemPropertiesItem {
+  display: flex;
+  flex-direction: row;
+}
+
 .ItemNoAsignee {
   font-style: italic;
   font-size: var(--small_font_size);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
   color: #dddddd;
   margin-bottom: 0;
 }
 
 .ItemAsignee {
-  font-size: var(--medium_font_size);
+  font-size: var(--small_font_size);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
   color: rgb(120, 216, 211);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -186,12 +220,14 @@ body {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 40%;
+  width: 60%;
   background: transparent;
   border: none;
-  padding: 0 5px 2px 0;
+  padding: 0 5px 0 0;
   margin: 0 0 0 0;
-  font-size: var(--medium_font_size);
+  font-size: var(--small_font_size);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
 }
 
 .ItemAsigneeInput:focus {
@@ -200,7 +236,7 @@ body {
 
 .ItemAsigneeButton {
   width: 30px;
-  padding: 0 0 2px 0;
+  padding: 0;
   margin-left: 1%;
   border: none;
   background-color: #dddddd;
@@ -209,7 +245,9 @@ body {
   -webkit-border-radius:50px;
   text-align: center;
   /*margin-right: 1%;*/
-  font-size: var(--medium_font_size);
+  font-size: var(--small_font_size);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
   color: white;
   opacity: 1;
   transition: 0.2s;
@@ -217,7 +255,7 @@ body {
 
 .ItemAsigneeButtonX {
   width: 30px;
-  padding: 0 0 2px 0;
+  padding: 0;
   margin-left: 3px;
   border: none;
   background-color: #f0d9d9;
@@ -226,7 +264,9 @@ body {
   -webkit-border-radius:50px;
   text-align: center;
   /*margin-right: 1%;*/
-  font-size: var(--medium_font_size);
+  font-size: var(--small_font_size);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
   color: white;
   opacity: 1;
   transition: 0.2s;

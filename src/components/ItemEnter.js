@@ -16,9 +16,9 @@ class ItemEnter extends React.Component  {
   render() {
     return (
       <div>
-        <form onSubmit={e => this.handleButton(e)}>
+        <form className="ItemEnterForm" onSubmit={e => this.handleButton(e)}>
           <input id="ItemEnterInputID" type="textbox" className="ItemEnterInput" placeholder="Add item..." ref={this.msgRef} autoFocus/>
-          <input type="submit" className="ItemEnterButton" value="Add"/>
+          <input type="submit" className="ItemEnterButton" value="+"/>
         </form>
       </div>
     );

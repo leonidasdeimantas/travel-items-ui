@@ -35,8 +35,9 @@ class Item extends React.Component  {
     if(event.keyCode === 27) this.handleButtonX()
   }
 
-  handleButtonX() {
+  handleButtonX(id) {
     this.setState({ typing: false })
+    if (id) this.props.handleAsignee(id, "")
     this.props.handleClick(-1);
   }
 
@@ -57,16 +58,14 @@ class Item extends React.Component  {
 
   render() {
     const completedStyle = {
-      fontStyle: "italic",
       color: "#cdcdcd",
       textDecoration: "line-through"
     }
     const completedStyleAsignee = {
-      fontStyle: "italic",
       color: "#dddddd",
     }
     const completedStyleButton = {
-      background: "rgb(133, 235, 230)"
+      background: "var(--bord_color)"
     }
     const zeroPaddingStyle = {
       padding: "0"
@@ -96,31 +95,44 @@ class Item extends React.Component  {
             {this.props.item.text}
           </div>
 
-          {/* Asignee field */}
-          <div 
-            className="ItemAsignee" 
-            style={this.props.item.completed ? completedStyleAsignee: null}
-            onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked)}
-          >
-            {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="ItemNoAsignee">Click to assign</p> : null)}
-            {
-              clicked && 
-              <span>
-                <form onSubmit={e => this.handleButton(e, this.props.item.id)}>
-                  <input 
-                    id="ItemAsigneeInputID"
-                    className="ItemAsigneeInput"
-                    type="textbox" 
-                    placeholder="Enter name..."
-                    value={this.state.asignee}
-                    onChange={e => this.handleTyping(e.target.value)}
-                    autoFocus
-                  />
-                  <input type="submit" className="ItemAsigneeButton" value="✓"/>
-                  <button type="button" className="ItemAsigneeButtonX" onClick={() => this.handleButtonX()}>✕</button>
-                </form>
-              </span>
-            }
+          {/* Properties field */}
+          <div className="ItemPropertiesContainer row">
+            <div className="ItemPropertiesItem col-8">
+              <p className="ItemPropertiesText" style={this.props.item.completed ? completedStyleAsignee: null}>Asignee:</p>
+
+              <div 
+                className="ItemAsignee" 
+                style={this.props.item.completed ? completedStyleAsignee: null}
+                onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked)}
+              >
+                {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="ItemNoAsignee">Click to assign</p> : <p className="ItemNoAsignee">None</p>)}
+                {
+                  clicked && 
+                  <span>
+                    <form onSubmit={e => this.handleButton(e, this.props.item.id)}>
+                      <input 
+                        id="ItemAsigneeInputID"
+                        className="ItemAsigneeInput"
+                        type="textbox" 
+                        placeholder="Enter name..."
+                        value={this.state.asignee}
+                        onChange={e => this.handleTyping(e.target.value)}
+                        autoFocus
+                      />
+                      <input type="submit" className="ItemAsigneeButton" value="✓"/>
+                      <button type="button" className="ItemAsigneeButtonX" onClick={() => this.handleButtonX(this.props.item.id)}>✕</button>
+                    </form>
+                  </span>
+                }
+              </div>
+
+            </div>
+            
+            <div className="ItemPropertiesItem col-4">
+              <p className="ItemPropertiesText" style={this.props.item.completed ? completedStyleAsignee: null}>Price:</p>
+            </div>
+            
+
           </div>
         </div>
       </div>
