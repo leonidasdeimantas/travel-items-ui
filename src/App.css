@@ -146,14 +146,14 @@ body {
   padding-left: 20px;
   padding-right: 20px;
 }
-
+/*
 @media (min-width: 1000px) {
   .ItemContainer:hover {
     word-wrap: break-word;
     background-color: rgb(248, 248, 248);
   }
 }
-
+*/
 .ItemPropertiesContainer {
   padding-top: 1px;
   padding-bottom: 5px;

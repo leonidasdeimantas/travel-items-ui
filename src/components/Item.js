@@ -95,9 +95,9 @@ class Item extends React.Component {
             <div className="ItemMainText" style={this.props.item.completed ? completedStyle : null}>
               {this.props.item.text}
             </div>
-            {hovered &&
+            {/*hovered &&
               <button className="XButtonButton" onClick={() => this.props.handleRemoveItem(this.props.item.id)}>✕</button>
-            }
+            */}
 
           </div>
 
