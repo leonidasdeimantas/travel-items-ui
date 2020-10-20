@@ -1,7 +1,7 @@
 import React from 'react';
 
-class Item extends React.Component  {
-  constructor(){
+class Item extends React.Component {
+  constructor() {
     super()
     this.state = {
       asignee: "",
@@ -111,7 +111,7 @@ class Item extends React.Component  {
                 style={this.props.item.completed ? completedStyleAsignee: null}
                 onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked)}
               >
-                {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="ItemNoAsignee">Click to assign</p> : <p className="ItemNoAsignee">None</p>)}
+                {!clicked && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="ItemNoAsignee">click to assign</p> : <p className="ItemNoAsignee">None</p>)}
                 {
                   clicked && 
                   <span>

@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemList from './components/ItemList'
 import ItemEnter from './components/ItemEnter'
+import Header from './components/Header'
 import './App.css';
 
 class App extends React.Component  {
@@ -99,7 +100,8 @@ class App extends React.Component  {
   render() {
     return (
       <div className="App">
-        <header className="AppHeader">
+        <div className="AppBody">
+          <Header />
           <div className="MainItemBox">
             <ItemEnter 
               handleAddItem={this.handleAddItem}
@@ -118,7 +120,7 @@ class App extends React.Component  {
               />
             }
           </div>
-        </header>
+        </div>
       </div>
     );
   }
