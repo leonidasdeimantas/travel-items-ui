@@ -189,9 +189,9 @@ body {
 }
 
 .ItemCompleteButtonContainer {
-  width: 22px;
   margin: auto 10px auto 10px;
   position: relative;
+  padding: 11px;
 }
 
 .ItemCompleteButton {
@@ -227,9 +227,8 @@ body {
     width: 30px;
   }
   .ItemCompleteButtonContainer {
-    width: 30px;
-    height: 30px;
     margin-left: 3px;
+    padding: 15px;
   }
 }
 
