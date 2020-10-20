@@ -202,8 +202,7 @@ body {
   border: 1px solid var(--bord_color);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  height: 22px;
-  width: 22px;
+  padding: 11px;
   margin: 0;
   position: absolute;
   top: 50%;
@@ -223,8 +222,7 @@ body {
 
 @media (max-width: 768px) {
   .ItemCompleteButton {
-    height: 30px;
-    width: 30px;
+    padding: 15px;
   }
   .ItemCompleteButtonContainer {
     margin-left: 3px;
