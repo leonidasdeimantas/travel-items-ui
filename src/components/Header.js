@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from '../apple.png'
 
 class Header extends React.Component  {
   constructor() {

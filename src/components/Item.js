@@ -78,19 +78,18 @@ class Item extends React.Component {
 
     return (
       <div 
-        className="ItemContainer row"
-        style={zeroPaddingStyle}
+        className="FlexRow ItemContainer"
         onMouseOver={() => this.props.handleHover(this.props.item.id)}
         onMouseLeave={() => this.props.handleHover(-1)}
       >
-        <div className="col-2 col-md-1" style={zeroPaddingStyle}>
+        <div className="ItemCompleteButtonContainer">
           <button type="button" className="ItemCompleteButton"
             style={this.props.item.completed ? completedStyleButton : null} 
             onClick={() => this.props.handleDone(this.props.item.id)}>
           </button>
         </div>
 
-        <div className="col-10 col-md-11" style={zeroPaddingStyle}>
+        <div className="ItemContent">
           <div className="FlexRow">
             <div className="ItemMainText" style={this.props.item.completed ? completedStyle : null}>
               {this.props.item.text}

@@ -71,15 +71,15 @@ body {
   margin: 0 auto 0 auto;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
   .MainItemBox {
-    width: 70%;
+    width: 75%;
   }
 }
 
 @media (max-width: 600px) {
   .MainItemBox {
-    width: 90%;
+    width: 95%;
   }
 }
 
@@ -143,8 +143,8 @@ body {
 .ItemContainer {
   margin: 5px 0px 5px 0px;
   padding-bottom: 3px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 @media (min-width: 1000px) {
@@ -184,21 +184,30 @@ body {
   }
 }
 
+.ItemContent {
+  flex-grow: 1;
+}
+
+.ItemCompleteButtonContainer {
+  width: 22px;
+  margin: auto 10px auto 10px;
+  position: relative;
+}
 
 .ItemCompleteButton {
   background: transparent;
+  display: block;
   border-radius: 100%;
   box-shadow: inset 0px 0px 0px 3px white;
   border: 1px solid var(--bord_color);
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   height: 22px;
   width: 22px;
-  padding:0;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 
 .ItemCompleteButton:focus {
@@ -216,6 +225,10 @@ body {
   .ItemCompleteButton {
     height: 30px;
     width: 30px;
+  }
+  .ItemCompleteButtonContainer {
+    width: 30px;
+    margin-left: 3px;
   }
 }
 
