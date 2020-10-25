@@ -172,24 +172,19 @@ body {
 
 .ItemPropertiesText {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
+  font-weight: 600;
   font-size: var(--small_font_size);
   margin-right: 10px;
   margin-bottom: 0;
 }
 
-@media (max-width: 768px) {
-  .ItemPropertiesText {
-    display: none;
-  }
-}
-
 .ItemContent {
   flex-grow: 1;
+  max-width: calc(100% - 50px);;
 }
 
 .ItemCompleteButtonContainer {
-  margin: auto 10px auto 10px;
+  margin: auto 14px auto 7px;
   position: relative;
   padding: 11px;
 }
@@ -231,11 +226,11 @@ body {
 }
 
 .ItemPropertiesItem {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
-.ItemNoAsignee {
+.ItemNoProperties {
   font-style: italic;
   font-size: var(--small_font_size);
   font-family: 'Montserrat', sans-serif;
@@ -244,7 +239,7 @@ body {
   margin-bottom: 0;
 }
 
-.ItemAsignee {
+.ItemProperties {
   font-size: var(--small_font_size);
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
@@ -253,7 +248,7 @@ body {
   text-overflow: ellipsis;
 }
 
-.ItemAsigneeInput {
+.ItemPropertiesInput {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -267,11 +262,11 @@ body {
   font-weight: 400;
 }
 
-.ItemAsigneeInput:focus {
+.ItemPropertiesInput:focus {
   outline: none;
 }
 
-.ItemAsigneeButton {
+.ItemPropertiesButton {
   width: 30px;
   padding: 0;
   margin-left: 1%;
@@ -289,7 +284,7 @@ body {
   transition: 0.2s;
 }
 
-.ItemAsigneeButtonX {
+.ItemPropertiesButtonX {
   width: 30px;
   padding: 0;
   margin-left: 3px;
@@ -307,11 +302,11 @@ body {
   transition: 0.2s;
 }
 
-.ItemAsigneeButton:focus {
+.ItemPropertiesButton:focus {
   outline: none;
 }
 
-.ItemAsigneeButton:hover {
+.ItemPropertiesButton:hover {
   opacity: 0.7;
 }
 

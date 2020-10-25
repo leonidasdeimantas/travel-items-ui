@@ -5,13 +5,13 @@ class ItemList extends React.Component {
   render() {
     const list = this.props.items.map(item => <Item 
       key={item.id} 
-      item={item} 
-      hovered={this.props.hovered} 
-      handleHover={this.props.handleHover} 
-      clicked={this.props.clicked} 
+      item={item}
+      clicked_assignee={this.props.clicked_assignee} 
+      clicked_price={this.props.clicked_price} 
       handleClick={this.props.handleClick} 
       handleDone={this.props.handleDone}
       handleAsignee={this.props.handleAsignee}
+      handlePrice={this.props.handlePrice}
       handleRemoveItem={this.props.handleRemoveItem}
     />)
 

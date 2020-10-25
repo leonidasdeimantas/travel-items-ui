@@ -9,15 +9,15 @@ class App extends React.Component  {
     super()
     this.state = {
         items: [],
-        hovered: -1,
-        clicked: -1
+        clicked_assignee: -1,
+        clicked_price: -1
     }
     this.handleAddItem = this.handleAddItem.bind(this)
     this.handleRemoveItem = this.handleRemoveItem.bind(this)
-    this.handleHover = this.handleHover.bind(this)
     this.handleDone = this.handleDone.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleAsignee = this.handleAsignee.bind(this)
+    this.handlePrice = this.handlePrice.bind(this)
   }
 
   handleAddItem(text) {
@@ -27,6 +27,7 @@ class App extends React.Component  {
         id: updatedItems.length+1,
         text: text,
         asignee: "",
+        price: "",
         completed: false
       }
       updatedItems.push(newItem)
@@ -57,16 +58,23 @@ class App extends React.Component  {
     })
   }
 
-  handleHover(id) {
-    this.setState({
-      hovered: id
-    })
-  }
-
-  handleClick(id) {
-    this.setState({
-      clicked: id
-    })
+  handleClick(id, prop) {
+    if (id == -1) {
+      this.setState({
+        clicked_assignee: id,
+        clicked_price: id
+      })
+      return
+    }
+    if (prop == "assignee") {
+      this.setState({
+        clicked_assignee: id
+      })
+    } else if (prop == "price") {
+      this.setState({
+        clicked_price: id
+      })
+    }
   }
 
   handleDone(id) {
@@ -97,6 +105,20 @@ class App extends React.Component  {
     })
   }
 
+  handlePrice(id, value) {
+    this.setState(prevState => {
+        const updatedItems = prevState.items.map(item => {
+            if (item.id === id) {
+                item.price = value
+            }
+            return item
+        })
+        return {
+            items: updatedItems
+        }
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -110,12 +132,12 @@ class App extends React.Component  {
               (this.state.items.length > 0) &&
               <ItemList 
                 items={this.state.items}
-                hovered={this.state.hovered} 
-                handleHover={this.handleHover} 
-                clicked={this.state.clicked} 
+                clicked_assignee={this.state.clicked_assignee} 
+                clicked_price={this.state.clicked_price} 
                 handleClick={this.handleClick} 
                 handleDone={this.handleDone}
                 handleAsignee={this.handleAsignee}
+                handlePrice={this.handlePrice}
                 handleRemoveItem={this.handleRemoveItem}
               />
             }
