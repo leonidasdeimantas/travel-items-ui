@@ -4,78 +4,45 @@ class Item extends React.Component {
   constructor() {
     super()
     this.state = {
-      asignee: "",
-      price: "",
-      typing: false
+      assignee: "",
+      price: ""
     }
-    this.handleTyping = this.handleTyping.bind(this)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleButton = this.handleButton.bind(this)
-    this.handleButtonX = this.handleButtonX.bind(this)
-    this.handleKey = this.handleKey.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
+    this.handleTypingAssignee = this.handleTypingAssignee.bind(this)
+    this.handleTypingPrice = this.handleTypingPrice.bind(this)
   }
 
-  handleTyping(value, prop) {
-    if (prop === "assignee") {
-      this.setState({ asignee: value, typing: true })
-    } else if (prop === "price") {
-      this.setState({ price: value, typing: true })
-    }
+  handleTypingAssignee(value) {
+    this.setState({ assignee: value })
   }
 
-  handleClick(id, completed_item, clicked, prop) {
-    if (completed_item || clicked) return
-    if (prop === "assignee") {
-      this.setState({ asignee: this.props.item.asignee })
-    } else if (prop === "price") {
-      this.setState({ price: this.props.item.price })
-    }
-    
-    this.props.handleClick(this.props.item.id, prop)
+  handleTypingPrice(value) {
+    this.setState({ price: value })
   }
 
-  handleButton(event, id, prop) {
+  handleFormSave(event, id) {
     event.preventDefault()
-    this.setState({ typing: false })
+    this.props.handleEdit(id, this.state.assignee, this.state.price)
+  }
 
-    if (prop === "assignee") {
-      this.props.handleAsignee(id, this.state.asignee)
-    } else if (prop === "price") {
-      this.props.handlePrice(id, this.state.price)
-    }
-
-    this.props.handleClick(-1);
+  handleEdit() {
+    this.setState({ assignee: this.props.item.assignee, price: this.props.item.price })
   }
 
   handleKey(event) {
-    if(event.keyCode === 27) this.handleButtonX()
-  }
-
-  handleButtonX(id, prop) {
-    this.setState({ typing: false })
-    if (id && prop) {
-      if (prop === "assignee") {
-        this.props.handleAsignee(id, "")
-      } else if (prop === "price") {
-        this.props.handlePrice(id, "")
-      }
-    }
-    this.props.handleClick(-1);
+    /* handle key press here sometime xD */
   }
 
   componentDidMount(){
-    document.addEventListener("keydown", this.handleKey, false)
+    //document.addEventListener("keydown", this.handleKey, false)
   }
 
   componentWillUnmount(){
-    document.removeEventListener("keydown", this.handleKey, false)
+    //document.removeEventListener("keydown", this.handleKey, false)
   }
 
   componentDidUpdate() {
-    let inputBox = document.getElementById("ItemAsigneeInputID")
-    if (inputBox) {
-      inputBox.focus()
-    }
+
   }
 
   render() {
@@ -83,106 +50,61 @@ class Item extends React.Component {
       color: "#cdcdcd",
       textDecoration: "line-through"
     }
-    const completedStyleAsignee = {
-      color: "#dddddd",
-    }
-    const completedStyleButton = {
-    }
-    const zeroPaddingStyle = {
-      padding: "0"
-    }
-
-    let clicked_assignee = false;
-    let clicked_price = false;
-    if(this.props.item.id === this.props.clicked_assignee) clicked_assignee = true;
-    if(this.props.item.id === this.props.clicked_price) clicked_price = true;
 
     return (
+
       <div className="media text-muted pt-3">
         <div className="mr-2 rounded">
-          <button type="button"
-            style={this.props.item.completed ? completedStyleButton : null} 
-            onClick={() => this.props.handleDone(this.props.item.id)}>
+          <button 
+            type="button" 
+            className={this.props.item.completed ? "btn btn-info btn-sm C5procTop" : "btn btn-outline-info btn-sm C5procTop"} 
+            style={{padding:"12px"}} 
+            onClick={() => this.props.handleDone(this.props.item.id)}>            
           </button>
         </div>
+        <div className="media-body pb-3 mb-0 medium lh-125 border-bottom border-gray text-break" style={{marginLeft:"1%"}}>
+          <div style={this.props.item.completed ? completedStyle : null}> {this.props.item.text} </div>
+          <div className="media-body" style={{marginTop:"1%"}}>
+            <button type="button" className="btn btn-outline-danger btn-sm CItemButtonRight" onClick={() => this.props.handleRemoveItem(this.props.item.id)}>Delete</button>
+            <button type="button" className="btn btn-outline-secondary btn-sm CItemButtonRight" data-toggle="modal" data-target="#editItemModal"
+              onClick={() => this.handleEdit()}>
+              Edit
+            </button>
 
-        <div className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-          <div className="FlexRow">
-            <div className="ItemMainText" style={this.props.item.completed ? completedStyle : null}>
-              {this.props.item.text}
-            </div>
-            <button className="XButtonButton" onClick={() => this.props.handleRemoveItem(this.props.item.id)}>✕</button>
-
-          </div>
-
-          {/* Properties field */}
-          <div className="ItemPropertiesContainer">
-            <div className="ItemPropertiesItem">
-              <p className="ItemPropertiesText" style={this.props.item.completed ? completedStyleAsignee: null}>Asignee:</p>
-
-              <div 
-                className="ItemProperties" 
-                style={this.props.item.completed ? completedStyleAsignee: null}
-                onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked_assignee, "assignee")}
-              >
-                {!clicked_assignee && (this.props.item.asignee ? this.props.item.asignee : !this.props.item.completed ? <p className="ItemNoProperties">Click to add</p> : <p className="ItemNoProperties">None</p>)}
-                {
-                  clicked_assignee && 
-                  <span>
-                    <form onSubmit={e => this.handleButton(e, this.props.item.id, "assignee")}>
-                      <input 
-                        id="ItemAsigneeInputID"
-                        className="ItemPropertiesInput"
-                        type="textbox" 
-                        placeholder="Enter name..."
-                        value={this.state.asignee}
-                        onChange={e => this.handleTyping(e.target.value, "assignee")}
-                        autoFocus
-                      /> 
-                      <input type="submit" className="ItemPropertiesButton" value="✓"/>
-                      <button type="button" className="ItemPropertiesButtonX" onClick={() => this.handleButtonX(this.props.item.id, "assignee")}>✕</button> 
-                    </form>
-                  </span>
-                }
-              </div>
-
-            </div>
-            
-            <div className="ItemPropertiesItem">
-              <p className="ItemPropertiesText" style={this.props.item.completed ? completedStyleAsignee: null}>Price:</p>
-
-              <div 
-                className="ItemProperties" 
-                style={this.props.item.completed ? completedStyleAsignee: null}
-                onMouseDown={() => this.handleClick(this.props.item.id, this.props.item.completed, clicked_price, "price")}
-              >
-                {!clicked_price && (this.props.item.price ? this.props.item.price : !this.props.item.completed ? <p className="ItemNoProperties">Click to add</p> : <p className="ItemNoProperties">None</p>)}
-                {
-                  clicked_price && 
-                  <span>
-                    <form onSubmit={e => this.handleButton(e, this.props.item.id, "price")}>
-                      <input 
-                        id="ItemAsigneeInputID"
-                        className="ItemPropertiesInput"
-                        type="textbox" 
-                        placeholder="Enter price..."
+            <div className="modal fade" id="editItemModal" tabIndex="-1" aria-labelledby="editItemModal" aria-hidden="true">
+              <div className="modal-dialog">
+                <form className="modal-content" onSubmit={e => this.handleFormSave(e, this.props.item.id)}>
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="editItemModalLabel">Edit item details</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div className="modal-body">
+                    <div className="form-group">
+                      <label htmlFor="assigneeInput">Assignee</label>
+                      <input type="textbox" className="form-control" id="assigneeInput" aria-describedby="assigneeHelp"
+                        value={this.state.assignee}
+                        onChange={e => this.handleTypingAssignee(e.target.value)}/>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="priceInput">Price</label>
+                      <input type="textbox" className="form-control" id="priceInput" aria-describedby="priceHelp"
                         value={this.state.price}
-                        onChange={e => this.handleTyping(e.target.value, "price")}
-                        autoFocus
-                      /> 
-                      <input type="submit" className="ItemPropertiesButton" value="✓"/>
-                      <button type="button" className="ItemPropertiesButtonX" onClick={() => this.handleButtonX(this.props.item.id, "price")}>✕</button> 
-                    </form>
-                  </span>
-                }
+                        onChange={e => this.handleTypingPrice(e.target.value)}/>
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" className="btn btn-primary" data-dismiss="modal">Save</button>
+                  </div>
+                </form>
               </div>
-
             </div>
-            
-
           </div>
         </div>
       </div>
+
     );
   }
 }

@@ -87,6 +87,11 @@ body {
   color: white;
 }
 
-.CMainInput {
+.C5procTop {
   margin-top: 5%;
+}
+
+.CItemButtonRight {
+  margin-left: 5px;
+  float: right;
 }
