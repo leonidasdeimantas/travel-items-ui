@@ -20,8 +20,7 @@ class Item extends React.Component {
     this.setState({ price: value })
   }
 
-  handleFormSave(event, id) {
-    event.preventDefault()
+  handleFormSave(id) {
     this.props.handleEdit(id, this.state.assignee, this.state.price)
   }
 
@@ -30,15 +29,15 @@ class Item extends React.Component {
   }
 
   handleKey(event) {
-    /* handle key press here sometime xD */
+    // handle key press here sometime xD
   }
 
   componentDidMount(){
-    //document.addEventListener("keydown", this.handleKey, false)
+    // document.addEventListener("keydown", this.handleKey, false)
   }
 
   componentWillUnmount(){
-    //document.removeEventListener("keydown", this.handleKey, false)
+    // document.removeEventListener("keydown", this.handleKey, false)
   }
 
   componentDidUpdate() {
@@ -64,7 +63,11 @@ class Item extends React.Component {
         </div>
         <div className="media-body pb-3 mb-0 medium lh-125 border-bottom border-gray text-break" style={{marginLeft:"1%"}}>
           <div style={this.props.item.completed ? completedStyle : null}> {this.props.item.text} </div>
-          <div className="media-body" style={{marginTop:"1%"}}>
+          <div className="media-body" style={{marginTop:"2%"}}>
+            <h5 className="CItemButtonLeft">
+              <span className={"badge " + (this.props.item.completed ? "badge-secondary" : "badge-info")} style={{marginRight:"10px"}}>{this.props.item.assignee}</span>
+              <span className={"badge " + (this.props.item.completed ? "badge-secondary" : "badge-info")} style={{marginRight:"10px"}}>{this.props.item.price ? (this.props.item.price + "€") : ""}</span>
+            </h5>
             <button type="button" className="btn btn-outline-danger btn-sm CItemButtonRight" onClick={() => this.props.handleRemoveItem(this.props.item.id)}>Delete</button>
             <button type="button" className="btn btn-outline-secondary btn-sm CItemButtonRight" data-toggle="modal" data-target="#editItemModal"
               onClick={() => this.handleEdit()}>
@@ -73,7 +76,7 @@ class Item extends React.Component {
 
             <div className="modal fade" id="editItemModal" tabIndex="-1" aria-labelledby="editItemModal" aria-hidden="true">
               <div className="modal-dialog">
-                <form className="modal-content" onSubmit={e => this.handleFormSave(e, this.props.item.id)}>
+                <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="editItemModalLabel">Edit item details</h5>
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -89,16 +92,21 @@ class Item extends React.Component {
                     </div>
                     <div className="form-group">
                       <label htmlFor="priceInput">Price</label>
-                      <input type="textbox" className="form-control" id="priceInput" aria-describedby="priceHelp"
-                        value={this.state.price}
-                        onChange={e => this.handleTypingPrice(e.target.value)}/>
+                      <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">€</span>
+                        </div>
+                        <input type="number" className="form-control" id="priceInput" aria-describedby="priceHelp"
+                          value={this.state.price}
+                          onChange={e => this.handleTypingPrice(e.target.value)}/>
+                      </div>
                     </div>
                   </div>
                   <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" className="btn btn-primary" data-dismiss="modal">Save</button>
+                    <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => this.handleFormSave(this.props.item.id)}>Save</button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

@@ -84,6 +84,7 @@ class App extends React.Component  {
   }
 
   render() {
+    console.log(this.state.items)
     return (
       <div className="App">
           <Header item_cnt={this.state.items.length}/>

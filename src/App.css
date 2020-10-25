@@ -79,6 +79,17 @@ body {
 .lh-125 { line-height: 1.25; }
 .lh-150 { line-height: 1.5; }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 .CLogoText {
   font-family: 'Montserrat', sans-serif;
@@ -94,4 +105,9 @@ body {
 .CItemButtonRight {
   margin-left: 5px;
   float: right;
+}
+
+.CItemButtonLeft {
+  margin-right: 5px;
+  float: left;
 }
