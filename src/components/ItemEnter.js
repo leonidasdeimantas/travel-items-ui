@@ -16,9 +16,11 @@ class ItemEnter extends React.Component  {
   render() {
     return (
       <div>
-        <form className="ItemEnterForm" onSubmit={e => this.handleButton(e)}>
-          <input id="ItemEnterInputID" type="textbox" className="ItemEnterInput" placeholder="Add item..." ref={this.msgRef} autoFocus/>
-          <input type="submit" className="ItemEnterButton" value="+"/>
+        <form className="input-group mb-3 CMainInput" onSubmit={e => this.handleButton(e)}>
+          <input id="ItemEnterInputID" type="textbox" className="form-control" placeholder="Add item..." ref={this.msgRef} autoFocus/>
+          <div className="input-group-append">
+            <input type="submit" className="btn btn-outline-secondary" value="+"/>
+          </div>
         </form>
       </div>
     );

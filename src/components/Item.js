@@ -87,7 +87,6 @@ class Item extends React.Component {
       color: "#dddddd",
     }
     const completedStyleButton = {
-      background: "var(--bord_color)"
     }
     const zeroPaddingStyle = {
       padding: "0"
@@ -99,15 +98,15 @@ class Item extends React.Component {
     if(this.props.item.id === this.props.clicked_price) clicked_price = true;
 
     return (
-      <div className="FlexRow ItemContainer">
-        <div className="ItemCompleteButtonContainer">
-          <button type="button" className="ItemCompleteButton"
+      <div className="media text-muted pt-3">
+        <div className="mr-2 rounded">
+          <button type="button"
             style={this.props.item.completed ? completedStyleButton : null} 
             onClick={() => this.props.handleDone(this.props.item.id)}>
           </button>
         </div>
 
-        <div className="ItemContent">
+        <div className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
           <div className="FlexRow">
             <div className="ItemMainText" style={this.props.item.completed ? completedStyle : null}>
               {this.props.item.text}

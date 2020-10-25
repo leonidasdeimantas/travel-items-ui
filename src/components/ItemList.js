@@ -16,9 +16,9 @@ class ItemList extends React.Component {
     />)
 
     return (
-      <div className="ItemListContainer">
-        {list}
-      </div>
+        <div className="my-3 p-3 bg-white rounded box-shadow">
+          {list}
+        </div>
     );
   }
 }

@@ -1,352 +1,92 @@
-/* Global Variables */
-:root {
-  --back_color:  #ffffff;
-  --bord_color: #313131;
-  --head_color: #1d1d1d;
-  --deco_color: #26c5c5;
-  --main_button_font_size: calc(16px + 2vmin);
-  --logo_font_size: calc(18px + 2vmin);
-  --entry_font_size: calc(14px + 1vmin);
-  --main_font_size: calc(9px + 1vmin);
-  --medium_font_size: calc(7px + 1vmin);
-  --small_font_size: calc(5px + 1vmin);
-  --entry_border_radius: calc(0);
-  --list_border_radius: calc(0);
-}
-
-@media (max-width: 1200px) {
-  :root {
-    --logo_font_size: calc(16px + 2vmin);
-    --entry_font_size: calc(18px + 1vmin);
-    --main_font_size: calc(12px + 1vmin);
-    --medium_font_size: calc(10px + 1vmin);
-    --small_font_size: calc(8px + 1vmin);
-  }
-}
-
-@media (max-width: 600px) {
-  :root {
-    --logo_font_size: calc(16px + 2vmin);
-    --entry_font_size: calc(20px + 1vmin);
-    --main_font_size: calc(14px + 1vmin);
-    --medium_font_size: calc(12px + 1vmin);
-    --small_font_size: calc(10px + 1vmin);
-  }
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
 body {
-  background-color: var(--back_color);
+  padding-top: 56px;
 }
 
-.AppBody {
-  background-color: var(--back_color);
-  min-height: 100vh;
-  display: block;
-  font-size: var(--main_font_size);
+@media (max-width: 767.98px) {
+  .offcanvas-collapse {
+    position: fixed;
+    top: 56px; /* Height of navbar */
+    bottom: 0;
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    overflow-y: auto;
+    background-color: var(--gray-dark);
+    transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
+    transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  .offcanvas-collapse.open {
+    -webkit-transform: translateX(-1rem);
+    transform: translateX(-1rem); /* Account for horizontal padding on navbar */
+  }
 }
 
-.FlexRow {
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: row;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
+  margin-top: -1px;
+  overflow-x: auto;
+  color: rgba(255, 255, 255, .75);
+  text-align: center;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
-.navbar {
-  background-color: var(--head_color);
+.nav-underline .nav-link {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: .875rem;
+  color: var(--secondary);
 }
 
-.HeaderLogoText {
-  font-size: var(--logo_font_size);
+.nav-underline .nav-link:hover {
+  color: var(--blue);
+}
+
+.nav-underline .active {
+  font-weight: 500;
+  color: var(--gray-dark);
+}
+
+.text-white-50 { color: rgba(255, 255, 255, .5); }
+
+.bg-purple { background-color: var(--purple); }
+
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.lh-100 { line-height: 1; }
+.lh-125 { line-height: 1.25; }
+.lh-150 { line-height: 1.5; }
+
+
+.CLogoText {
   font-family: 'Montserrat', sans-serif;
   font-weight: 900;
   font-style: italic;
-  color: var(--deco_color);
-  margin: 0;
-}
-
-.MainItemBox {
-  display: block;
-  width: 50%;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  margin: 0 auto 0 auto;
-}
-
-@media (max-width: 1000px) {
-  .MainItemBox {
-    width: 75%;
-  }
-}
-
-@media (max-width: 600px) {
-  .MainItemBox {
-    width: 95%;
-  }
-}
-
-.ItemEnterForm {
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid var(--bord_color);
-}
-
-.ItemEnterInput {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  color: var(--bord_color);
-  border: none;
-  padding: 4px 10px 0px 20px;
-  font-size: var(--entry_font_size);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  flex: 1;
-}
-
-.ItemEnterInput:focus {
-  outline: none;
-}
-
-.ItemEnterButton {
-  border: none;
-  background-color: transparent;
-  padding: 4px 20px 4px 0px;
-  text-align: center;
-  margin-left: 0;
-  /*margin-right: 1%;*/
-  font-size: var(--main_button_font_size);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  color: var(--bord_color);
-  opacity: 1;
-  transition: 0.2s;
-}
-
-.ItemEnterButton:focus {
-  outline: none;
-}
-
-.ItemEnterButton:hover {
-  opacity: 0.7;
-  color: var(--deco_color);
-}
-
-.ItemListContainer {
-  margin-top: 20px;
-  border: none;
-  padding-top: 5px;
-  padding-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-.ItemContainer {
-  margin: 5px 0px 5px 0px;
-  padding-bottom: 3px;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-@media (min-width: 1000px) {
-  .ItemContainer:hover {
-    word-wrap: break-word;
-    background-color: rgb(248, 248, 248);
-  }
-}
-
-.ItemPropertiesContainer {
-  padding-top: 1px;
-  padding-bottom: 5px;
-}
-
-.ItemMainText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: auto;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: var(--main_font_size);
-  padding-top: 3px;
-  margin-right: 10px;
-}
-
-.ItemPropertiesText {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: var(--small_font_size);
-  margin-right: 10px;
-  margin-bottom: 0;
-}
-
-.ItemContent {
-  flex-grow: 1;
-  max-width: calc(100% - 50px);;
-}
-
-.ItemCompleteButtonContainer {
-  margin: auto 14px auto 7px;
-  position: relative;
-  padding: 11px;
-}
-
-.ItemCompleteButton {
-  background: transparent;
-  display: block;
-  border-radius: 100%;
-  box-shadow: inset 0px 0px 0px 3px white;
-  border: 1px solid var(--bord_color);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  padding: 11px;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
-.ItemCompleteButton:focus {
-  outline: none;
-}
-
-@media(hover: hover) and (pointer: fine) { 
-  .ItemCompleteButton:hover {
-    background: var(--bord_color);
-    opacity: 0.3;
-  }
-}
-
-@media (max-width: 768px) {
-  .ItemCompleteButton {
-    padding: 15px;
-  }
-  .ItemCompleteButtonContainer {
-    margin-left: 3px;
-    padding: 15px;
-  }
-}
-
-.ItemPropertiesItem {
-    display: flex;
-    flex-direction: row;
-}
-
-.ItemNoProperties {
-  font-style: italic;
-  font-size: var(--small_font_size);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  color: #dddddd;
-  margin-bottom: 0;
-}
-
-.ItemProperties {
-  font-size: var(--small_font_size);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  color: var(--deco_color);
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ItemPropertiesInput {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 60%;
-  background: transparent;
-  border: none;
-  padding: 0 5px 0 0;
-  margin: 0 0 0 0;
-  font-size: var(--small_font_size);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-}
-
-.ItemPropertiesInput:focus {
-  outline: none;
-}
-
-.ItemPropertiesButton {
-  width: 30px;
-  padding: 0;
-  margin-left: 1%;
-  border: none;
-  background-color: #dddddd;
-  border-radius:50px;
-  -moz-border-radius:50px;
-  -webkit-border-radius:50px;
-  text-align: center;
-  font-size: var(--small_font_size);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
   color: white;
-  opacity: 1;
-  transition: 0.2s;
 }
 
-.ItemPropertiesButtonX {
-  width: 30px;
-  padding: 0;
-  margin-left: 3px;
-  border: none;
-  background-color: #f0d9d9;
-  border-radius:50px;
-  -moz-border-radius:50px;
-  -webkit-border-radius:50px;
-  text-align: center;
-  font-size: var(--small_font_size);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  color: white;
-  opacity: 1;
-  transition: 0.2s;
-}
-
-.ItemPropertiesButton:focus {
-  outline: none;
-}
-
-.ItemPropertiesButton:hover {
-  opacity: 0.7;
-}
-
-.XButtonButton {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: var(--main_font_size);
-  padding: 0;
-  margin: 0 2px 0 0;
-  background-color: transparent;
-  border-color: transparent;
-  cursor: pointer;
-  height: 25px;
-  width: 25px;
-  position: relative;
-  margin-left: auto;
-  color: var(--bord_color);
-  order: 2;
-  opacity: 0.3;
-}
-
-@media(hover: hover) and (pointer: fine) { 
-  .XButtonButton:hover {
-    opacity: 1;
-  }
-}
-
-.XButtonButton:focus {
-  outline: none;
-}
-
-input[type=checkbox] {
-  vertical-align: middle;
-  zoom: 1.5;
-  float: right;
-  margin-right: 10px;
-  font-size: 30px;
-  outline: 0;
-}
-
-input[type=checkbox]:focus {
-  outline: 0;
+.CMainInput {
+  margin-top: 5%;
 }

@@ -122,9 +122,8 @@ class App extends React.Component  {
   render() {
     return (
       <div className="App">
-        <div className="AppBody">
           <Header />
-          <div className="MainItemBox">
+          <main role="main" class="container">
             <ItemEnter 
               handleAddItem={this.handleAddItem}
             />
@@ -141,8 +140,7 @@ class App extends React.Component  {
                 handleRemoveItem={this.handleRemoveItem}
               />
             }
-          </div>
-        </div>
+          </main>
       </div>
     );
   }

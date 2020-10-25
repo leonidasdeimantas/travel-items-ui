@@ -8,29 +8,20 @@ class Header extends React.Component  {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-md navbar-dark">
-          <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-            {/*
-              <ul className="navbar-nav mr-auto">
-                  <li className="nav-item">
-                      <a className="nav-link" href="#">Link</a>
-                  </li>
-              </ul>
-            */}
-          </div>
-          <div className="mx-auto order-0">
-            <p className="HeaderLogoText">Ti</p>
-          </div>
-          <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            {/*
-              <ul className="navbar-nav ml-auto">
-                  <li className="nav-item">
-                      <a className="nav-link" href="#">Right</a>
-                  </li>
-              </ul>
-            */}
-          </div>
+        <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+          <a class="navbar-brand mx-auto order-0 CLogoText" href="#">Ti</a>
         </nav>
+
+        <div className="nav-scroller bg-white box-shadow">
+          <nav className="nav nav-underline">
+            <a className="nav-link active" href="#">
+              Items
+              <span className="badge badge-pill bg-light align-text-bottom">27</span>
+            </a>
+            <a className="nav-link" href="#">People</a>
+            <a className="nav-link" href="#">Location</a>
+          </nav>
+        </div>
       </div>
     );
   }
