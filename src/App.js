@@ -8,7 +8,8 @@ class App extends React.Component  {
   constructor() {
     super()
     this.state = {
-        items: []
+        items: [],
+        item_cnt: 0
     }
     this.handleAddItem = this.handleAddItem.bind(this)
     this.handleRemoveItem = this.handleRemoveItem.bind(this)
@@ -20,7 +21,7 @@ class App extends React.Component  {
     this.setState(prevState => {
       let updatedItems = prevState.items;
       let newItem = {
-        id: updatedItems.length+1,
+        id: this.state.item_cnt,
         text: text,
         assignee: "",
         price: "",
@@ -29,7 +30,8 @@ class App extends React.Component  {
       updatedItems.push(newItem)
 
       return {
-        items: updatedItems
+        items: updatedItems,
+        item_cnt: prevState.item_cnt+1
       }
     })
   }
