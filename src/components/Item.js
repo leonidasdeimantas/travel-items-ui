@@ -69,12 +69,12 @@ class Item extends React.Component {
               <span className={"badge " + (this.props.item.completed ? "badge-secondary" : "badge-info")} style={{marginRight:"10px"}}>{this.props.item.price ? (this.props.item.price + "€") : ""}</span>
             </h5>
             <button type="button" className="btn btn-outline-danger btn-sm CItemButtonRight" onClick={() => this.props.handleRemoveItem(this.props.item.id)}>Delete</button>
-            <button type="button" className="btn btn-outline-secondary btn-sm CItemButtonRight" data-toggle="modal" data-target="#editItemModal"
+            <button type="button" className="btn btn-outline-secondary btn-sm CItemButtonRight" data-toggle="modal" data-target={"#editItemModal" + this.props.item.id}
               onClick={() => this.handleEdit()}>
               Edit
             </button>
 
-            <div className="modal fade" id="editItemModal" tabIndex="-1" aria-labelledby="editItemModal" aria-hidden="true">
+            <div className="modal fade" id={"editItemModal" + this.props.item.id} tabIndex="-1" aria-labelledby={"editItemModal" + this.props.item.id} aria-hidden="true">
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">

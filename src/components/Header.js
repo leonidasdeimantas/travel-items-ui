@@ -8,7 +8,7 @@ class Header extends React.Component  {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-md fixed-top navbar-dark" style={{backgroundColor:"#151515"}}>
           <a className="navbar-brand mx-auto order-0 CLogoText" href="#">Ti</a>
         </nav>
 
