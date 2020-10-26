@@ -9,12 +9,15 @@ class App extends React.Component  {
     super()
     this.state = {
         items: [],
-        item_cnt: 0
+        item_cnt: 0,
+        people: [],
+        page: "items"
     }
     this.handleAddItem = this.handleAddItem.bind(this)
     this.handleRemoveItem = this.handleRemoveItem.bind(this)
     this.handleDone = this.handleDone.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
+    this.handleChangePage = this.handleChangePage.bind(this)
   }
 
   handleAddItem(text) {
@@ -85,23 +88,35 @@ class App extends React.Component  {
     })
   }
 
+  handleChangePage(value) {
+    this.setState({ page: value })
+  }
+
   render() {
     console.log(this.state.items)
     return (
       <div className="App">
-          <Header item_cnt={this.state.items.length}/>
-          <main role="main" className="container">
-            <ItemEnter handleAddItem={this.handleAddItem} />
-            {
-              (this.state.items.length > 0) &&
-              <ItemList 
-                items={this.state.items}
-                handleDone={this.handleDone}
-                handleEdit={this.handleEdit}
-                handleRemoveItem={this.handleRemoveItem}
-              />
-            }
-          </main>
+          <Header 
+            item_cnt={this.state.items.length}
+            people_cnt={this.state.people.length}
+            page={this.state.page}
+            handleChangePage={this.handleChangePage}
+          />
+          {
+            (this.state.page == "items") &&
+              <main role="main" className="container">
+              <ItemEnter handleAddItem={this.handleAddItem} />
+              {
+                (this.state.items.length > 0) &&
+                <ItemList 
+                  items={this.state.items}
+                  handleDone={this.handleDone}
+                  handleEdit={this.handleEdit}
+                  handleRemoveItem={this.handleRemoveItem}
+                />
+              }
+            </main>
+          }
       </div>
     );
   }

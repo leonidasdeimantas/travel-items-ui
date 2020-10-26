@@ -9,17 +9,19 @@ class Header extends React.Component  {
     return (
       <div>
         <nav className="navbar navbar-expand-md fixed-top navbar-dark" style={{backgroundColor:"#151515"}}>
-          <a className="navbar-brand mx-auto order-0 CLogoText" href="#">Ti</a>
+          <a className="navbar-brand mx-auto order-0 CLogoText" href="#">Travel items</a>
         </nav>
 
         <div className="nav-scroller bg-white box-shadow">
           <nav className="nav nav-underline">
-            <a className="nav-link active" href="#">
+            <a className={"nav-link " + (this.props.page == "items" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("items")}>
               Items
               <span className="badge badge-pill bg-light align-text-bottom">{this.props.item_cnt}</span>
             </a>
-            <a className="nav-link" href="#">People</a>
-            <a className="nav-link" href="#">Location</a>
+            <a className={"nav-link " + (this.props.page == "people" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("people")}>
+              People
+              <span className="badge badge-pill bg-light align-text-bottom">{this.props.people_cnt}</span>
+            </a>
           </nav>
         </div>
       </div>
