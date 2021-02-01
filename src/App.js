@@ -6,7 +6,7 @@ import Header from './components/Header'
 import queryString from 'query-string'
 import './App.css';
 
-const API_URL = 'http://deimantas.space:8080'
+const API_URL = 'http://deimantas.space/ti-api'
 
 class App extends React.Component  {
   constructor() {
@@ -179,7 +179,9 @@ class App extends React.Component  {
           {
             (this.state.page === "items") &&
               <main role="main" className="container">
-                <ItemEnter handleAddItem={this.handleAddItem} />
+                <ItemEnter 
+                  handleAddItem={this.handleAddItem}
+                  tripUrl={this.state.tripUrl} />
                 {
                   (this.state.items.length > 0) &&
                   <ItemList 
