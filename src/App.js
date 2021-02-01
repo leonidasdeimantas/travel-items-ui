@@ -1,7 +1,9 @@
 import React from 'react';
 import ItemList from './components/ItemList'
 import ItemEnter from './components/ItemEnter'
+import TripEnter from './components/TripEnter'
 import Header from './components/Header'
+import queryString from 'query-string'
 import './App.css';
 
 const API_URL = 'http://localhost:8080'
@@ -13,62 +15,77 @@ class App extends React.Component  {
         items: [],
         item_cnt: 0,
         people: [],
-        page: "items",
-        tripUrl: "UkMQ3fuS"
+        page: "main",
+        tripUrl: "",
+        tripFound: false
     }
     this.handleAddItem = this.handleAddItem.bind(this)
     this.handleRemoveItem = this.handleRemoveItem.bind(this)
     this.handleDone = this.handleDone.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
     this.handleChangePage = this.handleChangePage.bind(this)
+    this.createNewTrip = this.createNewTrip.bind(this)
   }
 
   componentDidMount() {
-    this.fetchTrip()
+    this.setTripAndFetch(queryString.parse(this.props.location.search).tripUrl)
   }
 
-  async fetchTrip() {
-    const response = await fetch(`${API_URL}/tasks?tripUrl=${this.state.tripUrl}`)
-    const data = await response.json()
-    let taskItems = []
-
-    data.forEach(task => {
-      let newItem = {
-        id: task.id,
-        text: task.task,
-        assignee: task.assigneeId,
-        price: task.price,
-        completed: task.completed
-      }
-      taskItems.push(newItem)
-    })
-
-    this.setState({
-      items: taskItems.reverse(),
-      item_cnt: taskItems.length
-    })
+  setTripAndFetch(trip) {
+    if (trip) this.setState({tripUrl: trip}, this.fetchTrip)
   }
 
-  handleAddItem(text) {
+  createNewTrip(name, location) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        task: text,
-        tripUrl: this.state.tripUrl
+        name: name,
+        location: location
       })
     };
-    fetch(`${API_URL}/task`, requestOptions).then(() => { this.fetchTrip() });
+    fetch(`${API_URL}/trip`, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      window.location.href=`?tripUrl=${data.tripUrl}`
+      //this.setTripAndFetch(data.tripUrl)
+    })
+    .catch((error) => {
+      console.error('Error:', error)
+    });
   }
 
-  handleRemoveItem(id) {
-    const requestOptions = {
-      method: 'DELETE'
-    };
-    fetch(`${API_URL}/task?tripUrl=${this.state.tripUrl}&taskId=${id}`, requestOptions).then(() => { this.fetchTrip() });
+  async fetchTrip() {
+    if (this.state.tripUrl === "") return
+
+    try {
+      const response = await fetch(`${API_URL}/tasks?tripUrl=${this.state.tripUrl}`)
+      const data = await response.json()
+
+      let taskItems = []
+  
+      data.forEach(task => {
+        let newItem = {
+          id: task.id,
+          text: task.task,
+          assignee: task.assigneeId,
+          price: task.price,
+          completed: task.completed
+        }
+        taskItems.push(newItem)
+      })
+  
+      this.setState({
+        items: taskItems.reverse(),
+        item_cnt: taskItems.length,
+        page: "items"
+      })
+    } catch {
+      console.log("Can't fetch data")
+    }
   }
 
-  updateItem(task) {
+  updateTask(task) {
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -81,8 +98,38 @@ class App extends React.Component  {
         completed: task.completed
       })
     };
-    console.log(task)
-    fetch(`${API_URL}/task`, requestOptions).then(() => { this.fetchTrip() });
+    fetch(`${API_URL}/task`, requestOptions)
+    .then(() => { this.fetchTrip() })
+    .catch((error) => {
+      console.error('Error:', error)
+    });
+  }
+
+  handleAddItem(text) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        task: text,
+        tripUrl: this.state.tripUrl
+      })
+    };
+    fetch(`${API_URL}/task`, requestOptions)
+    .then(() => { this.fetchTrip() })
+    .catch((error) => {
+      console.error('Error:', error)
+    });
+  }
+
+  handleRemoveItem(id) {
+    const requestOptions = {
+      method: 'DELETE'
+    };
+    fetch(`${API_URL}/task?tripUrl=${this.state.tripUrl}&taskId=${id}`, requestOptions)
+    .then(() => { this.fetchTrip() })
+    .catch((error) => {
+      console.error('Error:', error)
+    });
   }
 
   handleDone(id) {
@@ -90,10 +137,11 @@ class App extends React.Component  {
       if (item.id === id) {
         return item
       }
+      return []
     })
 
     task.completed = !task.completed
-    this.updateItem(task)
+    this.updateTask(task)
   }
 
   handleEdit(id, assignee, price) {
@@ -101,11 +149,12 @@ class App extends React.Component  {
       if (item.id === id) {
         return item
       }
+      return []
     })
 
     task.assignee = assignee
     task.price = price
-    this.updateItem(task)
+    this.updateTask(task)
   }
 
   handleChangePage(value) {
@@ -113,8 +162,6 @@ class App extends React.Component  {
   }
 
   render() {
-    console.log(this.state.items)
-
     return (
       <div className="App">
           <Header 
@@ -124,7 +171,13 @@ class App extends React.Component  {
             handleChangePage={this.handleChangePage}
           />
           {
-            (this.state.page == "items") &&
+            (this.state.page === "main") &&
+            <main role="main" className="container">
+              <TripEnter handleNewTrip={this.createNewTrip} />
+            </main>
+          }
+          {
+            (this.state.page === "items") &&
               <main role="main" className="container">
                 <ItemEnter handleAddItem={this.handleAddItem} />
                 {

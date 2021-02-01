@@ -1,10 +1,6 @@
 import React from 'react';
 
 class Header extends React.Component  {
-  constructor() {
-    super()
-  }
-
   render() {
     return (
       <div>
@@ -14,11 +10,14 @@ class Header extends React.Component  {
 
         <div className="nav-scroller bg-white box-shadow">
           <nav className="nav nav-underline">
-            <a className={"nav-link " + (this.props.page == "items" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("items")}>
+            <a className={"nav-link " + (this.props.page === "main" ? "active" : "")} href="/ti-app">
+              Home
+            </a>
+            <a className={"nav-link " + (this.props.page === "items" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("items")}>
               Items
               <span className="badge badge-pill bg-light align-text-bottom">{this.props.item_cnt}</span>
             </a>
-            <a className={"nav-link " + (this.props.page == "people" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("people")}>
+            <a className={"nav-link " + (this.props.page === "people" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("people")}>
               People
               <span className="badge badge-pill bg-light align-text-bottom">{this.props.people_cnt}</span>
             </a>
