@@ -6,7 +6,7 @@ import Header from './components/Header'
 import queryString from 'query-string'
 import './App.css';
 
-const API_URL = 'http://localhost:8080'
+const API_URL = 'http://deimantas.space:8080'
 
 class App extends React.Component  {
   constructor() {
