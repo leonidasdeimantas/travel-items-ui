@@ -133,24 +133,14 @@ class App extends React.Component  {
   }
 
   handleDone(id) {
-    let task = this.state.items.find(item => {
-      if (item.id === id) {
-        return item
-      }
-      return []
-    })
+    let task = this.state.items.find(item => item.id == id)
 
     task.completed = !task.completed
     this.updateTask(task)
   }
 
   handleEdit(id, assignee, price) {
-    let task = this.state.items.find(item => {
-      if (item.id === id) {
-        return item
-      }
-      return []
-    })
+    let task = this.state.items.find(item => item.id == id)
 
     task.assignee = assignee
     task.price = price
