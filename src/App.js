@@ -6,7 +6,7 @@ import Header from './components/Header'
 import queryString from 'query-string'
 import './App.css';
 
-const API_URL = 'http://deimantas.space/ti-api'
+const API_URL = 'https://deimantas.space/ti-api'
 
 class App extends React.Component  {
   constructor() {
