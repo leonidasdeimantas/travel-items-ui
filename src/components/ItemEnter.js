@@ -16,8 +16,11 @@ class ItemEnter extends React.Component  {
   render() {
     return (
       <div>
-        <h2>Your trip ID: {this.props.tripUrl}</h2>
         <br/>
+        <blockquote class="blockquote text-center">
+          <p class="mb-0">Your trip ID: <span class="text-primary">{this.props.tripUrl}</span></p>
+          <footer class="blockquote-footer">Share it with your friends</footer>
+        </blockquote>
         <form className="input-group mb-3 C5procTop" onSubmit={e => this.handleButton(e)}>
           <input id="ItemEnterInputID" type="textbox" className="form-control" placeholder="Add item..." ref={this.msgRef} autoFocus/>
           <div className="input-group-append">
