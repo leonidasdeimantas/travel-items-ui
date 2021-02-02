@@ -15,7 +15,7 @@ class ItemList extends React.Component {
     const list_completed = this.props.items.map(item => item.completed && <Item 
       key={item.id} 
       item={item}
-      people={this.state.people}
+      people={this.props.people}
       handleDone={this.props.handleDone}
       handleEdit={this.props.handleEdit}
       handleRemoveItem={this.props.handleRemoveItem}
