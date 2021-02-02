@@ -33,7 +33,7 @@ class TripEnter extends React.Component  {
               <div className="form-group">
                 <input className="form-control" placeholder="Enter location information" ref={this.msgRefLocation}/>
               </div>
-              <button type="submit" className="btn btn-primary">Create trip</button>
+              <button type="submit" className="btn btn-info">Create trip</button>
             </form>
             <br/>
           </div>
@@ -43,7 +43,7 @@ class TripEnter extends React.Component  {
             <div className="input-group mb-3">
               <input className="form-control" placeholder="Enter trip ID" ref={this.msgRefUrl}/>
               <div className="input-group-append">
-                <button type="button" className="btn btn-primary" onClick={() => this.openTripById()}>Open by ID</button>
+                <button type="button" className="btn btn-info" onClick={() => this.openTripById()}>Open by ID</button>
               </div>
             </div>
           </div>

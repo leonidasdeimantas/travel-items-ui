@@ -49,6 +49,10 @@ class Item extends React.Component {
       color: "#cdcdcd",
       textDecoration: "line-through"
     }
+    
+    let assignee = this.props.people.find(people => people.id === this.props.item.assignee)
+    if (assignee === undefined) assignee = {name: "", id: ""}
+    const assigneeList = this.props.people.map(item => <option key={item.id} value={item.id}>{item.name}</option>)
 
     return (
 
@@ -65,7 +69,7 @@ class Item extends React.Component {
           <div style={this.props.item.completed ? completedStyle : null}> {this.props.item.text} </div>
           <div className="media-body" style={{marginTop:"2%"}}>
             <h5 className="CItemButtonLeft">
-              <span className={"badge " + (this.props.item.completed ? "badge-secondary" : "badge-info")} style={{marginRight:"10px"}}>{this.props.item.assignee}</span>
+              <span className={"badge " + (this.props.item.completed ? "badge-secondary" : "badge-info")} style={{marginRight:"10px"}}>{assignee.name}</span>
               <span className={"badge " + (this.props.item.completed ? "badge-secondary" : "badge-info")} style={{marginRight:"10px"}}>{this.props.item.price ? (this.props.item.price + "€") : ""}</span>
             </h5>
             <button type="button" className="btn btn-outline-danger btn-sm CItemButtonRight" onClick={() => this.props.handleRemoveItem(this.props.item.id)}>
@@ -93,9 +97,10 @@ class Item extends React.Component {
                   <div className="modal-body">
                     <div className="form-group">
                       <label htmlFor="assigneeInput">Assignee</label>
-                      <input type="textbox" className="form-control" id="assigneeInput" aria-describedby="assigneeHelp"
-                        value={this.state.assignee}
-                        onChange={e => this.handleTypingAssignee(e.target.value)}/>
+                        <select className="custom-select" id="assigneeInput" onChange={e => this.handleTypingAssignee(e.target.value)}>
+                          <option selected>Choose...</option>
+                          {assigneeList}
+                        </select>
                     </div>
                     <div className="form-group">
                       <label htmlFor="priceInput">Price</label>
