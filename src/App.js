@@ -14,7 +14,6 @@ class App extends React.Component  {
     super()
     this.state = {
         items: [],
-        item_cnt: 0,
         people: [],
         page: "main",
         tripUrl: "",
@@ -25,28 +24,68 @@ class App extends React.Component  {
     this.handleDone = this.handleDone.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
     this.handleChangePage = this.handleChangePage.bind(this)
-    this.createNewTrip = this.createNewTrip.bind(this)
+    this.handleNewTrip = this.handleNewTrip.bind(this)
     this.handleAddAssignee = this.handleAddAssignee.bind(this)
     this.handleRemoveAssingee = this.handleRemoveAssingee.bind(this)
   }
 
   componentDidMount() {
     this.setTripAndFetch(queryString.parse(this.props.location.search).tripUrl)
-    this.setState({people: [{
-      id: 1,
-      name: "test"
-    },{
-      id: 2,
-      name: "test2"
-    }]
-  })
   }
 
   setTripAndFetch(trip) {
     if (trip) this.setState({tripUrl: trip}, this.fetchTrip)
   }
 
-  createNewTrip(name, location) {
+  async fetchTrip() {
+    if (this.state.tripUrl === "") return
+
+    try {
+      let page = (this.state.page === "main") ? "items" : this.state.page
+      let newItems = []
+      let newAssignees = []
+
+      let response = await fetch(`${API_URL}/tasks?tripUrl=${this.state.tripUrl}`)
+      const items = await response.json()
+      response = await fetch(`${API_URL}/peoples?tripUrl=${this.state.tripUrl}`)
+      const assignees = await response.json()
+
+      items.forEach(element => {
+        let newItem = {
+          id: element.id,
+          text: element.task,
+          assignee: element.assigneeId,
+          price: element.price,
+          completed: element.completed
+        }
+        newItems.push(newItem)
+      })
+
+      assignees.forEach(element => {
+        let newItem = {
+          id: element.id,
+          name: element.name
+        }
+        newAssignees.push(newItem)
+      })
+  
+      this.setState({
+        items: newItems.reverse(),
+        people: newAssignees.reverse(),
+        page: page,
+        tripFound: true
+      })
+
+    } catch {
+      this.setState({
+        page: "main",
+        tripFound: false
+      })
+      console.log("Can't fetch data")
+    }
+  }
+
+  handleNewTrip(name, location) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -59,70 +98,23 @@ class App extends React.Component  {
     .then(response => response.json())
     .then(data => {
       window.location.href=`?tripUrl=${data.tripUrl}`
-      //this.setTripAndFetch(data.tripUrl)
     })
     .catch((error) => {
       console.error('Error:', error)
     });
   }
 
-  async fetchTrip() {
-    if (this.state.tripUrl === "") return
-
-    try {
-      let response = await fetch(`${API_URL}/tasks?tripUrl=${this.state.tripUrl}`)
-      const tasks = await response.json()
-      response = await fetch(`${API_URL}/peoples?tripUrl=${this.state.tripUrl}`)
-      const assignees = await response.json()
-
-      let taskItems = []
-  
-      tasks.forEach(task => {
-        let newItem = {
-          id: task.id,
-          text: task.task,
-          assignee: task.assigneeId,
-          price: task.price,
-          completed: task.completed
-        }
-        taskItems.push(newItem)
-      })
-
-      let assgineeItems = []
-  
-      assignees.forEach(assignee => {
-        let newItem = {
-          id: assignee.id,
-          name: assignee.name
-        }
-        assgineeItems.push(newItem)
-      })
-
-      let page = this.state.page
-      if (page === "main") page = "items"
-  
-      this.setState({
-        items: taskItems.reverse(),
-        item_cnt: taskItems.length,
-        people: assgineeItems,
-        page: page
-      })
-    } catch {
-      console.log("Can't fetch data")
-    }
-  }
-
-  updateTask(task) {
+  updateItem(item) {
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        id: task.id,
-        task: task.text,
-        price: task.price,
-        assigneeId: task.assignee,
+        id: item.id,
+        task: item.text,
+        price: item.price,
+        assigneeId: item.assignee,
         tripUrl: this.state.tripUrl,
-        completed: task.completed
+        completed: item.completed
       })
     };
     fetch(`${API_URL}/task`, requestOptions)
@@ -148,6 +140,17 @@ class App extends React.Component  {
     });
   }
 
+  handleRemoveItem(id) {
+    const requestOptions = {
+      method: 'DELETE'
+    };
+    fetch(`${API_URL}/task?tripUrl=${this.state.tripUrl}&taskId=${id}`, requestOptions)
+    .then(() => { this.fetchTrip() })
+    .catch((error) => {
+      console.error('Error:', error)
+    });
+  }
+
   handleAddAssignee(text) {
     const requestOptions = {
       method: 'POST',
@@ -158,17 +161,6 @@ class App extends React.Component  {
       })
     };
     fetch(`${API_URL}/people`, requestOptions)
-    .then(() => { this.fetchTrip() })
-    .catch((error) => {
-      console.error('Error:', error)
-    });
-  }
-
-  handleRemoveItem(id) {
-    const requestOptions = {
-      method: 'DELETE'
-    };
-    fetch(`${API_URL}/task?tripUrl=${this.state.tripUrl}&taskId=${id}`, requestOptions)
     .then(() => { this.fetchTrip() })
     .catch((error) => {
       console.error('Error:', error)
@@ -187,18 +179,18 @@ class App extends React.Component  {
   }
 
   handleDone(id) {
-    let task = this.state.items.find(item => item.id === id)
+    let item = this.state.items.find(element => element.id === id)
 
-    task.completed = !task.completed
-    this.updateTask(task)
+    item.completed = !item.completed
+    this.updateItem(item)
   }
 
   handleEdit(id, assignee, price) {
-    let task = this.state.items.find(item => item.id === id)
+    let item = this.state.items.find(element => element.id === id)
 
-    task.assignee = assignee
-    task.price = price
-    this.updateTask(task)
+    item.assignee = assignee
+    item.price = price
+    this.updateItem(item)
   }
 
   handleChangePage(value) {
@@ -209,15 +201,16 @@ class App extends React.Component  {
     return (
       <div className="App">
           <Header 
-            item_cnt={this.state.items.length}
-            people_cnt={this.state.people.length}
+            itemCnt={this.state.items.length}
+            peopleCnt={this.state.people.length}
             page={this.state.page}
+            tripFound={this.state.tripFound}
             handleChangePage={this.handleChangePage}
           />
           {
             (this.state.page === "main") &&
             <main role="main" className="container">
-              <TripEnter handleNewTrip={this.createNewTrip} />
+              <TripEnter handleNewTrip={this.handleNewTrip} />
             </main>
           }
           {

@@ -10,17 +10,23 @@ class Header extends React.Component  {
 
         <div className="nav-scroller bg-white box-shadow">
           <nav className="nav nav-underline">
-            <a className={"nav-link " + (this.props.page === "main" ? "active" : "")} href="/ti-app">
+            <a className={"nav-link " + (this.props.page === "main" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("main")}>
               Home
             </a>
-            <a className={"nav-link " + (this.props.page === "items" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("items")}>
-              Items
-              <span className="badge badge-pill bg-light align-text-bottom">{this.props.item_cnt}</span>
-            </a>
-            <a className={"nav-link " + (this.props.page === "people" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("people")}>
-              People
-              <span className="badge badge-pill bg-light align-text-bottom">{this.props.people_cnt}</span>
-            </a>
+            {
+              (this.props.tripFound) &&
+              <a className={"nav-link " + (this.props.page === "items" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("items")}>
+                Items
+                <span className="badge badge-pill bg-light align-text-bottom">{this.props.itemCnt}</span>
+              </a>
+            }
+            {
+              (this.props.tripFound) &&
+              <a className={"nav-link " + (this.props.page === "people" ? "active" : "")} href="#" onClick={() => this.props.handleChangePage("people")}>
+                People
+                <span className="badge badge-pill bg-light align-text-bottom">{this.props.peopleCnt}</span>
+              </a>
+            }
           </nav>
         </div>
       </div>
