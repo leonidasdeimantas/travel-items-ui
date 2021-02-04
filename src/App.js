@@ -17,6 +17,8 @@ class App extends React.Component  {
         people: [],
         page: "main",
         tripUrl: "",
+        tripName: "",
+        tripLoc: "",
         tripFound: false
     }
     this.handleAddItem = this.handleAddItem.bind(this)
@@ -49,6 +51,8 @@ class App extends React.Component  {
       const items = await response.json()
       response = await fetch(`${API_URL}/peoples?tripUrl=${this.state.tripUrl}`)
       const assignees = await response.json()
+      response = await fetch(`${API_URL}/trip?tripUrl=${this.state.tripUrl}`)
+      const trip = await response.json()
 
       items.forEach(element => {
         let newItem = {
@@ -73,6 +77,8 @@ class App extends React.Component  {
         items: newItems.reverse(),
         people: newAssignees.reverse(),
         page: page,
+        tripName: trip.name,
+        tripLoc: trip.location,
         tripFound: true
       })
 
@@ -219,6 +225,8 @@ class App extends React.Component  {
                 <ItemEnter 
                   handleAddItem={this.handleAddItem}
                   tripUrl={this.state.tripUrl}
+                  tripName={this.state.tripName}
+                  tripLoc={this.state.tripLoc}
                   item="item" />
                 {
                   (this.state.items.length > 0) &&
@@ -238,6 +246,8 @@ class App extends React.Component  {
               <ItemEnter 
                 handleAddItem={this.handleAddAssignee}
                 tripUrl={this.state.tripUrl}
+                tripName={this.state.tripName}
+                tripLoc={this.state.tripLoc}
                 item="assignee" />
               <Assignees 
                 people={this.state.people}

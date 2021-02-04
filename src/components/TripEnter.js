@@ -28,10 +28,10 @@ class TripEnter extends React.Component  {
             <br/>
             <form onSubmit={e => this.handleFormButton(e)}>
               <div className="form-group">
-                <input className="form-control" placeholder="Enter name" ref={this.msgRefName} autoFocus/>
+                <input className="form-control" placeholder="Enter name" ref={this.msgRefName} autoFocus required/>
               </div>
               <div className="form-group">
-                <input className="form-control" placeholder="Enter location information" ref={this.msgRefLocation}/>
+                <input className="form-control" placeholder="Enter location information" ref={this.msgRefLocation} required/>
               </div>
               <button type="submit" className="btn btn-info">Create trip</button>
             </form>
