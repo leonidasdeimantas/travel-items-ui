@@ -5,21 +5,25 @@ import TripEnter from './components/TripEnter'
 import Header from './components/Header'
 import Assignees from './components/Assignees'
 import queryString from 'query-string'
+import CookieUtil from './components/CookieUtil'
 import './App.css';
 
 const API_URL = 'https://deimantas.space/ti-api'
+const RECENT_CNT = 3
 
-class App extends React.Component  {
+class App extends React.Component {
   constructor() {
     super()
+    this.cookieUtil = new CookieUtil();
     this.state = {
-        items: [],
-        people: [],
-        page: "main",
-        tripUrl: "",
-        tripName: "",
-        tripLoc: "",
-        tripFound: false
+      items: [],
+      people: [],
+      page: "",
+      tripUrl: "",
+      tripName: "",
+      tripLoc: "",
+      tripFound: false,
+      recents: {}
     }
     this.handleAddItem = this.handleAddItem.bind(this)
     this.handleRemoveItem = this.handleRemoveItem.bind(this)
@@ -33,17 +37,19 @@ class App extends React.Component  {
 
   componentDidMount() {
     this.setTripAndFetch(queryString.parse(this.props.location.search).tripUrl)
+    this.fetchRecentTrips()
   }
 
   setTripAndFetch(trip) {
-    if (trip) this.setState({tripUrl: trip}, this.fetchTrip)
+    if (trip) this.setState({ tripUrl: trip }, this.fetchTrip)
+    else this.setState({ page: "main" })
   }
 
   async fetchTrip() {
     if (this.state.tripUrl === "") return
 
     try {
-      let page = (this.state.page === "main") ? "items" : this.state.page
+      let page = (this.state.page === "main" || this.state.page === "") ? "items" : this.state.page
       let newItems = []
       let newAssignees = []
 
@@ -72,7 +78,10 @@ class App extends React.Component  {
         }
         newAssignees.push(newItem)
       })
-  
+
+      this.cookieUtil.saveTripLocally(this.state.tripUrl)
+      this.fetchRecentTrips()
+
       this.setState({
         items: newItems.reverse(),
         people: newAssignees.reverse(),
@@ -82,12 +91,38 @@ class App extends React.Component  {
         tripFound: true
       })
 
-    } catch {
+    } catch (e) {
       this.setState({
         page: "main",
         tripFound: false
       })
-      console.log("Can't fetch data")
+      console.log("Can't fetch data " + e)
+    }
+  }
+
+  async fetchRecentTrips() {
+    let count = 0;
+    let currentCookies = [];
+    [currentCookies, count] = this.cookieUtil.getTripLocally()
+
+    if (count < RECENT_CNT) return
+
+    try {
+      let recentTrips = [];
+      for (let i = 1; i <= RECENT_CNT; i++) {
+        let tripStr = "trip" + i
+        if (currentCookies[tripStr] !== "undefined") {
+          let response = await fetch(`${API_URL}/trip?tripUrl=${currentCookies[tripStr]}`)
+          recentTrips[tripStr] = await response.json()
+        }
+      }
+
+      this.setState({
+        recents: recentTrips
+      })
+
+    } catch (e) {
+      console.log("Can't fetch data " + e)
     }
   }
 
@@ -101,13 +136,13 @@ class App extends React.Component  {
       })
     };
     fetch(`${API_URL}/trip`, requestOptions)
-    .then(response => response.json())
-    .then(data => {
-      window.location.href=`?tripUrl=${data.tripUrl}`
-    })
-    .catch((error) => {
-      console.error('Error:', error)
-    });
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = `?tripUrl=${data.tripUrl}`
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      });
   }
 
   updateItem(item) {
@@ -124,10 +159,10 @@ class App extends React.Component  {
       })
     };
     fetch(`${API_URL}/task`, requestOptions)
-    .then(() => { this.fetchTrip() })
-    .catch((error) => {
-      console.error('Error:', error)
-    });
+      .then(() => { this.fetchTrip() })
+      .catch((error) => {
+        console.error('Error:', error)
+      });
   }
 
   handleAddItem(text) {
@@ -140,10 +175,10 @@ class App extends React.Component  {
       })
     };
     fetch(`${API_URL}/task`, requestOptions)
-    .then(() => { this.fetchTrip() })
-    .catch((error) => {
-      console.error('Error:', error)
-    });
+      .then(() => { this.fetchTrip() })
+      .catch((error) => {
+        console.error('Error:', error)
+      });
   }
 
   handleRemoveItem(id) {
@@ -151,10 +186,10 @@ class App extends React.Component  {
       method: 'DELETE'
     };
     fetch(`${API_URL}/task?tripUrl=${this.state.tripUrl}&taskId=${id}`, requestOptions)
-    .then(() => { this.fetchTrip() })
-    .catch((error) => {
-      console.error('Error:', error)
-    });
+      .then(() => { this.fetchTrip() })
+      .catch((error) => {
+        console.error('Error:', error)
+      });
   }
 
   handleAddAssignee(text) {
@@ -167,10 +202,10 @@ class App extends React.Component  {
       })
     };
     fetch(`${API_URL}/people`, requestOptions)
-    .then(() => { this.fetchTrip() })
-    .catch((error) => {
-      console.error('Error:', error)
-    });
+      .then(() => { this.fetchTrip() })
+      .catch((error) => {
+        console.error('Error:', error)
+      });
   }
 
   handleRemoveAssingee(id) {
@@ -178,10 +213,10 @@ class App extends React.Component  {
       method: 'DELETE'
     };
     fetch(`${API_URL}/people?tripUrl=${this.state.tripUrl}&taskId=${id}`, requestOptions)
-    .then(() => { this.fetchTrip() })
-    .catch((error) => {
-      console.error('Error:', error)
-    });
+      .then(() => { this.fetchTrip() })
+      .catch((error) => {
+        console.error('Error:', error)
+      });
   }
 
   handleDone(id) {
@@ -206,54 +241,57 @@ class App extends React.Component  {
   render() {
     return (
       <div className="App">
-          <Header 
-            itemCnt={this.state.items.length}
-            peopleCnt={this.state.people.length}
-            page={this.state.page}
-            tripFound={this.state.tripFound}
-            handleChangePage={this.handleChangePage}
-          />
-          {
-            (this.state.page === "main") &&
-            <main role="main" className="container">
-              <TripEnter handleNewTrip={this.handleNewTrip} />
-            </main>
-          }
-          {
-            (this.state.page === "items") &&
-              <main role="main" className="container">
-                <ItemEnter 
-                  handleAddItem={this.handleAddItem}
-                  tripUrl={this.state.tripUrl}
-                  tripName={this.state.tripName}
-                  tripLoc={this.state.tripLoc}
-                  item="item" />
-                {
-                  (this.state.items.length > 0) &&
-                  <ItemList 
-                    items={this.state.items}
-                    people={this.state.people}
-                    handleDone={this.handleDone}
-                    handleEdit={this.handleEdit}
-                    handleRemoveItem={this.handleRemoveItem}
-                  />
-                }
-              </main>
-          }
-          {
-            (this.state.page === "people") &&
-            <main role="main" className="container">
-              <ItemEnter 
-                handleAddItem={this.handleAddAssignee}
-                tripUrl={this.state.tripUrl}
-                tripName={this.state.tripName}
-                tripLoc={this.state.tripLoc}
-                item="assignee" />
-              <Assignees 
+        <Header
+          itemCnt={this.state.items.length}
+          peopleCnt={this.state.people.length}
+          page={this.state.page}
+          tripFound={this.state.tripFound}
+          handleChangePage={this.handleChangePage}
+        />
+        {
+          (this.state.page === "main") &&
+          <main role="main" className="container">
+            <TripEnter 
+              handleNewTrip={this.handleNewTrip}
+              recents={[this.state.recents]}
+              recentsCnt={RECENT_CNT} />
+          </main>
+        }
+        {
+          (this.state.page === "items") &&
+          <main role="main" className="container">
+            <ItemEnter
+              handleAddItem={this.handleAddItem}
+              tripUrl={this.state.tripUrl}
+              tripName={this.state.tripName}
+              tripLoc={this.state.tripLoc}
+              item="item" />
+            {
+              (this.state.items.length > 0) &&
+              <ItemList
+                items={this.state.items}
                 people={this.state.people}
-                handleRemove={this.handleRemoveAssingee} />
-            </main>
-          }
+                handleDone={this.handleDone}
+                handleEdit={this.handleEdit}
+                handleRemoveItem={this.handleRemoveItem}
+              />
+            }
+          </main>
+        }
+        {
+          (this.state.page === "people") &&
+          <main role="main" className="container">
+            <ItemEnter
+              handleAddItem={this.handleAddAssignee}
+              tripUrl={this.state.tripUrl}
+              tripName={this.state.tripName}
+              tripLoc={this.state.tripLoc}
+              item="assignee" />
+            <Assignees
+              people={this.state.people}
+              handleRemove={this.handleRemoveAssingee} />
+          </main>
+        }
       </div>
     );
   }
