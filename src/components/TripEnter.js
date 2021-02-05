@@ -48,42 +48,58 @@ class TripEnter extends React.Component  {
       <div className="container C5procTop">
         <div className="row">
           <div className="col-sm">
-            <h2>Add new trip</h2>
-            <br/>
-            <form onSubmit={e => this.handleFormButton(e)}>
-              <div className="form-group">
-                <input className="form-control" placeholder="Enter name" ref={this.msgRefName} autoFocus required/>
+            <div className="card">
+              <div className="card-header">
+                <h4>Add new trip</h4>
               </div>
-              <div className="form-group">
-                <input className="form-control" placeholder="Enter location information" ref={this.msgRefLocation}/>
-              </div>
-              <button type="submit" className="btn btn-info float-right">Create trip</button>
-            </form>
-            <br/>
-            <h2>Open existing trip</h2>
-            <br/>
-            <div className="input-group mb-3">
-              <input className="form-control" placeholder="Enter trip ID" ref={this.msgRefUrl}/>
-              <div className="input-group-append">
-                <button type="button" className="btn btn-info" onClick={() => this.openTripById(this.msgRefUrl.current.value)}>Open by ID</button>
+              <div className="card-body">
+                <form onSubmit={e => this.handleFormButton(e)}>
+                  <div className="form-group">
+                    <input className="form-control" placeholder="Enter name" ref={this.msgRefName} autoFocus required/>
+                  </div>
+                  <div className="form-group">
+                    <input className="form-control" placeholder="Enter location information" ref={this.msgRefLocation}/>
+                  </div>
+                  <button type="submit" className="btn btn-info float-right">Create trip</button>
+                </form>
               </div>
             </div>
+            <br/>
+            <div className="card">
+              <div className="card-header">
+                <h4>Open existing trip</h4>
+              </div>
+              <div className="card-body">
+                <div className="input-group mb-3">
+                  <input className="form-control" placeholder="Enter trip ID" ref={this.msgRefUrl}/>
+                  <div className="input-group-append">
+                    <button type="button" className="btn btn-info" onClick={() => this.openTripById(this.msgRefUrl.current.value)}>Open by ID</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br/>
           </div>
           <div className="col-sm">
-            <h2>Recents</h2>
-            <br/>
-            { 
-              recentsFound && 
-              <div>
-                {list}
+            <div className="card">
+              <div className="card-header">
+                <h4>Recents</h4>
               </div>
-            }
-            { 
-              !recentsFound && 
-              <p>
-                No recent trips
-              </p>
-            }
+              <div className="card-body">
+                { 
+                  recentsFound && 
+                  <ul className="list-group">
+                    {list}
+                  </ul>
+                }
+                { 
+                  !recentsFound && 
+                  <p>
+                    No recent trips
+                  </p>
+                }
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -98,15 +114,10 @@ class RecentItem extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="card" style={{width: "18rem"}}>
-          <div className="card-body">
-            <h5 className="card-title">{this.props.name}</h5>
-            <button type="button" className="btn btn-outline-info float-right" onClick={() => this.openTripById(this.props.url)}>Open</button>
-          </div>
-        </div>
-        <br/>
-      </div>
+      <a href="#" className="list-group-item d-flex justify-content-between align-items-center text-info" onClick={() => this.openTripById(this.props.url)}>
+        <strong>{this.props.name}</strong>
+        <span class="badge badge-info badge-pill">Reopen</span>
+      </a>
     );
   }
 }
