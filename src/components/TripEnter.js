@@ -98,6 +98,7 @@ class TripEnter extends React.Component  {
                     No recent trips
                   </p>
                 }
+                <br/>
               </div>
             </div>
           </div>

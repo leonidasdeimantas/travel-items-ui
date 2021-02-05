@@ -7,14 +7,14 @@ class CookieUtil {
 
         if (count > 0) {
             if (!this.checkTrip(currentCookies, tripUrl)) {
-                document.cookie = "trip1=" + tripUrl;
-                document.cookie = "trip2=" + currentCookies["trip1"];
-                document.cookie = "trip3=" + currentCookies["trip2"];
+                document.cookie = "trip1=" + tripUrl + ";max-age=10000000";
+                document.cookie = "trip2=" + currentCookies["trip1"] + ";max-age=10000000";
+                document.cookie = "trip3=" + currentCookies["trip2"] + ";max-age=10000000";
             }
         } else {
-            document.cookie = "trip1=" + tripUrl;
-            document.cookie = "trip2= ";
-            document.cookie = "trip3= ";
+            document.cookie = "trip1=" + tripUrl + ";max-age=10000000";
+            document.cookie = "trip2= ;max-age=10000000";
+            document.cookie = "trip3= ;max-age=10000000";
         }
     }
 
