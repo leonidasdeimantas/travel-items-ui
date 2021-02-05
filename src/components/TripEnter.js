@@ -48,8 +48,8 @@ class TripEnter extends React.Component  {
       <div className="container C5procTop">
         <div className="row">
           <div className="col-sm">
-            <div className="card">
-              <div className="card-header">
+            <div className="card border-light">
+              <div className="card-header border-white bg-white">
                 <h4>Add new trip</h4>
               </div>
               <div className="card-body">
@@ -65,8 +65,8 @@ class TripEnter extends React.Component  {
               </div>
             </div>
             <br/>
-            <div className="card">
-              <div className="card-header">
+            <div className="card border-light">
+              <div className="card-header border-white bg-white">
                 <h4>Open existing trip</h4>
               </div>
               <div className="card-body">
@@ -81,14 +81,14 @@ class TripEnter extends React.Component  {
             <br/>
           </div>
           <div className="col-sm">
-            <div className="card">
-              <div className="card-header">
+            <div className="card border-light">
+              <div className="card-header border-white bg-white">
                 <h4>Recents</h4>
               </div>
               <div className="card-body">
                 { 
                   recentsFound && 
-                  <ul className="list-group">
+                  <ul className="list-group border-light">
                     {list}
                   </ul>
                 }
@@ -114,8 +114,8 @@ class RecentItem extends React.Component {
 
   render() {
     return (
-      <a href="#" className="list-group-item d-flex justify-content-between align-items-center text-info" onClick={() => this.openTripById(this.props.url)}>
-        <strong>{this.props.name}</strong>
+      <a href="#" className="list-group-item d-flex justify-content-between align-items-center text-dark" onClick={() => this.openTripById(this.props.url)}>
+        {this.props.name}
         <span class="badge badge-info badge-pill">Reopen</span>
       </a>
     );
