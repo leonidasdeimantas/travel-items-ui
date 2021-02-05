@@ -60,7 +60,7 @@ class ItemEnter extends React.Component  {
           </small></footer>
         </blockquote>
         <form className="input-group mb-3 C5procTop" onSubmit={e => this.handleButton(e)}>
-          <input id="ItemEnterInputID" type="textbox" className="form-control" placeholder={"Add " + this.props.item + "..."} ref={this.msgRef} autoFocus/>
+          <input id="ItemEnterInputID" type="textbox" className="form-control border-white" placeholder={"Add " + this.props.item + "..."} ref={this.msgRef}/>
           <div className="input-group-append">
             <input type="submit" className="btn btn-outline-secondary" value="Add"/>
           </div>
