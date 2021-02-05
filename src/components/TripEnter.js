@@ -48,7 +48,7 @@ class TripEnter extends React.Component  {
       <div className="container C5procTop">
         <div className="row">
           <div className="col-sm">
-            <div className="card border-light">
+            <div className="card border-light box-shadow">
               <div className="card-header border-white bg-white">
                 <h4>Add new trip</h4>
               </div>
@@ -65,7 +65,7 @@ class TripEnter extends React.Component  {
               </div>
             </div>
             <br/>
-            <div className="card border-light">
+            <div className="card border-light box-shadow">
               <div className="card-header border-white bg-white">
                 <h4>Open existing trip</h4>
               </div>
@@ -81,7 +81,7 @@ class TripEnter extends React.Component  {
             <br/>
           </div>
           <div className="col-sm">
-            <div className="card border-light">
+            <div className="card border-light box-shadow">
               <div className="card-header border-white bg-white">
                 <h4>Recents</h4>
               </div>
