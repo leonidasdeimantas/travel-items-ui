@@ -4,6 +4,7 @@ import ItemEnter from './components/ItemEnter'
 import TripEnter from './components/TripEnter'
 import Header from './components/Header'
 import Assignees from './components/Assignees'
+import Spinner from './components/Spinner';
 import queryString from 'query-string'
 import CookieUtil from './utils/CookieUtil'
 import TiApi from './api/TiApi'
@@ -26,7 +27,8 @@ class App extends React.Component {
             tripName: "",
             tripLoc: "",
             tripFound: false,
-            recents: {}
+            recents: {},
+            loading: false
         }
         this.handleAddItem = this.handleAddItem.bind(this)
         this.handleRemoveItem = this.handleRemoveItem.bind(this)
@@ -39,6 +41,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        this.setState({ loading: true })
         this.setTripAndFetch(queryString.parse(this.props.location.search).tripUrl)
         this.fetchRecentTrips()
     }
@@ -50,6 +53,8 @@ class App extends React.Component {
 
     async fetchTrip() {
         if (this.state.tripUrl === "") return
+
+        this.setState({ loading: true })
 
         try {
             let page = (this.state.page === "main" || this.state.page === "") ? "items" : this.state.page
@@ -77,6 +82,8 @@ class App extends React.Component {
             })
             console.log("Can't fetch data " + e)
         }
+
+        this.setState({ loading: false })
     }
 
     async fetchRecentTrips() {
@@ -102,6 +109,8 @@ class App extends React.Component {
         } catch (e) {
             console.log("Can't fetch data " + e)
         }
+
+        this.setState({ loading: false })
     }
 
     handleAddTrip(name, location) {
@@ -219,6 +228,7 @@ class App extends React.Component {
                             handleRemove={this.handleRemoveAssingee} />
                     </main>
                 }
+                <Spinner loading={this.state.loading}/>
             </div>
         );
     }
