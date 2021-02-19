@@ -10,8 +10,8 @@ import CookieUtil from './utils/CookieUtil'
 import TiApi from './api/TiApi'
 import './App.css';
 
-//const API_URL = 'https://deimantas.space/ti-api'
-const API_URL = 'http://localhost:8080'
+const API_URL = 'https://deimantas.space/ti-api'
+//const API_URL = 'http://localhost:8080'
 const RECENT_CNT = 3
 
 class App extends React.Component {
