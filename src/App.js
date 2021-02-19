@@ -117,7 +117,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.addTrip(newTrip)
                 .then(response => window.location.href = `?tripUrl=${response.tripUrl}`)
-                .catch(error => handleFetchError(error))
+                .catch(error => this.handleFetchError(error))
         })
     }
 
@@ -127,7 +127,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.addTask(newTask)
                 .then(() => { this.fetchTrip() })
-                .catch(error => handleFetchError(error))
+                .catch(error => this.handleFetchError(error))
         })
     }
 
@@ -137,7 +137,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.updateTask(updatedTrip)
                 .then(() => { this.fetchTrip() })
-                .catch(error => handleFetchError(error))
+                .catch(error => this.handleFetchError(error))
         })
     }
 
@@ -145,7 +145,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.deleteTask(this.state.tripUrl, id)
                 .then(() => { this.fetchTrip() })
-                .catch(error => handleFetchError(error))
+                .catch(error => this.handleFetchError(error))
         })
     }
 
@@ -155,7 +155,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.addAssignee(newAssignee)
                 .then(() => { this.fetchTrip() })
-                .catch(error => handleFetchError(error))
+                .catch(error => this.handleFetchError(error))
         })
     }
 
@@ -163,7 +163,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.deleteAssignee(this.state.tripUrl, id)
                 .then(() => { this.fetchTrip() })
-                .catch(error => handleFetchError(error))
+                .catch(error => this.handleFetchError(error))
         })
     }
 
