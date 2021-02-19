@@ -47,14 +47,19 @@ class App extends React.Component {
     }
 
     setTripAndFetch(trip) {
-        if (trip) this.setState({ tripUrl: trip }, this.fetchTrip)
-        else this.setState({ page: "main" })
+        if (trip) {
+            this.setState({ tripUrl: trip }, this.fetchAllData)
+        } else {
+            this.setState({ page: "main" })
+        }
     }
 
-    async fetchTrip() {
-        if (this.state.tripUrl === "") return
-
-        this.setState({ loading: true })
+    async fetchAllData() {
+        if (this.state.tripUrl === "") {
+            return 
+        } else {
+            this.setState({ loading: true })
+        }        
 
         try {
             let page = (this.state.page === "main" || this.state.page === "") ? "items" : this.state.page
@@ -75,12 +80,8 @@ class App extends React.Component {
                 tripFound: true
             })
 
-        } catch (e) {
-            this.setState({
-                page: "main",
-                tripFound: false
-            })
-            console.log("Can't fetch data " + e)
+        } catch (error) {
+            handleFetchError(error)
         }
 
         this.setState({ loading: false })
@@ -126,7 +127,7 @@ class App extends React.Component {
 
         this.setState({ loading: true }, () => {
             this.tiApi.addTask(newTask)
-                .then(() => { this.fetchTrip() })
+                .then(() => { this.fetchAllData() })
                 .catch(error => this.handleFetchError(error))
         })
     }
@@ -136,7 +137,7 @@ class App extends React.Component {
 
         this.setState({ loading: true }, () => {
             this.tiApi.updateTask(updatedTrip)
-                .then(() => { this.fetchTrip() })
+                .then(() => { this.fetchAllData() })
                 .catch(error => this.handleFetchError(error))
         })
     }
@@ -144,7 +145,7 @@ class App extends React.Component {
     handleRemoveItem(id) {
         this.setState({ loading: true }, () => {
             this.tiApi.deleteTask(this.state.tripUrl, id)
-                .then(() => { this.fetchTrip() })
+                .then(() => { this.fetchAllData() })
                 .catch(error => this.handleFetchError(error))
         })
     }
@@ -154,7 +155,7 @@ class App extends React.Component {
 
         this.setState({ loading: true }, () => {
             this.tiApi.addAssignee(newAssignee)
-                .then(() => { this.fetchTrip() })
+                .then(() => { this.fetchAllData() })
                 .catch(error => this.handleFetchError(error))
         })
     }
@@ -162,7 +163,7 @@ class App extends React.Component {
     handleRemoveAssingee(id) {
         this.setState({ loading: true }, () => {
             this.tiApi.deleteAssignee(this.state.tripUrl, id)
-                .then(() => { this.fetchTrip() })
+                .then(() => { this.fetchAllData() })
                 .catch(error => this.handleFetchError(error))
         })
     }
@@ -187,8 +188,12 @@ class App extends React.Component {
     }
 
     handleFetchError(error) {
-        this.setState({ loading: false })
-        console.error('Error:', error)
+        this.setState({
+            page: "main",
+            tripFound: false,
+            loading: false
+        })
+        console.log("Can't fetch data: " + error)
     }
 
     render() {
