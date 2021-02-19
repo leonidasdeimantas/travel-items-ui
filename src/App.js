@@ -28,7 +28,7 @@ class App extends React.Component {
             tripLoc: "",
             tripFound: false,
             recents: {},
-            loading: false
+            loading: true
         }
         this.handleAddItem = this.handleAddItem.bind(this)
         this.handleRemoveItem = this.handleRemoveItem.bind(this)
@@ -41,9 +41,9 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ loading: true })
         this.setTripAndFetch(queryString.parse(this.props.location.search).tripUrl)
         this.fetchRecentTrips()
+        this.setState({ loading: false })
     }
 
     setTripAndFetch(trip) {
@@ -109,8 +109,6 @@ class App extends React.Component {
         } catch (e) {
             console.log("Can't fetch data " + e)
         }
-
-        this.setState({ loading: false })
     }
 
     handleAddTrip(name, location) {
