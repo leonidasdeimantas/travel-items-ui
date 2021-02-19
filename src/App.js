@@ -17,8 +17,6 @@ const RECENT_CNT = 3
 class App extends React.Component {
     constructor() {
         super()
-        this.cookieUtil = new CookieUtil();
-        this.tiApi = new TiApi(API_URL);
         this.state = {
             items: [],
             people: [],
@@ -30,6 +28,8 @@ class App extends React.Component {
             recents: {},
             loading: true
         }
+        this.cookieUtil = new CookieUtil();
+        this.tiApi = new TiApi(API_URL);
         this.handleAddItem = this.handleAddItem.bind(this)
         this.handleRemoveItem = this.handleRemoveItem.bind(this)
         this.handleDone = this.handleDone.bind(this)
@@ -114,43 +114,57 @@ class App extends React.Component {
     handleAddTrip(name, location) {
         let newTrip = { name: name, location: location }
 
-        this.tiApi.addTrip(newTrip)
-            .then(response => window.location.href = `?tripUrl=${response.tripUrl}`)
-            .catch(error => console.error('Error:', error));
+        this.setState({ loading: true }, () => {
+            this.tiApi.addTrip(newTrip)
+                .then(response => window.location.href = `?tripUrl=${response.tripUrl}`)
+                .catch(error => handleFetchError(error))
+        })
     }
 
     handleAddItem(text) {
         let newTask = { task: text, tripUrl: this.state.tripUrl }
 
-        this.tiApi.addTask(newTask)
-            .then(() => { this.fetchTrip() })
-            .catch(error => console.error('Error:', error));
+        this.setState({ loading: true }, () => {
+            this.tiApi.addTask(newTask)
+                .then(() => { this.fetchTrip() })
+                .catch(error => handleFetchError(error))
+        })
     }
 
     handleUpdateItem(item) {
         let updatedTrip = { id: item.id, task: item.text, price: item.price, assigneeId: item.assignee, tripUrl: this.state.tripUrl, completed: item.completed }
 
-        this.tiApi.updateTask(updatedTrip)
-            .then(() => { this.fetchTrip() })
-            .catch((error) => { console.error('Error:', error) });
+        this.setState({ loading: true }, () => {
+            this.tiApi.updateTask(updatedTrip)
+                .then(() => { this.fetchTrip() })
+                .catch(error => handleFetchError(error))
+        })
     }
 
     handleRemoveItem(id) {
-        this.tiApi.deleteTask(this.state.tripUrl, id)
-            .then(() => { this.fetchTrip() })
+        this.setState({ loading: true }, () => {
+            this.tiApi.deleteTask(this.state.tripUrl, id)
+                .then(() => { this.fetchTrip() })
+                .catch(error => handleFetchError(error))
+        })
     }
 
     handleAddAssignee(assgineeName) {
         let newAssignee = { name: assgineeName, tripUrl: this.state.tripUrl }
 
-        this.tiApi.addAssignee(newAssignee)
-            .then(() => { this.fetchTrip() })
-            .catch(error => console.error('Error:', error));
+        this.setState({ loading: true }, () => {
+            this.tiApi.addAssignee(newAssignee)
+                .then(() => { this.fetchTrip() })
+                .catch(error => handleFetchError(error))
+        })
     }
 
     handleRemoveAssingee(id) {
-        this.tiApi.deleteAssignee(this.state.tripUrl, id)
-            .then(() => { this.fetchTrip() })
+        this.setState({ loading: true }, () => {
+            this.tiApi.deleteAssignee(this.state.tripUrl, id)
+                .then(() => { this.fetchTrip() })
+                .catch(error => handleFetchError(error))
+        })
     }
 
     handleDone(id) {
@@ -170,6 +184,11 @@ class App extends React.Component {
 
     handleChangePage(value) {
         this.setState({ page: value })
+    }
+
+    handleFetchError(error) {
+        this.setState({ loading: false })
+        console.error('Error:', error)
     }
 
     render() {
