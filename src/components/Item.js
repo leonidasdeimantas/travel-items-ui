@@ -60,7 +60,7 @@ class Item extends React.Component {
         <div className="mr-2 rounded">
           <button 
             type="button" 
-            className={this.props.item.completed ? "btn btn-info btn-sm C5procTop" : "btn btn-outline-info btn-sm C5procTop"} 
+            className={this.props.item.completed ? "btn btn-secondary btn-sm C5procTop" : "btn btn-outline-info btn-sm C5procTop disabled"} 
             style={{padding:"12px"}} 
             onClick={() => this.props.handleDone(this.props.item.id)}>            
           </button>
@@ -121,6 +121,7 @@ class Item extends React.Component {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
