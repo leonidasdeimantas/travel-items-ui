@@ -1,14 +1,17 @@
 import React from 'react';
+import queryString from 'query-string'
+import './App.css';
+
 import ItemList from './components/ItemList'
 import ItemEnter from './components/ItemEnter'
 import TripEnter from './components/TripEnter'
 import Header from './components/Header'
 import Assignees from './components/Assignees'
 import Spinner from './components/Spinner';
-import queryString from 'query-string'
+
 import CookieUtil from './utils/CookieUtil'
 import TiApi from './api/TiApi'
-import './App.css';
+
 
 const API_URL = 'https://deimantas.space/ti-api'
 //const API_URL = 'http://localhost:8080'
@@ -81,7 +84,7 @@ class App extends React.Component {
             })
 
         } catch (error) {
-            handleFetchError(error)
+            this.handleFetchError(error)
         }
 
         this.setState({ loading: false })
