@@ -20,27 +20,29 @@ class TripEnter extends React.Component {
     }
 
     fillRecentList() {
+        let recentsFound = false
         let list = []
+        let iterator = 0
 
-        for (let i = 1; i <= this.props.recentsCnt; i++) {
-            let tripStr = "trip" + i
-            if (this.props.recents["0"][tripStr] !== undefined) {
+        this.props.recents[0].forEach(element => {
+            if (element) {
+                recentsFound = true
                 list.push(<RecentItem
-                    key={i}
-                    url={this.props.recents["0"][tripStr].tripUrl}
-                    name={this.props.recents["0"][tripStr].name}
-                    location={this.props.recents["0"][tripStr].location}
+                    key={iterator++}
+                    url={element.url}
+                    name={element.name}
                 />)
             }
-        }
+        })
 
-        return list
+        return [ list, recentsFound ] 
     }
 
 
     render() {
-        let recentsFound = (this.props.recents["0"].trip1 !== undefined);
-        let list = this.fillRecentList();
+        let recentsFound = false;
+        let list = [];
+        [ list, recentsFound ] = this.fillRecentList()
 
         return (
             <div className="container C5procTop">

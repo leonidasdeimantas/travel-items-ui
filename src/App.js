@@ -9,12 +9,13 @@ import Header from './components/Header'
 import Assignees from './components/Assignees'
 import Spinner from './components/Spinner';
 
-import CookieUtil from './utils/CookieUtil'
+import { getRecentTrips, storeTrip } from './utils/LocalStorage'
 import TiApi from './api/TiApi'
 
 
 const API_URL = 'https://deimantas.space/ti-api'
 //const API_URL = 'http://localhost:8080'
+//const API_URL = 'http://deimantas.space:8081'
 const RECENT_CNT = 3
 
 class App extends React.Component {
@@ -31,7 +32,6 @@ class App extends React.Component {
             recents: {},
             loading: true
         }
-        this.cookieUtil = new CookieUtil();
         this.tiApi = new TiApi(API_URL);
         this.handleAddItem = this.handleAddItem.bind(this)
         this.handleRemoveItem = this.handleRemoveItem.bind(this)
@@ -45,8 +45,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.setTripAndFetch(queryString.parse(this.props.location.search).tripUrl)
-        this.fetchRecentTrips()
-        this.setState({ loading: false })
+        this.setState({ loading: false, recents: getRecentTrips() })
     }
 
     setTripAndFetch(trip) {
@@ -71,8 +70,7 @@ class App extends React.Component {
             let newAssignees = await this.tiApi.getAllAssignees(this.state.tripUrl)
             let trip =  await this.tiApi.getTrip(this.state.tripUrl)
 
-            this.cookieUtil.saveTripLocally(this.state.tripUrl)
-            this.fetchRecentTrips()
+            storeTrip({ name: trip.name, url: this.state.tripUrl })
 
             this.setState({
                 items: newItems,
@@ -80,7 +78,8 @@ class App extends React.Component {
                 page: page,
                 tripName: trip.name,
                 tripLoc: trip.location,
-                tripFound: true
+                tripFound: true,
+                recents: getRecentTrips()
             })
 
         } catch (error) {
@@ -88,31 +87,6 @@ class App extends React.Component {
         }
 
         this.setState({ loading: false })
-    }
-
-    async fetchRecentTrips() {
-        let count = 0;
-        let currentCookies = [];
-        [currentCookies, count] = this.cookieUtil.getTripLocally()
-
-        if (count < RECENT_CNT) return
-
-        try {
-            let recentTrips = [];
-            for (let i = 1; i <= RECENT_CNT; i++) {
-                let tripStr = "trip" + i
-                if (currentCookies[tripStr] !== "undefined") {
-                    recentTrips[tripStr] = await this.tiApi.getTrip(currentCookies[tripStr])
-                }
-            }
-
-            this.setState({
-                recents: recentTrips
-            })
-
-        } catch (e) {
-            console.log("Can't fetch data " + e)
-        }
     }
 
     handleAddTrip(name, location) {
