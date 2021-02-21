@@ -15,8 +15,6 @@ import TiApi from './api/TiApi'
 
 const API_URL = 'https://deimantas.space/ti-api'
 //const API_URL = 'http://localhost:8080'
-//const API_URL = 'http://deimantas.space:8081'
-const RECENT_CNT = 3
 
 class App extends React.Component {
     constructor() {
@@ -188,8 +186,7 @@ class App extends React.Component {
                     <main role="main" className="container">
                         <TripEnter
                             handleAddTrip={this.handleAddTrip}
-                            recents={[this.state.recents]}
-                            recentsCnt={RECENT_CNT} />
+                            recents={[this.state.recents]} />
                     </main>
                 }
                 {
