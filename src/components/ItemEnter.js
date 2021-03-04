@@ -53,7 +53,7 @@ class ItemEnter extends React.Component {
                 <blockquote className="blockquote text-center">
                     <p className="mb-0 h5 text-dark">{this.props.tripName}<span className="text-info"></span>
                         <span className="dropdown" style={{ marginLeft: "10px", marginRight: "1px" }}>
-                            <button className="btn btn-outline-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button className="btn btn-outline-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Share
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" style={{ marginLeft: "5px", marginRight: "1px" }} className="bi bi-clipboard" viewBox="0 0 16 16">
                                     <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
