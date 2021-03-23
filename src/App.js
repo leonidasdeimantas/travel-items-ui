@@ -13,7 +13,7 @@ import { getRecentTrips, storeTrip } from './utils/LocalStorage'
 import TiApi from './api/TiApi'
 
 
-const API_URL = 'https://deimantas.space/ti-api'
+const API_URL = 'https://deimantas.tech/ti-api'
 //const API_URL = 'http://localhost:8080'
 
 class App extends React.Component {
