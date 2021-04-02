@@ -117,7 +117,7 @@ class RecentItem extends React.Component {
 
     render() {
         return (
-            <a href="#" className="list-group-item list-group-item-action d-flex justify-content-between align-items-center text-dark" onClick={() => this.openTripById(this.props.url)}>
+            <a href="# " className="list-group-item list-group-item-action d-flex justify-content-between align-items-center text-dark" onClick={() => this.openTripById(this.props.url)}>
                 {this.props.name}
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-box-arrow-in-right" viewBox="0 0 16 16">

@@ -60,8 +60,8 @@ class ItemEnter extends React.Component {
                                 Share
                             </button>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="#" onClick={() => this.handleCopyID()}>Copy ID</a>
-                                <a className="dropdown-item" href="#" onClick={() => this.handleCopyUrl()}>Copy link</a>
+                                <a className="dropdown-item" href="# " onClick={() => this.handleCopyID()}>Copy ID</a>
+                                <a className="dropdown-item" href="# " onClick={() => this.handleCopyUrl()}>Copy link</a>
                             </div>
                         </span>
                     </p>

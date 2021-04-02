@@ -1,6 +1,6 @@
 {
-  "name": "travel-items",
-  "version": "0.1.0",
+  "name": "travel-items-ui",
+  "version": "1.0.0",
   "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
