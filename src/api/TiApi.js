@@ -7,7 +7,7 @@ class TiApi {
     async getTrip(tripUrl) {
         return await fetch(`${this.api}/trip?tripUrl=${tripUrl}`)
             .then(response => response.json())
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .catch(error => { throw new Error(`getTrip error ${error}`) })
     }
 
     async getAllTasks(tripUrl) {
@@ -28,7 +28,7 @@ class TiApi {
                 
                 return tasks.reverse()
             })
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .catch(error => { throw new Error(`getAllTasks error ${error}`) })
     }
 
     async getAllAssignees(tripUrl) {
@@ -46,7 +46,7 @@ class TiApi {
 
                 return assignees.reverse()
             })
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .catch(error => { throw new Error(`getAllAssignees error ${error}`) })
     }
 
     async addTrip(trip) {
@@ -57,8 +57,8 @@ class TiApi {
         }
 
         let response = await fetch(`${this.api}/trip`, requestOptions)
-            .then(response => response.json())
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .then(resp => resp.json())
+            .catch(error => { throw new Error(`addTrip error ${error}`) })
 
         return response
     }
@@ -71,8 +71,8 @@ class TiApi {
         }
 
         let response = await fetch(`${this.api}/task`, requestOptions)
-            .then(response => response.json())
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .then(resp => resp.status)
+            .catch(error => { throw new Error(`addTask error ${error}`) })
 
         return response
     }
@@ -85,15 +85,15 @@ class TiApi {
         }
 
         let response = await fetch(`${this.api}/task`, requestOptions)
-            .then(response => response.json())
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .then(resp => resp.status)
+            .catch(error => { throw new Error(`updateTask error ${error}`) })
 
         return response
     }
 
     async deleteTask(tripUrl, taskId) {
         return await fetch(`${this.api}/task?tripUrl=${tripUrl}&taskId=${taskId}`, { method: 'DELETE' })
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .catch(error => { throw new Error(`deleteTask error ${error}`) })
     }
 
     async addAssignee(assignee) {
@@ -104,15 +104,15 @@ class TiApi {
         }
 
         let response = await fetch(`${this.api}/assignee`, requestOptions)
-            .then(response => response.json())
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .then(resp => resp.status)
+            .catch(error => { throw new Error(`addAssignee error ${error}`) })
 
         return response
     }
 
     async deleteAssignee(tripUrl, assigneeId) {
         return await fetch(`${this.api}/assignee?tripUrl=${tripUrl}&assigneeId=${assigneeId}`, { method: 'DELETE' })
-            .catch(error => { throw new Error(`Fetch error ${error}`) })
+            .catch(error => { throw new Error(`deleteAssignee error ${error}`) })
     }
 }
 

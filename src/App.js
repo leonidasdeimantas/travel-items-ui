@@ -94,7 +94,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.addTrip(newTrip)
                 .then(response => window.location.href = `?tripUrl=${response.tripUrl}`)
-                .catch(error => this.handleFetchError(error))
+                .catch(error => this.handleFetchError(`handleAddTrip: ${error}`))
         })
     }
 
@@ -104,7 +104,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.addTask(newTask)
                 .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(error))
+                .catch(error => this.handleFetchError(`handleAddItem: ${error}`))
         })
     }
 
@@ -114,7 +114,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.updateTask(updatedTrip)
                 .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(error))
+                .catch(error => this.handleFetchError(`handleUpdateItem: ${error}`))
         })
     }
 
@@ -122,7 +122,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.deleteTask(this.state.tripUrl, id)
                 .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(error))
+                .catch(error => this.handleFetchError(`handleRemoveItem: ${error}`))
         })
     }
 
@@ -132,7 +132,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.addAssignee(newAssignee)
                 .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(error))
+                .catch(error => this.handleFetchError(`handleAddAssignee: ${error}`))
         })
     }
 
@@ -140,7 +140,7 @@ class App extends React.Component {
         this.setState({ loading: true }, () => {
             this.tiApi.deleteAssignee(this.state.tripUrl, id)
                 .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(error))
+                .catch(error => this.handleFetchError(`handleRemoveAssingee: ${error}`))
         })
     }
 

@@ -76,7 +76,7 @@ class Item extends React.Component {
                             <span className="material-icons-outlined text-danger">delete</span>
                         </button>
                         <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target={"#editItemModal" + this.props.item.id} onClick={() => this.handleEdit()}>
-                            <span class="material-icons-outlined text-secondary">person_add</span>
+                            <span className="material-icons-outlined text-secondary">person_add</span>
                         </button>
 
                         <div className="modal fade" id={"editItemModal" + this.props.item.id} tabIndex="-1" aria-labelledby={"editItemModal" + this.props.item.id} aria-hidden="true">
