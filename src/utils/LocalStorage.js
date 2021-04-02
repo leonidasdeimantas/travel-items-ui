@@ -1,4 +1,4 @@
-const KEY_RECENTS = ['recent1','recent2','recent3']
+const KEY_RECENTS = ['recent1','recent2','recent3','recent4','recent5']
 
 export const getRecentTrips = () => {
 	if (!localStorage) return
@@ -37,4 +37,9 @@ export const storeTrip = (item) => {
 	} catch (error) {
 		console.error(`Error storing ${KEY_RECENTS} to localStorage`, error)
 	}
+};
+
+export const clearRecentTrips = () => {
+	if (!localStorage) return
+	localStorage.clear()
 };

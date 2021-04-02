@@ -9,7 +9,7 @@ import Header from './components/Header'
 import Assignees from './components/Assignees'
 import Spinner from './components/Spinner';
 
-import { getRecentTrips, storeTrip } from './utils/LocalStorage'
+import { getRecentTrips, storeTrip, clearRecentTrips } from './utils/LocalStorage'
 import TiApi from './api/TiApi'
 
 
@@ -39,6 +39,7 @@ class App extends React.Component {
         this.handleAddTrip = this.handleAddTrip.bind(this)
         this.handleAddAssignee = this.handleAddAssignee.bind(this)
         this.handleRemoveAssingee = this.handleRemoveAssingee.bind(this)
+        this.handleClearRecents = this.handleClearRecents.bind(this)
     }
 
     componentDidMount() {
@@ -162,6 +163,11 @@ class App extends React.Component {
         this.setState({ page: value })
     }
 
+    handleClearRecents() {
+        clearRecentTrips()
+        this.setState({ recents: getRecentTrips() })
+    }
+
     handleFetchError(error) {
         this.setState({
             page: "main",
@@ -186,6 +192,7 @@ class App extends React.Component {
                     <main role="main" className="container">
                         <TripEnter
                             handleAddTrip={this.handleAddTrip}
+                            handleClearRecents={this.handleClearRecents}
                             recents={[this.state.recents]} />
                     </main>
                 }
