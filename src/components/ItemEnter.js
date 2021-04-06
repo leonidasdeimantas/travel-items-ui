@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-function ItemEnter(props) {
+export default function ItemEnter(props) {
     const msgRef = useRef(null)
 
     const handleButton = (event) => {
@@ -64,5 +64,3 @@ function copyToClipboard(text) {
         }
     }
 }
-
-export default ItemEnter;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Assignees(props) {
+export default function Assignees(props) {
     const list = props.people.map(item => <AssigneeItem
         key={item.id}
         people={item}
@@ -23,5 +23,3 @@ function AssigneeItem(props) {
         </div>
     );
 }
-
-export default Assignees;

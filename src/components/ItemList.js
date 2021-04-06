@@ -1,7 +1,7 @@
 import React from 'react';
 import Item from './Item'
 
-function ItemList(props) {
+export default function ItemList(props) {
     const list_remaining = props.items.map(item => !item.completed && <Item
         key={item.id}
         item={item}
@@ -38,5 +38,3 @@ function ItemList(props) {
         </div>
     );
 }
-
-export default ItemList;

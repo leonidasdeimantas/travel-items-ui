@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-function TripEnter(props) {
+export default function TripEnter(props) {
     const msgRefName = useRef(null)
     const msgRefLocation = useRef(null)
     const msgRefUrl = useRef(null)
@@ -123,5 +123,3 @@ function fillRecentList(props) {
 
     return [ list, recentsFound ] 
 }
-
-export default TripEnter;

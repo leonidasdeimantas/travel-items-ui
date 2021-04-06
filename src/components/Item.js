@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Item(props) {
+export default function Item(props) {
     const [assignee, setAssingnee] = useState("");
     const [price, setPrice] = useState("");
 
@@ -84,5 +84,3 @@ function Item(props) {
         </div>
     );
 }
-
-export default Item;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Spinner(props) {
+export default function Spinner(props) {
     return (
         props.loading &&
         <div id="overlay">
@@ -10,5 +10,3 @@ function Spinner(props) {
         </div>
     );
 }
-
-export default Spinner;

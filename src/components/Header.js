@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Header(props) {
+export default function Header(props) {
     return (
         <div>
             <nav className="navbar navbar-expand-md fixed-top navbar-dark" style={{ backgroundColor: "#151515" }}>
@@ -27,5 +27,3 @@ function Header(props) {
         </div>
     );
 }
-
-export default Header;
