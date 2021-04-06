@@ -19,7 +19,7 @@ export default function ItemEnter(props) {
         <div>
             <br />
             <blockquote className="blockquote text-center">
-                <p className="mb-0 h5 text-dark">{props.tripName}<span className="text-info"></span>
+                <div className="mb-0 h5 text-dark">{props.tripName}<span className="text-info"></span>
                     <span className="dropdown" style={{ marginLeft: "10px"}}>
                         <button className="btn btn-outline-info btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span className="material-icons-outlined" style={{fontSize:"18px", marginRight:"4px"}}>share</span>
@@ -30,7 +30,7 @@ export default function ItemEnter(props) {
                             <a className="dropdown-item" href="# " onClick={() => handleCopyUrl()}>Copy link <span className="material-icons-outlined" style={{fontSize:"18px", marginLeft:"4px"}}>content_copy</span></a>
                         </div>
                     </span>
-                </p>
+                </div>
             </blockquote>
             <form className="input-group mb-3 C5procTop" onSubmit={e => handleButton(e)}>
                 <input id="ItemEnterInputID" type="textbox" className="form-control border-white" placeholder={"Add " + props.item + "..."} ref={msgRef} />

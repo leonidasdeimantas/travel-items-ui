@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import queryString from 'query-string'
 import './App.css';
 
@@ -16,225 +16,222 @@ import TiApi from './api/TiApi'
 const API_URL = 'https://deimantas.tech/ti-api'
 //const API_URL = 'http://localhost:8080'
 
-class App extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            items: [],
-            people: [],
-            page: "",
-            tripUrl: "",
-            tripName: "",
-            tripLoc: "",
-            tripFound: false,
-            recents: {},
-            loading: true
-        }
-        this.tiApi = new TiApi(API_URL);
-        this.handleAddItem = this.handleAddItem.bind(this)
-        this.handleRemoveItem = this.handleRemoveItem.bind(this)
-        this.handleDone = this.handleDone.bind(this)
-        this.handleEdit = this.handleEdit.bind(this)
-        this.handleChangePage = this.handleChangePage.bind(this)
-        this.handleAddTrip = this.handleAddTrip.bind(this)
-        this.handleAddAssignee = this.handleAddAssignee.bind(this)
-        this.handleRemoveAssingee = this.handleRemoveAssingee.bind(this)
-        this.handleClearRecents = this.handleClearRecents.bind(this)
-    }
+function App(props) {
+    const [items, setItems] = useState([]);
+    const [people, setPeople] = useState([]);
+    const [page, setPage] = useState("");
+    const [tripUrl, setTripUrl] = useState("");
+    const [tripName, setTripName] = useState("");
+    const [tripLoc, setTripLoc] = useState("");
+    const [tripFound, setTripFound] = useState(false);
+    const [recents, setRecents] = useState({});
+    const [loading, setLoading] = useState(true);
 
-    componentDidMount() {
-        this.setTripAndFetch(queryString.parse(this.props.location.search).tripUrl)
-        this.setState({ loading: false, recents: getRecentTrips() })
-    }
+    const tiApi = new TiApi(API_URL);
 
-    setTripAndFetch(trip) {
-        if (trip) {
-            this.setState({ tripUrl: trip }, this.fetchAllData)
+    // onComponentMount
+    useEffect(() => {
+        let newTripUrl = queryString.parse(props.location.search).tripUrl;
+        if (newTripUrl) {
+            setTripUrl(newTripUrl)
         } else {
-            this.setState({ page: "main" })
+            setPage("main")
+            setLoading(false)
         }
-    }
+        setRecents(getRecentTrips())
+    }, [props]);
 
-    async fetchAllData() {
-        if (this.state.tripUrl === "") {
+    useEffect(() => {
+        fetchAllData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tripUrl]);
+
+    const fetchAllData = async () => {
+        if (tripUrl === "") {
             return 
         } else {
-            this.setState({ loading: true })
+            setLoading(true)
         }        
 
         try {
-            let page = (this.state.page === "main" || this.state.page === "") ? "items" : this.state.page
+            let newPage = (page === "main" || page === "") ? "items" : page
 
-            let newItems = await this.tiApi.getAllTasks(this.state.tripUrl)
-            let newAssignees = await this.tiApi.getAllAssignees(this.state.tripUrl)
-            let trip =  await this.tiApi.getTrip(this.state.tripUrl)
+            let newItems = await tiApi.getAllTasks(tripUrl)
+            let newAssignees = await tiApi.getAllAssignees(tripUrl)
+            let trip =  await tiApi.getTrip(tripUrl)
 
-            storeTrip({ name: trip.name, url: this.state.tripUrl })
+            storeTrip({ name: trip.name, url: tripUrl })
 
-            this.setState({
-                items: newItems,
-                people: newAssignees,
-                page: page,
-                tripName: trip.name,
-                tripLoc: trip.location,
-                tripFound: true,
-                recents: getRecentTrips()
-            })
+            setItems(newItems)
+            setPeople(newAssignees)
+            setPage(newPage)
+            setTripName(trip.name)
+            setTripLoc(trip.location)
+            setTripFound(true)
+            setRecents(getRecentTrips())
 
         } catch (error) {
-            this.handleFetchError(error)
+            handleFetchError(error)
         }
 
-        this.setState({ loading: false })
+        setLoading(false)
     }
 
-    handleAddTrip(name, location) {
+    const handleAddTrip = (name, location) => {
         let newTrip = { name: name, location: location }
 
-        this.setState({ loading: true }, () => {
-            this.tiApi.addTrip(newTrip)
-                .then(response => window.location.href = `?tripUrl=${response.tripUrl}`)
-                .catch(error => this.handleFetchError(`handleAddTrip: ${error}`))
-        })
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.addTrip(newTrip)
+                    .then(response => window.location.href = `?tripUrl=${response.tripUrl}`)
+                    .catch(error => handleFetchError(`handleAddTrip: ${error}`))
+            })
     }
 
-    handleAddItem(text) {
-        let newTask = { task: text, tripUrl: this.state.tripUrl }
+    const handleAddItem = (text) => {
+        let newTask = { task: text, tripUrl: tripUrl }
 
-        this.setState({ loading: true }, () => {
-            this.tiApi.addTask(newTask)
-                .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(`handleAddItem: ${error}`))
-        })
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.addTask(newTask)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleAddItem: ${error}`))
+            })
     }
 
-    handleUpdateItem(item) {
-        let updatedTrip = { id: item.id, task: item.text, price: item.price, assigneeId: item.assignee, tripUrl: this.state.tripUrl, completed: item.completed }
+    const handleUpdateItem = (item) => {
+        let updatedTrip = { id: item.id, task: item.text, price: item.price, assigneeId: item.assignee, tripUrl: tripUrl, completed: item.completed }
 
-        this.setState({ loading: true }, () => {
-            this.tiApi.updateTask(updatedTrip)
-                .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(`handleUpdateItem: ${error}`))
-        })
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.updateTask(updatedTrip)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleUpdateItem: ${error}`))
+            })
     }
 
-    handleRemoveItem(id) {
-        this.setState({ loading: true }, () => {
-            this.tiApi.deleteTask(this.state.tripUrl, id)
-                .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(`handleRemoveItem: ${error}`))
-        })
+    const handleRemoveItem = (id) => {
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.deleteTask(tripUrl, id)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleRemoveItem: ${error}`))
+            })
     }
 
-    handleAddAssignee(assgineeName) {
-        let newAssignee = { name: assgineeName, tripUrl: this.state.tripUrl }
+    const handleAddAssignee = (assgineeName) => {
+        let newAssignee = { name: assgineeName, tripUrl: tripUrl }
 
-        this.setState({ loading: true }, () => {
-            this.tiApi.addAssignee(newAssignee)
-                .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(`handleAddAssignee: ${error}`))
-        })
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.addAssignee(newAssignee)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleAddAssignee: ${error}`))
+            })
     }
 
-    handleRemoveAssingee(id) {
-        this.setState({ loading: true }, () => {
-            this.tiApi.deleteAssignee(this.state.tripUrl, id)
-                .then(() => { this.fetchAllData() })
-                .catch(error => this.handleFetchError(`handleRemoveAssingee: ${error}`))
-        })
+    const handleRemoveAssingee = (id) => {
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.deleteAssignee(tripUrl, id)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleRemoveAssingee: ${error}`))
+            })
     }
 
-    handleDone(id) {
-        let item = this.state.items.find(element => element.id === id)
+    const handleDone = (id) => {
+        let item = items.find(element => element.id === id)
 
         item.completed = !item.completed
-        this.handleUpdateItem(item)
+        handleUpdateItem(item)
     }
 
-    handleEdit(id, assignee, price) {
-        let item = this.state.items.find(element => element.id === id)
+    const handleEdit = (id, assignee, price) => {
+        let item = items.find(element => element.id === id)
 
         item.assignee = assignee
         item.price = price
-        this.handleUpdateItem(item)
+        handleUpdateItem(item)
     }
 
-    handleChangePage(value) {
-        this.setState({ page: value })
+    const handleChangePage = (page) => {
+        setPage(page)
     }
 
-    handleClearRecents() {
+    const handleClearRecents = () => {
         clearRecentTrips()
-        this.setState({ recents: getRecentTrips() })
+        setRecents([])
     }
 
-    handleFetchError(error) {
-        this.setState({
-            page: "main",
-            tripFound: false,
-            loading: false
-        })
+    const handleFetchError = (error) => {
+        setPage("main")
+        setTripFound(false)
+        setLoading(false)
         console.log("Can't fetch data: " + error)
     }
 
-    render() {
-        return (
-            <div className="App">
-                <Header
-                    itemCnt={this.state.items.length}
-                    peopleCnt={this.state.people.length}
-                    page={this.state.page}
-                    tripFound={this.state.tripFound}
-                    handleChangePage={this.handleChangePage}
-                />
-                {
-                    (this.state.page === "main") &&
-                    <main role="main" className="container">
-                        <TripEnter
-                            handleAddTrip={this.handleAddTrip}
-                            handleClearRecents={this.handleClearRecents}
-                            recents={[this.state.recents]} />
-                    </main>
-                }
-                {
-                    (this.state.page === "items") &&
-                    <main role="main" className="container">
-                        <ItemEnter
-                            handleAddItem={this.handleAddItem}
-                            tripUrl={this.state.tripUrl}
-                            tripName={this.state.tripName}
-                            tripLoc={this.state.tripLoc}
-                            item="item" />
-                        {
-                            (this.state.items.length > 0) &&
-                            <ItemList
-                                items={this.state.items}
-                                people={this.state.people}
-                                handleDone={this.handleDone}
-                                handleEdit={this.handleEdit}
-                                handleRemoveItem={this.handleRemoveItem}
-                            />
-                        }
-                    </main>
-                }
-                {
-                    (this.state.page === "people") &&
-                    <main role="main" className="container">
-                        <ItemEnter
-                            handleAddItem={this.handleAddAssignee}
-                            tripUrl={this.state.tripUrl}
-                            tripName={this.state.tripName}
-                            tripLoc={this.state.tripLoc}
-                            item="assignee" />
-                        <Assignees
-                            people={this.state.people}
-                            handleRemove={this.handleRemoveAssingee} />
-                    </main>
-                }
-                <Spinner loading={this.state.loading}/>
-            </div>
-        );
-    }
+    return (
+        <div className="App">
+            <Header
+                itemCnt={items.length}
+                peopleCnt={people.length}
+                page={page}
+                tripFound={tripFound}
+                handleChangePage={handleChangePage}
+            />
+            {
+                (page === "main") &&
+                <main role="main" className="container">
+                    <TripEnter
+                        handleAddTrip={handleAddTrip}
+                        handleClearRecents={handleClearRecents}
+                        recents={[recents]} />
+                </main>
+            }
+            {
+                (page === "items") &&
+                <main role="main" className="container">
+                    <ItemEnter
+                        handleAddItem={handleAddItem}
+                        tripUrl={tripUrl}
+                        tripName={tripName}
+                        tripLoc={tripLoc}
+                        item="item" />
+                    {
+                        (items.length > 0) &&
+                        <ItemList
+                            items={items}
+                            people={people}
+                            handleDone={handleDone}
+                            handleEdit={handleEdit}
+                            handleRemoveItem={handleRemoveItem}
+                        />
+                    }
+                </main>
+            }
+            {
+                (page === "people") &&
+                <main role="main" className="container">
+                    <ItemEnter
+                        handleAddItem={handleAddAssignee}
+                        tripUrl={tripUrl}
+                        tripName={tripName}
+                        tripLoc={tripLoc}
+                        item="assignee" />
+                    <Assignees
+                        people={people}
+                        handleRemove={handleRemoveAssingee} />
+                </main>
+            }
+            <Spinner loading={loading}/>
+        </div>
+    );
 }
 
 export default App;
