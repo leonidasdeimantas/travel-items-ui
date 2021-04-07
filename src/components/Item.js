@@ -16,8 +16,13 @@ export default function Item(props) {
     }, [props]);
 
     useEffect(() => {
-        props.people.forEach(element => {
-            if (element.id === assignee) setAssingneeObj(element)
+        props.people.every(element => {
+            if (element.id === assignee) {
+                setAssingneeObj(element);
+                return false
+            }
+            setAssingneeObj({ name: "", id: "" })
+            return true
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps  
     }, [assignee]);
