@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function Item(props) {
     const [assignee, setAssingnee] = useState("");
+    const [assigneeObj, setAssingneeObj] = useState("");
     const [price, setPrice] = useState("");
 
-    const handleEdit = () => {
+    const reloadProps = () => {
         setAssingnee(props.item.assignee)
         setPrice(props.item.price)
     }
+
+    useEffect(() => {
+        reloadProps();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props]);
+
+    useEffect(() => {
+        props.people.forEach(element => {
+            if (element.id === assignee) setAssingneeObj(element)
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps  
+    }, [assignee]);
 
     const completedStyle = {
         color: "#cdcdcd",
         textDecoration: "line-through"
     }
 
-    let assigneeObj = props.people.find(people => people.id === props.item.assignee)
-    if (assigneeObj === undefined) assigneeObj = { name: "", id: "" }
     const assigneeList = props.people.map(item => <option key={item.id} value={item.id}>{item.name}</option>)
 
     return (
@@ -38,7 +49,7 @@ export default function Item(props) {
                     <button type="button" className="btn btn-sm CItemButtonRight" onClick={() => props.handleRemoveItem(props.item.id)}>
                         <span className="material-icons-outlined text-danger">delete</span>
                     </button>
-                    <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target={"#editItemModal" + props.item.id} onClick={() => handleEdit()}>
+                    <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target={"#editItemModal" + props.item.id}>
                         <span className="material-icons-outlined text-secondary">person_add</span>
                     </button>
 
@@ -54,25 +65,41 @@ export default function Item(props) {
                                 <div className="modal-body">
                                     <div className="form-group">
                                         <label htmlFor="assigneeInput">Assignee</label>
-                                        <select className="custom-select" id="assigneeInput" onChange={e => setAssingnee(e.target.value)}>
-                                            <option selected>Choose...</option>
-                                            {assigneeList}
-                                        </select>
+                                        {
+                                            !assignee &&
+                                            <select className="custom-select" id="assigneeInput" onChange={e => { setAssingnee(parseInt(e.target.value))}}>
+                                                <option>Choose...</option>
+                                                {assigneeList}
+                                            </select>
+                                        }
+                                        {
+                                            assignee &&
+                                            <div className="input-group mb-3">
+                                                <input type="text" className="form-control" placeholder={assigneeObj.name} disabled/>
+                                                <div className="input-group-append">
+                                                    <button className="btn btn-secondary" type="button" onClick={() => setAssingnee()}>
+                                                        <span className="material-icons-outlined text-light">person_remove</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="priceInput">Price</label>
                                         <div className="input-group mb-3">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text">€</span>
-                                            </div>
                                             <input type="number" className="form-control" id="priceInput" aria-describedby="priceHelp"
-                                                value={price}
+                                                value={price ? price : ""}
                                                 onChange={e => setPrice(e.target.value)} />
+                                            <div className="input-group-append">
+                                                <span className="input-group-text">
+                                                    <span className="material-icons-outlined text-secondary">euro_symbol</span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => reloadProps()}>Close</button>
                                     <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => props.handleEdit(props.item.id, assignee, price)}>Save</button>
                                 </div>
                             </div>

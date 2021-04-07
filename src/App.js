@@ -55,26 +55,24 @@ function App(props) {
 
         try {
             let newPage = (page === "main" || page === "") ? "items" : page
-
             let newItems = await tiApi.getAllTasks(tripUrl)
             let newAssignees = await tiApi.getAllAssignees(tripUrl)
             let trip =  await tiApi.getTrip(tripUrl)
 
-            storeTrip({ name: trip.name, url: tripUrl })
-
-            setItems(newItems)
-            setPeople(newAssignees)
-            setPage(newPage)
-            setTripName(trip.name)
-            setTripLoc(trip.location)
-            setTripFound(true)
-            setRecents(getRecentTrips())
+            Promise.resolve()
+                .then(() => setItems(newItems))
+                .then(() => setPeople(newAssignees))
+                .then(() => setTripName(trip.name))
+                .then(() => setTripLoc(trip.location))
+                .then(() => setTripFound(true))
+                .then(() => setPage(newPage))
+                .then(() => storeTrip({ name: trip.name, url: tripUrl }))
+                .then(() => setRecents(getRecentTrips()))
+                .then(() => setLoading(false))
 
         } catch (error) {
             handleFetchError(error)
         }
-
-        setLoading(false)
     }
 
     const handleAddTrip = (name, location) => {
