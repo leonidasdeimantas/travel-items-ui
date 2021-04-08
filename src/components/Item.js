@@ -48,8 +48,8 @@ export default function Item(props) {
                 <div style={props.item.completed ? completedStyle : null}> {props.item.text} </div>
                 <div className="media-body" style={{ marginTop: "2%" }}>
                     <h5 className="CItemButtonLeft">
-                        <span className={"badge " + (props.item.completed ? "badge-secondary" : "badge-info")} style={{ marginRight: "10px" }}>{assigneeObj.name}</span>
-                        <span className={"badge " + (props.item.completed ? "badge-secondary" : "badge-info")} style={{ marginRight: "10px" }}>{props.item.price ? (props.item.price + "€") : ""}</span>
+                        <span className={"badge " + (props.item.completed ? "badge-secondary" : "badge-info btn-1")} style={{ marginRight: "10px" }}>{assigneeObj.name}</span>
+                        <span className={"badge " + (props.item.completed ? "badge-secondary" : "badge-info btn-2")} style={{ marginRight: "10px" }}>{props.item.price ? (props.item.price + "€") : ""}</span>
                     </h5>
                     <button type="button" className="btn btn-sm CItemButtonRight" onClick={() => props.handleRemoveItem(props.item.id)}>
                         <span className="material-icons-outlined text-danger">delete</span>
