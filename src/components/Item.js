@@ -39,7 +39,7 @@ export default function Item(props) {
             <div className="mr-2 rounded">
                 <button
                     type="button"
-                    className={props.item.completed ? "btn btn-secondary btn-sm C5procTop" : "btn btn-outline-info btn-sm C5procTop disabled"}
+                    className={props.item.completed ? "btn btn-secondary btn-sm C5procTop" : "btn btn-outline-secondary btn-sm brd-1 C5procTop disabled"}
                     style={{ padding: "12px" }}
                     onClick={() => props.handleDone(props.item.id)}>
                 </button>

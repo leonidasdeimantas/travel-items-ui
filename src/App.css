@@ -95,11 +95,13 @@ input[type=number] {
   font-family: 'Montserrat', sans-serif;
   font-weight: 900;
   font-style: italic;
-  color: white;
+  background: -webkit-linear-gradient(45deg, #1d70ce, #00ff95 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .C5procTop {
-  margin-top: 5%;
+  margin-top: 3%;
 }
 
 .CItemButtonRight {
@@ -110,6 +112,18 @@ input[type=number] {
 .CItemButtonLeft {
   margin-right: 5px;
   float: left;
+}
+
+.CShareBtn {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+.CRoundBtn {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
 
 #overlay {
@@ -137,4 +151,29 @@ input[type=number] {
   line-height: 0 !important;
   position: relative;
   top: -1px;
+}
+
+.btn-1 {
+  background-color: #63c49b;
+}
+
+.brd-1 {
+  border-color: #63c49b;
+}
+
+.brd-2 {
+  border-color: #9fd8c0;
+  border-width: 4px;
+}
+
+.txt-1 {
+  color: #63c49b;
+}
+
+.ico-1 {
+  vertical-align: middle;
+  line-height: 0 !important;
+  position: relative;
+  margin-top: -2px;
+  margin-left: -4px;
 }

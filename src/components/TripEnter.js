@@ -34,7 +34,7 @@ export default function TripEnter(props) {
                                 <div className="form-group">
                                     <input className="form-control border-light bg-light" placeholder="Enter location information" ref={msgRefLocation} />
                                 </div>
-                                <button type="submit" className="btn btn-info float-right">Create trip</button>
+                                <button type="submit" className="btn btn-secondary float-right btn-1 brd-1">Create trip</button>
                             </form>
                         </div>
                     </div>
@@ -47,7 +47,7 @@ export default function TripEnter(props) {
                             <div className="input-group mb-3">
                                 <input className="form-control border-light bg-light" placeholder="Enter trip ID" ref={msgRefUrl} />
                                 <div className="input-group-append">
-                                    <button type="button" className="btn btn-info" onClick={() => openTripById(msgRefUrl.current.value)}>Open by ID</button>
+                                    <button type="button" className="btn btn-secondary btn-1 brd-1" onClick={() => openTripById(msgRefUrl.current.value)}>Open by ID</button>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@ export default function TripEnter(props) {
                                     recentsFound &&
                                     <span>
                                         <button type="button" className="btn btn-sm CItemButtonRight" onClick={() => props.handleClearRecents()}>
-                                            <span className="material-icons-outlined text-info">clear</span>
+                                            <span className="material-icons-outlined txt-1">clear</span>
                                         </button>
                                     </span>
                                 }
