@@ -22,7 +22,7 @@ export default function ItemEnter(props) {
                 <div className="mb-0 h5 text-dark">{props.tripName}<span className="text-info"></span></div>
             </blockquote>
             <form className="input-group mb-3 C5procTop" onSubmit={e => handleButton(e)}>
-                <input id="ItemEnterInputID" type="textbox" className="form-control border-white" placeholder={"Add " + props.item + "..."} ref={msgRef} />
+                <input id="ItemEnterInputID" type="textbox" className="form-control border-white" maxlength={props.item === "assignee" ? "20" : ""} placeholder={"Add " + props.item + "..."} ref={msgRef} />
                 <div className="input-group-append">
                     <input type="submit" className="btn btn-outline-secondary" value="Add" />
                 </div>
