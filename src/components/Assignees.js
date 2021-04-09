@@ -17,7 +17,7 @@ export default function Assignees(props) {
 function AssigneeItem(props) {
     return (
         <div className="p-2">
-            <button className="btn btn-info" onClick={() => props.handleRemove(props.people.id)}>{props.people.name}
+            <button className="btn btn-info btn-1 brd-1" onClick={() => props.handleRemove(props.people.id)}>{props.people.name}
                 <span style={{ marginLeft: "10px" }} aria-hidden="true">&times;</span>
             </button>
         </div>
