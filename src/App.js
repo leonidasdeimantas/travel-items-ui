@@ -9,8 +9,9 @@ import Header from './components/Header'
 import Assignees from './components/Assignees'
 import Spinner from './components/Spinner';
 
-import { getRecentTrips, storeTrip, clearRecentTrips } from './utils/LocalStorage'
+import { getRecentTrips, storeTrip, clearRecentTrips, getCurrentUser } from './utils/LocalStorage'
 import TiApi from './api/TiApi'
+import AuthApi from './api/AuthApi'
 
 
 const API_URL = 'https://deimantas.tech/ti-api'
@@ -26,18 +27,27 @@ function App(props) {
     const [tripFound, setTripFound] = useState(false);
     const [recents, setRecents] = useState({});
     const [loading, setLoading] = useState(true);
+    const [currentUser, setCurrentUser] = useState(undefined);
 
     const tiApi = new TiApi(API_URL);
+    const authApi = new AuthApi(API_URL);
 
     // onComponentMount
     useEffect(() => {
-        let newTripUrl = queryString.parse(props.location.search).tripUrl;
-        if (newTripUrl) {
-            setTripUrl(newTripUrl)
+        const user = getCurrentUser()
+        const url = queryString.parse(props.location.search).tripUrl;
+
+        if (user) {
+            setCurrentUser(user)
+        }
+
+        if (url) {
+            setTripUrl(url)
         } else {
             setPage("main")
             setLoading(false)
         }
+
         setRecents(getRecentTrips())
     }, [props]);
 
@@ -54,21 +64,24 @@ function App(props) {
         }        
 
         try {
-            let newPage = (page === "main" || page === "") ? "items" : page
-            let newItems = await tiApi.getAllTasks(tripUrl)
-            let newAssignees = await tiApi.getAllAssignees(tripUrl)
             let trip =  await tiApi.getTrip(tripUrl)
 
-            Promise.resolve()
-                .then(() => setItems(newItems))
-                .then(() => setPeople(newAssignees))
-                .then(() => setTripName(trip.name))
-                .then(() => setTripLoc(trip.location))
-                .then(() => setTripFound(true))
-                .then(() => setPage(newPage))
-                .then(() => storeTrip({ name: trip.name, url: tripUrl }))
-                .then(() => setRecents(getRecentTrips()))
-                .then(() => setLoading(false))
+            if (trip) {
+                let newPage = (page === "main" || page === "") ? "items" : page
+                let newItems = await tiApi.getAllTasks(tripUrl)
+                let newAssignees = await tiApi.getAllAssignees(tripUrl)
+    
+                Promise.resolve()
+                    .then(() => setItems(newItems))
+                    .then(() => setPeople(newAssignees))
+                    .then(() => setTripName(trip.name))
+                    .then(() => setTripLoc(trip.location))
+                    .then(() => setTripFound(true))
+                    .then(() => setPage(newPage))
+                    .then(() => storeTrip({ name: trip.name, url: tripUrl }))
+                    .then(() => setRecents(getRecentTrips()))
+                    .then(() => setLoading(false))
+            }
 
         } catch (error) {
             handleFetchError(error)

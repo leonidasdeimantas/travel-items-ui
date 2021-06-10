@@ -1,3 +1,5 @@
+import { getAuthHeader } from '../utils/LocalStorage'
+
 class TiApi {
 
     constructor(url) {
