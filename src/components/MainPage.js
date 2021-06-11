@@ -6,6 +6,9 @@ export default function TripEnter(props) {
     const msgRefUrl = useRef(null)
     const msgRefUser = useRef(null)
     const msgRefPass = useRef(null)
+    const msgRefUserReg = useRef(null)
+    const msgRefEmail = useRef(null)
+    const msgRefPassReg = useRef(null)
     let recentsFound = false;
     let list = [];
     [ list, recentsFound ] = fillRecentList(props)
@@ -24,14 +27,30 @@ export default function TripEnter(props) {
         props.handleLogin(username, password)
     }
 
+    const handleRegisterButton = (event) => {
+        event.preventDefault()
+        let username = msgRefUserReg.current.value
+        let email = msgRefEmail.current.value
+        let password = msgRefPassReg.current.value
+        props.handleRegister(username, email, password)
+    }
+
     const openTripById = (url) => { 
         window.location.href = `?tripUrl=${url}` 
+    }
+
+    const clearRegForm = () => {
+        console.log("wtf")
+        msgRefUserReg.current.value = ""
+        msgRefEmail.current.value = ""
+        msgRefPassReg.current.value = ""
+        props.handleRegStatusClear()
     }
 
     return (
         <div className="container C5procTop">
             { getWarningMessage(props.warning) &&
-                <div class="alert alert-danger" role="alert">
+                <div className="alert alert-danger" role="alert">
                     {getWarningMessage(props.warning)}
                 </div>
             }
@@ -84,8 +103,7 @@ export default function TripEnter(props) {
                                         <input className="form-control border-light bg-light" type="password" placeholder="Password" ref={msgRefPass} required />
                                     </div>
                                     <button type="submit" className="btn btn-secondary float-right btn-1 brd-1">Login</button>
-                                    
-                                    <a href="# " className="float-right"> Register </a>
+                                    <button className="btn btn-outline-secondary float-right reg-button" data-toggle="modal" data-target="#signUpModal">Sign up</button>
                                 </form>
                             </div>
                         </div>
@@ -140,6 +158,56 @@ export default function TripEnter(props) {
                     </div>
                 </div>
             </div>
+
+            <div className="modal fade" id="signUpModal" tabIndex="-1" aria-labelledby="signUpModal" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="signUpModal">Sign up form</h5>
+                        </div>
+                        <form onSubmit={e => handleRegisterButton(e)}>
+                            <div className="modal-body">
+
+                                <div>
+                                    <div className="form-group">
+                                        <input className="form-control border-light bg-light" placeholder="Username" ref={msgRefUserReg} required />
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="form-control border-light bg-light" type="email" placeholder="Email" ref={msgRefEmail} required />
+                                    </div>
+                                    <div className="form-group">
+                                        <input className="form-control border-light bg-light" type="password" placeholder="Password" ref={msgRefPassReg} required />
+                                    </div>
+                                </div>
+
+                                { props.regStatus !== "User registered successfully!" &&
+                                    <div>
+                                    { props.regStatus !== "" &&
+                                        <div className="alert alert-danger" role="alert">
+                                            {props.regStatus}
+                                        </div>
+                                    }
+                                    </div>
+                                }
+
+                                { props.regStatus === "User registered successfully!" &&
+                                    <div className="alert alert-success" role="alert">
+                                        {props.regStatus} Now you can log in.
+                                    </div>
+                                }
+
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => clearRegForm()}>Close</button>
+                                { props.regStatus !== "User registered successfully!" &&
+                                    <button type="submit" className="btn btn-secondary float-right btn-1 brd-1">Sign Up</button>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 }

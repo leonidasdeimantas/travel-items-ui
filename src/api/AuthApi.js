@@ -29,7 +29,7 @@ class AuthApi {
             body: JSON.stringify({ username: username, password: password, email: email })
         }
     
-        return await fetch(`${this.api}/signup`, requestOptions)
+        return await fetch(`${this.api}/signup`, requestOptions).then(response => response.json())
     }
 
     logout() {

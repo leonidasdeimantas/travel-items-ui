@@ -29,6 +29,7 @@ function App(props) {
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(undefined);
     const [warning, setWarning] = useState("")
+    const [regStatus, setRegStatus] = useState("")
 
     const tiApi = new TiApi(API_URL);
     const authApi = new AuthApi(API_URL);
@@ -195,6 +196,7 @@ function App(props) {
     }
 
     const handleLogin = (usr, pw) => {
+        console.log("login"+usr+pw)
         authApi.login(usr, pw).then((resp) => {
             if (resp.status === 401) {
                 setWarning("login")
@@ -206,9 +208,12 @@ function App(props) {
 
     const handleRegister = (usr, eml, pw) => {
         authApi.register(usr, eml, pw).then((resp) => {
-            console.log("Register")
-            console.log(resp)
+            setRegStatus(resp.message)
         })
+    }
+
+    const handleRegStatusClear = () => {
+        setRegStatus("")
     }
 
     const handleLogout = () => {
@@ -230,6 +235,8 @@ function App(props) {
                 <main role="main" className="container">
                     <MainPage
                         warning={warning}
+                        regStatus={regStatus}
+                        handleRegStatusClear={handleRegStatusClear}
                         currentUser={currentUser}
                         handleLogin={handleLogin}
                         handleLogout={handleLogout}
