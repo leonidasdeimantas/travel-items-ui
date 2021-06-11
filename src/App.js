@@ -14,8 +14,8 @@ import TiApi from './api/TiApi'
 import AuthApi from './api/AuthApi'
 
 
-//const API_URL = 'https://deimantas.tech/ti-api'
-const API_URL = 'http://localhost:8080'
+const API_URL = 'https://deimantas.tech/ti-api'
+//const API_URL = 'http://localhost:8080'
 
 function App(props) {
     const [items, setItems] = useState([]);
@@ -24,10 +24,12 @@ function App(props) {
     const [tripUrl, setTripUrl] = useState("");
     const [tripName, setTripName] = useState("");
     const [tripLoc, setTripLoc] = useState("");
+    const [tripPublic, setTripPublic] = useState("");
     const [tripFound, setTripFound] = useState(false);
     const [recents, setRecents] = useState({});
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(undefined);
+    const [currentUserTrips, setCurrentUserTrips] = useState({});
     const [warning, setWarning] = useState("")
     const [regStatus, setRegStatus] = useState("")
 
@@ -59,8 +61,24 @@ function App(props) {
         if (warning === "login") {
             setWarning("")
         }
+        fetchAllTrips()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
+
+    const fetchAllTrips = async () => {
+        if (currentUser) {
+            try {
+                let userTrips = await tiApi.getAllTrips()
+                setCurrentUserTrips(userTrips)
+            } catch (error) {
+                setCurrentUserTrips({})
+                handleFetchError(error)
+            }
+        } else {
+            setCurrentUserTrips({})
+        }
+    }
+
 
     const fetchAllData = async () => {
         if (tripUrl === "") {
@@ -82,6 +100,7 @@ function App(props) {
                     .then(() => setPeople(newAssignees))
                     .then(() => setTripName(trip.name))
                     .then(() => setTripLoc(trip.location))
+                    .then(() => setTripPublic(trip.public))
                     .then(() => setTripFound(true))
                     .then(() => setPage(newPage))
                     .then(() => storeTrip({ name: trip.name, url: tripUrl }))
@@ -238,6 +257,7 @@ function App(props) {
                         regStatus={regStatus}
                         handleRegStatusClear={handleRegStatusClear}
                         currentUser={currentUser}
+                        currentUserTrips={currentUserTrips}
                         handleLogin={handleLogin}
                         handleLogout={handleLogout}
                         handleRegister={handleRegister}
@@ -250,6 +270,7 @@ function App(props) {
                 (page === "items") &&
                 <main role="main" className="container">
                     <ItemEnter
+                        tripPublic={tripPublic}
                         handleAddItem={handleAddItem}
                         tripUrl={tripUrl}
                         tripName={tripName}

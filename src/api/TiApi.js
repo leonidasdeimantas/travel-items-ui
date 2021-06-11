@@ -80,6 +80,46 @@ class TiApi {
         return response
     }
 
+    async changePublicTask(url, value) {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': getAuthToken() 
+            },
+            body: JSON.stringify({ url: url, public: value})
+        }
+
+        let response = await fetch(`${this.api}/trip`, requestOptions)
+            .then(resp => resp.status)
+            .catch(error => { throw new Error(`changePublicTask error ${error}`) })
+
+        return response
+    }
+
+    async getAllTrips() {
+        const requestOptions = {
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/trip/all`, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                let trips = []
+                data.forEach(element => {
+                    let trip = {
+                        url: element.tripUrl,
+                        name: element.name,
+                        public: element.public,
+                    }
+                    trips.push(trip)
+                })
+                
+                return trips.reverse()
+            })
+            .catch(error => { throw new Error(`getAllTrips error ${error}`) })
+    }
+
     async addTask(task) {
         const requestOptions = {
             method: 'POST',

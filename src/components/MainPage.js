@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-export default function TripEnter(props) {
+export default function MainPage(props) {
     const msgRefName = useRef(null)
     const msgRefLocation = useRef(null)
     const msgRefUrl = useRef(null)
@@ -11,7 +11,13 @@ export default function TripEnter(props) {
     const msgRefPassReg = useRef(null)
     let recentsFound = false;
     let list = [];
-    [ list, recentsFound ] = fillRecentList(props)
+    let yourTripsFound = false;
+    let yourTripslist = [];
+    [ list, recentsFound ] = fillRecentList(props.recents[0])
+
+    if (props.currentUser && props.currentUserTrips && props.currentUserTrips.length > 0) {
+        [ yourTripslist, yourTripsFound ] = fillRecentList(props.currentUserTrips)
+    }
 
     const handleFormButton = (event) => {
         event.preventDefault()
@@ -125,9 +131,36 @@ export default function TripEnter(props) {
                     <br />
                 </div>
                 <div className="col-sm">
+                    { props.currentUser &&
+                        <div>
+                            <div className="card border-light box-shadow">
+                                <div className="card-header border-white bg-white">
+                                    <h4>Your trips</h4>
+                                </div>
+                                <div className="card-body">
+                                    {
+                                        yourTripsFound &&
+                                        <div style={{ borderTop: "0 none" }}>
+                                            <ul className="list-group list-group-flush">
+                                                {yourTripslist}
+                                            </ul>
+                                        </div>
+                                    }
+                                    {
+                                        !yourTripsFound &&
+                                        <p>
+                                            No trips
+                                        </p>
+                                    }
+                                    <br />
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                    }
                     <div className="card border-light box-shadow">
                         <div className="card-header border-white bg-white">
-                            <h4>Recents
+                            <h4>Recently opened
                                 {
                                     recentsFound &&
                                     <span>
@@ -150,7 +183,7 @@ export default function TripEnter(props) {
                             {
                                 !recentsFound &&
                                 <p>
-                                    No recent trips
+                                    No trips
                                 </p>
                             }
                             <br />
@@ -230,7 +263,7 @@ function fillRecentList(props) {
     let list = []
     let iterator = 0
 
-    props.recents[0].forEach(element => {
+    props.forEach(element => {
         if (element) {
             recentsFound = true
             list.push(<RecentItem
