@@ -46,7 +46,6 @@ export default function MainPage(props) {
     }
 
     const clearRegForm = () => {
-        console.log("wtf")
         msgRefUserReg.current.value = ""
         msgRefEmail.current.value = ""
         msgRefPassReg.current.value = ""
@@ -109,8 +108,8 @@ export default function MainPage(props) {
                                         <input className="form-control border-light bg-light" type="password" placeholder="Password" ref={msgRefPass} required />
                                     </div>
                                     <button type="submit" className="btn btn-secondary float-right btn-1 brd-1">Login</button>
-                                    <button className="btn btn-outline-secondary float-right reg-button" data-toggle="modal" data-target="#signUpModal">Sign up</button>
                                 </form>
+                                <button className="btn btn-outline-secondary float-right reg-button" data-toggle="modal" data-target="#signUpModal">Sign up</button>
                             </div>
                         </div>
                     }

@@ -182,6 +182,16 @@ function App(props) {
             })
     }
 
+    const handleChangePublic = () => {
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.changePublicTask(tripUrl, !tripPublic)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleUpdateItem: ${error}`))
+            })
+    }
+
     const handleDone = (id) => {
         let item = items.find(element => element.id === id)
 
@@ -215,7 +225,6 @@ function App(props) {
     }
 
     const handleLogin = (usr, pw) => {
-        console.log("login"+usr+pw)
         authApi.login(usr, pw).then((resp) => {
             if (resp.status === 401) {
                 setWarning("login")
@@ -271,6 +280,7 @@ function App(props) {
                 <main role="main" className="container">
                     <ItemEnter
                         tripPublic={tripPublic}
+                        handleChangePublic={handleChangePublic}
                         handleAddItem={handleAddItem}
                         tripUrl={tripUrl}
                         tripName={tripName}
