@@ -4,7 +4,7 @@ import './App.css';
 
 import ItemList from './components/ItemList'
 import ItemEnter from './components/ItemEnter'
-import TripEnter from './components/TripEnter'
+import MainPage from './components/MainPage'
 import Header from './components/Header'
 import Assignees from './components/Assignees'
 import Spinner from './components/Spinner';
@@ -14,8 +14,8 @@ import TiApi from './api/TiApi'
 import AuthApi from './api/AuthApi'
 
 
-const API_URL = 'https://deimantas.tech/ti-api'
-//const API_URL = 'http://localhost:8080'
+//const API_URL = 'https://deimantas.tech/ti-api'
+const API_URL = 'http://localhost:8080'
 
 function App(props) {
     const [items, setItems] = useState([]);
@@ -28,19 +28,17 @@ function App(props) {
     const [recents, setRecents] = useState({});
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(undefined);
+    const [warning, setWarning] = useState("")
 
     const tiApi = new TiApi(API_URL);
     const authApi = new AuthApi(API_URL);
 
     // onComponentMount
     useEffect(() => {
-        const user = getCurrentUser()
+        setCurrentUser(getCurrentUser())
+        setWarning("")
+
         const url = queryString.parse(props.location.search).tripUrl;
-
-        if (user) {
-            setCurrentUser(user)
-        }
-
         if (url) {
             setTripUrl(url)
         } else {
@@ -55,6 +53,13 @@ function App(props) {
         fetchAllData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tripUrl]);
+
+    useEffect(() => {
+        if (warning === "login") {
+            setWarning("")
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser]);
 
     const fetchAllData = async () => {
         if (tripUrl === "") {
@@ -81,6 +86,7 @@ function App(props) {
                     .then(() => storeTrip({ name: trip.name, url: tripUrl }))
                     .then(() => setRecents(getRecentTrips()))
                     .then(() => setLoading(false))
+                    .then(() => setWarning(""))
             }
 
         } catch (error) {
@@ -184,7 +190,30 @@ function App(props) {
         setPage("main")
         setTripFound(false)
         setLoading(false)
+        setWarning("trip")
         console.log("Can't fetch data: " + error)
+    }
+
+    const handleLogin = (usr, pw) => {
+        authApi.login(usr, pw).then((resp) => {
+            if (resp.status === 401) {
+                setWarning("login")
+            } else {
+                setCurrentUser(getCurrentUser())
+            }
+        })
+    }
+
+    const handleRegister = (usr, eml, pw) => {
+        authApi.register(usr, eml, pw).then((resp) => {
+            console.log("Register")
+            console.log(resp)
+        })
+    }
+
+    const handleLogout = () => {
+        authApi.logout()
+        setCurrentUser(getCurrentUser())
     }
 
     return (
@@ -199,7 +228,12 @@ function App(props) {
             {
                 (page === "main") &&
                 <main role="main" className="container">
-                    <TripEnter
+                    <MainPage
+                        warning={warning}
+                        currentUser={currentUser}
+                        handleLogin={handleLogin}
+                        handleLogout={handleLogout}
+                        handleRegister={handleRegister}
                         handleAddTrip={handleAddTrip}
                         handleClearRecents={handleClearRecents}
                         recents={[recents]} />

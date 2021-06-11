@@ -11,7 +11,7 @@ export const getRecentTrips = () => {
     } catch (error) {
         console.error(`Error getting ${KEY_RECENTS} from localStorage`, error)
     }
-};
+}
 
 export const storeTrip = (item) => {
     if (!localStorage) return
@@ -38,34 +38,33 @@ export const storeTrip = (item) => {
     } catch (error) {
         console.error(`Error storing ${KEY_RECENTS} to localStorage`, error)
     }
-};
+}
 
 export const clearRecentTrips = () => {
     if (!localStorage) return
     localStorage.clear()
-};
+}
 
 export const saveUser = (userData) => {
     if (!localStorage) return
     localStorage.setItem(KEY_USER, userData)
-};
+}
 
 export const removeUser = () => {
     if (!localStorage) return
     localStorage.removeItem(KEY_USER)
-};
+}
 
 export const getCurrentUser = () => {
     if (!localStorage) return undefined
     return JSON.parse(localStorage.getItem(KEY_USER))
-};
+}
 
-export const getAuthHeader = () => {
-    const user = getCurrentUser();
+export const getAuthToken = () => {
+    const user = getCurrentUser()
 
-    if (user && user.accessToken) {
-        return { Authorization: 'Bearer ' + user.accessToken };
-    } else {
-        return {};
+    if (user) {
+        return 'Bearer ' + user.accessToken
     }
+    return ''
 }

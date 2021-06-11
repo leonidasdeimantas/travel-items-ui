@@ -1,4 +1,4 @@
-import { getAuthHeader } from '../utils/LocalStorage'
+import { getAuthToken } from '../utils/LocalStorage'
 
 class TiApi {
 
@@ -7,13 +7,21 @@ class TiApi {
     }
 
     async getTrip(tripUrl) {
-        return await fetch(`${this.api}/trip?tripUrl=${tripUrl}`)
+        const requestOptions = {
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/trip?tripUrl=${tripUrl}`, requestOptions)
             .then(response => response.json())
             .catch(error => { throw new Error(`getTrip error ${error}`) })
     }
 
     async getAllTasks(tripUrl) {
-        return await fetch(`${this.api}/task/all?tripUrl=${tripUrl}`)
+        const requestOptions = {
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/task/all?tripUrl=${tripUrl}`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 let tasks = []
@@ -34,7 +42,11 @@ class TiApi {
     }
 
     async getAllAssignees(tripUrl) {
-        return await fetch(`${this.api}/assignee/all?tripUrl=${tripUrl}`)
+        const requestOptions = {
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/assignee/all?tripUrl=${tripUrl}`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 let assignees = []
@@ -54,7 +66,10 @@ class TiApi {
     async addTrip(trip) {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': getAuthToken() 
+            },
             body: JSON.stringify(trip)
         }
 
@@ -68,7 +83,10 @@ class TiApi {
     async addTask(task) {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': getAuthToken() 
+            },
             body: JSON.stringify(task)
         }
 
@@ -82,7 +100,10 @@ class TiApi {
     async updateTask(task) {
         const requestOptions = {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': getAuthToken() 
+            },
             body: JSON.stringify(task)
         }
 
@@ -94,14 +115,22 @@ class TiApi {
     }
 
     async deleteTask(tripUrl, taskId) {
-        return await fetch(`${this.api}/task?tripUrl=${tripUrl}&taskId=${taskId}`, { method: 'DELETE' })
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/task?tripUrl=${tripUrl}&taskId=${taskId}`, requestOptions)
             .catch(error => { throw new Error(`deleteTask error ${error}`) })
     }
 
     async addAssignee(assignee) {
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': getAuthToken() 
+            },
             body: JSON.stringify(assignee)
         }
 
@@ -113,7 +142,12 @@ class TiApi {
     }
 
     async deleteAssignee(tripUrl, assigneeId) {
-        return await fetch(`${this.api}/assignee?tripUrl=${tripUrl}&assigneeId=${assigneeId}`, { method: 'DELETE' })
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/assignee?tripUrl=${tripUrl}&assigneeId=${assigneeId}`, requestOptions)
             .catch(error => { throw new Error(`deleteAssignee error ${error}`) })
     }
 }

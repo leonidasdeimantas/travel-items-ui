@@ -13,11 +13,12 @@ class AuthApi {
         }
 
         return await fetch(`${this.api}/signin`, requestOptions)
-            .then(resp => {
-                if (resp.data.accessToken) {
-                    saveUser(JSON.stringify(resp.data))
+            .then(response => response.json())
+            .then(data => {
+                if (data.accessToken) {
+                    saveUser(JSON.stringify(data))
                 }
-                return resp.data
+                return data
             });
     }
 
