@@ -39,7 +39,6 @@ function App(props) {
 
     // onComponentMount
     useEffect(() => {
-        console.log("wat")
         setCurrentUser(getCurrentUser())
         setWarning("")
 
