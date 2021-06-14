@@ -42,7 +42,7 @@ export const storeTrip = (item) => {
 
 export const clearRecentTrips = () => {
     if (!localStorage) return
-    localStorage.clear()
+    KEY_RECENTS.forEach(key => localStorage.removeItem(key))
 }
 
 export const saveUser = (userData) => {
