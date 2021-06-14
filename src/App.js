@@ -8,6 +8,7 @@ import MainPage from './components/MainPage'
 import Header from './components/Header'
 import Assignees from './components/Assignees'
 import Spinner from './components/Spinner';
+import Settings from './components/Settings'
 
 import { getRecentTrips, storeTrip, clearRecentTrips, getCurrentUser } from './utils/LocalStorage'
 import TiApi from './api/TiApi'
@@ -38,6 +39,7 @@ function App(props) {
 
     // onComponentMount
     useEffect(() => {
+        console.log("wat")
         setCurrentUser(getCurrentUser())
         setWarning("")
 
@@ -50,7 +52,8 @@ function App(props) {
         }
 
         setRecents(getRecentTrips())
-    }, [props]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         fetchAllData();
@@ -66,17 +69,20 @@ function App(props) {
     }, [currentUser]);
 
     const fetchAllTrips = async () => {
+        let userTrips = {}
+
         if (currentUser) {
             try {
-                let userTrips = await tiApi.getAllTrips()
-                setCurrentUserTrips(userTrips)
+                setLoading(true)
+                userTrips = await tiApi.getAllTrips()
             } catch (error) {
-                setCurrentUserTrips({})
+                userTrips = {}
                 handleFetchError(error)
             }
-        } else {
-            setCurrentUserTrips({})
         }
+        Promise.resolve()
+            .then(() => setCurrentUserTrips(userTrips))
+            .then(() => setLoading(false))
     }
 
 
@@ -192,6 +198,19 @@ function App(props) {
             })
     }
 
+    const handleDeleteTrip = () => {
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.deleteTrip(tripUrl)
+                    .then(() => fetchAllTrips())
+                    .then(() => setTripFound(false))
+                    .then(() => setPage("main"))
+                    .then(() => setLoading(false))
+                    .catch(error => handleFetchError(`handleDeleteTrip: ${error}`))
+            })
+    }
+
     const handleDone = (id) => {
         let item = items.find(element => element.id === id)
 
@@ -280,6 +299,17 @@ function App(props) {
                 </main>
             }
             {
+                (page === "settings") &&
+                <main role="main" className="container">
+                    <Settings 
+                        tripUrl={tripUrl}
+                        tripPublic={tripPublic}
+                        handleChangePublic={handleChangePublic}
+                        handleDeleteTrip={handleDeleteTrip}
+                    />
+                </main>
+            }
+            {
                 (page === "items") &&
                 <main role="main" className="container">
                     <ItemEnter
@@ -306,6 +336,8 @@ function App(props) {
                 (page === "people") &&
                 <main role="main" className="container">
                     <ItemEnter
+                        tripPublic={tripPublic}
+                        handleChangePublic={handleChangePublic}
                         handleAddItem={handleAddAssignee}
                         tripUrl={tripUrl}
                         tripName={tripName}

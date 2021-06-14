@@ -190,6 +190,16 @@ class TiApi {
         return await fetch(`${this.api}/assignee?tripUrl=${tripUrl}&assigneeId=${assigneeId}`, requestOptions)
             .catch(error => { throw new Error(`deleteAssignee error ${error}`) })
     }
+
+    async deleteTrip(tripUrl) {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/trip?tripUrl=${tripUrl}`, requestOptions)
+            .catch(error => { throw new Error(`deleteTrip error ${error}`) })
+    }
 }
 
 export default TiApi;

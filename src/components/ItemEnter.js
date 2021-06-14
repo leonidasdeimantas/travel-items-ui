@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { copyToClipboard } from '../utils/Utils'
 
 export default function ItemEnter(props) {
     const msgRef = useRef(null)
@@ -21,10 +22,10 @@ export default function ItemEnter(props) {
             <blockquote className="blockquote text-center">
                 <div className="mb-0 h5 text-dark">{props.tripName}<span className="text-info"></span>
                 { props.tripPublic &&
-                    <span className="badge badge-info" style={{ marginLeft: "10px" }} onClick={() => props.handleChangePublic()}>Public</span>
+                    <span className="badge badge-pill badge-info" style={{ marginLeft: "10px" }}>Public</span>
                 }
                 { !props.tripPublic &&
-                    <span className="badge badge-secondary" style={{ marginLeft: "10px" }} onClick={() => props.handleChangePublic()}>Private</span>
+                    <span className="badge badge-pill badge-secondary" style={{ marginLeft: "10px" }}>Private</span>
                 }
                 </div>
             </blockquote>
@@ -48,27 +49,4 @@ export default function ItemEnter(props) {
             }
         </div>
     );
-}
-
-function copyToClipboard(text) {
-    if (window.clipboardData && window.clipboardData.setData) {
-        return window.clipboardData.setData("Text", text);
-    }
-    else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
-        var textarea = document.createElement("textarea");
-        textarea.textContent = text;
-        textarea.style.position = "fixed";
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-            return document.execCommand("copy");
-        }
-        catch (ex) {
-            console.warn("Copy to clipboard failed.", ex);
-            return false;
-        }
-        finally {
-            document.body.removeChild(textarea);
-        }
-    }
 }

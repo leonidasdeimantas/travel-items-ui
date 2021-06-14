@@ -78,7 +78,7 @@ export default function MainPage(props) {
                             <br />
                             <div className="card border-light box-shadow">
                                 <div className="card-header border-white bg-white">
-                                    <h4>Add new trip</h4>
+                                    <h4>Create new trip</h4>
                                 </div>
                                 <div className="card-body">
                                     <form onSubmit={e => handleFormButton(e)}>
