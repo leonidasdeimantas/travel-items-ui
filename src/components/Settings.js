@@ -13,25 +13,25 @@ export default function Settings(props) {
                 <div className="col-sm">
                     <div className="card border-light box-shadow">
                         <div className="card-header border-white bg-white">
-                            <h4>Sharing settings</h4>
+                            <h4>Sharing</h4>
                         </div>
                         <div className="card-body">
                             { props.tripPublic &&
                                 <div>
-                                    <div class="row">
-                                        <div class="col-sm-8">
+                                    <div className="row">
+                                        <div className="col-6">
                                             This trip is public
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div className="col-6">
                                             <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePublic()}>Make private</button>
                                         </div>
                                     </div>
                                     <br />
-                                    <div class="row">
-                                        <div class="col-sm-8">
+                                    <div className="row">
+                                        <div className="col-8">
                                             You can share this trip by sending ID or link to your friends
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div className="col-4">
                                             <div className="dropdown">
                                                 <button className="btn btn-outline-info btn-sm float-right" type="button" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Share
@@ -47,9 +47,13 @@ export default function Settings(props) {
 
                             }
                             { !props.tripPublic &&
-                                <div>
-                                    This trip is private
-                                    <button className="btn btn-outline-info btn-sm float-right" onClick={() => props.handleChangePublic()}>Make public</button>
+                                <div className="row">
+                                    <div className="col-6">
+                                        This trip is private
+                                    </div>
+                                    <div className="col-6">
+                                        <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePublic()}>Make public</button>
+                                    </div>
                                 </div>
                             }
 
@@ -63,8 +67,14 @@ export default function Settings(props) {
                             <h4>General</h4>
                         </div>
                         <div className="card-body">
-                            Delete trip
-                            <button className="btn btn-outline-danger btn-sm float-right" onClick={() => props.handleDeleteTrip()}><span className="material-icons-outlined mr-1">delete_forever</span></button>
+                            <div className="row">
+                                <div className="col-8">
+                                    Delete trip
+                                </div>
+                                <div className="col-4">
+                                <button className="btn btn-outline-danger btn-sm float-right" onClick={() => props.handleDeleteTrip()}><span className="material-icons-outlined mr-1">delete_forever</span></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br />
