@@ -11,7 +11,7 @@ export default function TripHeader(props) {
                             <h4>{props.tripName}</h4>
                             <p className="mb-0 h5 text-dark">
                             { props.tripPublic &&
-                                <span className="badge badge-pill badge-info" style={{ marginLeft: "10px" }}>Public</span>
+                                <span className="badge badge-pill badge-info btn-1" style={{ marginLeft: "10px" }}>Public</span> 
                             }
                             { !props.tripPublic &&
                                 <span className="badge badge-pill badge-secondary" style={{ marginLeft: "10px" }}>Private</span>

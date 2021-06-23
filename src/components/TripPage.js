@@ -29,8 +29,8 @@ export default function TripPage(props) {
                                     Number of items
                                 </div>
                                 <div className="col-4 d-flex flex-row-reverse">
-                                    <button className="btn btn-outline-info btn-sm float-right" onClick={() => props.handleChangePage("items")}>Add</button>
-                                    <h5><span class="badge badge-info" style={{marginRight:"20px"}}>{props.items.length}</span></h5>
+                                    <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePage("items")}>Add</button>
+                                    <h5><span class="badge badge-info btn-1" style={{marginRight:"20px"}}>{props.items.length}</span></h5>
                                 </div>
                             </div>
                             <hr class="my-2"></hr>
@@ -39,8 +39,8 @@ export default function TripPage(props) {
                                     Number of people
                                 </div>
                                 <div className="col-4 d-flex flex-row-reverse">
-                                    <button className="btn btn-outline-info btn-sm float-right" onClick={() => props.handleChangePage("people")}>Add</button>
-                                    <h5><span class="badge badge-info" style={{marginRight:"20px"}}>{props.items.length}</span></h5>
+                                    <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePage("people")}>Add</button>
+                                    <h5><span class="badge badge-info btn-1" style={{marginRight:"20px"}}>{props.items.length}</span></h5>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@ export default function TripPage(props) {
                                     <div>
                                         <div className="row">
                                             <div className="col-6">
-                                                This trip is public
+                                                This trip is public <span class="material-icons-outlined txt-1">public</span>
                                             </div>
                                             <div className="col-6">
                                                 <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePublic()}>Make private</button>
@@ -93,7 +93,7 @@ export default function TripPage(props) {
                                             </div>
                                             <div className="col-4">
                                                 <div className="dropdown">
-                                                    <button className="btn btn-outline-info btn-sm float-right" type="button" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <button className="btn btn-outline-secondary btn-sm float-right txt-1 brd-1" type="button" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         Share
                                                     </button>
                                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -109,7 +109,7 @@ export default function TripPage(props) {
                                 { !props.tripPublic &&
                                     <div className="row">
                                         <div className="col-6">
-                                            This trip is private
+                                            This trip is private <span class="material-icons-outlined text-secondary">lock</span>
                                         </div>
                                         <div className="col-6">
                                             <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePublic()}>Make public</button>
