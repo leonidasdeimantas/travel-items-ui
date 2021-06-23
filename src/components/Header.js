@@ -11,7 +11,10 @@ export default function Header(props) {
                 <div className="nav-scroller bg-white box-shadow">
                     <nav className="nav nav-underline">
                         <a className={"nav-link " + (props.page === "main" ? "active" : "")} href="# " onClick={() => props.handleChangePage("main")}>
-                            Main
+                            <span className="material-icons-outlined text-secondary">home</span>
+                        </a>
+                        <a className={"nav-link " + (props.page === "trip" ? "active" : "")} href="# " onClick={() => props.handleChangePage("trip")}>
+                            Trip
                         </a>
                         <a className={"nav-link " + (props.page === "items" ? "active" : "")} href="# " onClick={() => props.handleChangePage("items")}>
                             Items
@@ -21,12 +24,6 @@ export default function Header(props) {
                             People
                             <span className="badge badge-pill bg-light align-text-bottom">{props.peopleCnt}</span>
                         </a>
-                        {
-                            (props.tripOwner) &&
-                            <a className={"nav-link " + (props.page === "settings" ? "active" : "")} href="# " onClick={() => props.handleChangePage("settings")}>
-                                Settings
-                            </a>
-                        }
                     </nav>
                 </div>
             }

@@ -8,7 +8,7 @@ import MainPage from './components/MainPage'
 import Header from './components/Header'
 import Assignees from './components/Assignees'
 import Spinner from './components/Spinner';
-import Settings from './components/Settings'
+import TripPage from './components/TripPage'
 
 import { getRecentTrips, storeTrip, clearRecentTrips, getCurrentUser } from './utils/LocalStorage'
 import TiApi from './api/TiApi'
@@ -108,7 +108,7 @@ function App(props) {
             let trip =  await tiApi.getTrip(tripUrl)
 
             if (trip) {
-                let newPage = (page === "main" || page === "") ? "items" : page
+                let newPage = (page === "main" || page === "") ? "trip" : page
                 let newItems = await tiApi.getAllTasks(tripUrl)
                 let newAssignees = await tiApi.getAllAssignees(tripUrl)
     
@@ -298,7 +298,6 @@ function App(props) {
                 peopleCnt={people.length}
                 page={page}
                 tripFound={tripFound}
-                tripOwner={tripOwner}
                 handleChangePage={handleChangePage}
             />
             {
@@ -319,10 +318,15 @@ function App(props) {
                 </main>
             }
             {
-                (page === "settings") &&
+                (page === "trip") &&
                 <main role="main" className="container">
-                    <Settings 
+                    <TripPage 
+                        items={items}
+                        handleChangePage={handleChangePage}
+                        peopleCnt={people.length}
+                        tripOwner={tripOwner}
                         tripUrl={tripUrl}
+                        tripName={tripName}
                         tripPublic={tripPublic}
                         handleChangePublic={handleChangePublic}
                         handleDeleteTrip={handleDeleteTrip}
