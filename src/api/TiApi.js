@@ -90,7 +90,7 @@ class TiApi {
         return response
     }
 
-    async changePublicTask(url, value) {
+    async changePublicTrip(url, value) {
         const requestOptions = {
             method: 'PUT',
             headers: { 
@@ -106,7 +106,28 @@ class TiApi {
                 this.checkForErrors(data)
                 return data
             })
-            .catch(error => { throw new Error(`changePublicTask error ${error}`) })
+            .catch(error => { throw new Error(`changePublicTrip error ${error}`) })
+
+        return response
+    }
+
+    async changeLocationTrip(url, value) {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': getAuthToken() 
+            },
+            body: JSON.stringify({ url: url, location: value})
+        }
+
+        let response = await fetch(`${this.api}/trip/loc`, requestOptions)
+            .then(resp => resp.status)
+            .then(data => {
+                this.checkForErrors(data)
+                return data
+            })
+            .catch(error => { throw new Error(`changeLocationTrip error ${error}`) })
 
         return response
     }

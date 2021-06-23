@@ -11,7 +11,7 @@ export default function Header(props) {
                 <div className="nav-scroller bg-white box-shadow">
                     <nav className="nav nav-underline">
                         <a className={"nav-link " + (props.page === "main" ? "active" : "")} href="# " onClick={() => props.handleChangePage("main")}>
-                            <span className="material-icons-outlined text-secondary">home</span>
+                            <span className="material-icons-outlined">home</span>
                         </a>
                         <a className={"nav-link " + (props.page === "trip" ? "active" : "")} href="# " onClick={() => props.handleChangePage("trip")}>
                             Trip

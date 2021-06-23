@@ -187,3 +187,9 @@ input[type=number] {
 .reg-button {
   margin-right: 10px;
 }
+
+.nav-link-2 {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: .875rem;
+}

@@ -204,7 +204,17 @@ function App(props) {
         Promise.resolve()
             .then(() => { setLoading(true) })
             .then(() => {
-                tiApi.changePublicTask(tripUrl, !tripPublic)
+                tiApi.changePublicTrip(tripUrl, !tripPublic)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleUpdateItem: ${error}`))
+            })
+    }
+
+    const handleChangeLocation = (location) => {
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.changeLocationTrip(tripUrl, location)
                     .then(() => { fetchAllData() })
                     .catch(error => handleFetchError(`handleUpdateItem: ${error}`))
             })
@@ -328,7 +338,9 @@ function App(props) {
                         tripUrl={tripUrl}
                         tripName={tripName}
                         tripPublic={tripPublic}
+                        tripLoc={tripLoc}
                         handleChangePublic={handleChangePublic}
+                        handleChangeLocation={handleChangeLocation}
                         handleDeleteTrip={handleDeleteTrip}
                     />
                 </main>
