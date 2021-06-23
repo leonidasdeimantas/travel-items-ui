@@ -13,6 +13,10 @@ class TiApi {
 
         return await fetch(`${this.api}/trip?tripUrl=${tripUrl}`, requestOptions)
             .then(response => response.json())
+            .then(data => {
+                this.checkForErrors(data)
+                return data
+            })
             .catch(error => { throw new Error(`getTrip error ${error}`) })
     }
 
@@ -24,6 +28,7 @@ class TiApi {
         return await fetch(`${this.api}/task/all?tripUrl=${tripUrl}`, requestOptions)
             .then(response => response.json())
             .then(data => {
+                this.checkForErrors(data)
                 let tasks = []
                 data.forEach(element => {
                     let task = {
@@ -49,6 +54,7 @@ class TiApi {
         return await fetch(`${this.api}/assignee/all?tripUrl=${tripUrl}`, requestOptions)
             .then(response => response.json())
             .then(data => {
+                this.checkForErrors(data)
                 let assignees = []
                 data.forEach(element => {
                     let assignee = {
@@ -75,6 +81,10 @@ class TiApi {
 
         let response = await fetch(`${this.api}/trip`, requestOptions)
             .then(resp => resp.json())
+            .then(data => {
+                this.checkForErrors(data)
+                return data
+            })
             .catch(error => { throw new Error(`addTrip error ${error}`) })
 
         return response
@@ -92,12 +102,16 @@ class TiApi {
 
         let response = await fetch(`${this.api}/trip`, requestOptions)
             .then(resp => resp.status)
+            .then(data => {
+                this.checkForErrors(data)
+                return data
+            })
             .catch(error => { throw new Error(`changePublicTask error ${error}`) })
 
         return response
     }
 
-    async getAllTrips() {
+    async  getAllTrips() {
         const requestOptions = {
             headers: { 'Authorization': getAuthToken() }
         }
@@ -105,6 +119,7 @@ class TiApi {
         return await fetch(`${this.api}/trip/all`, requestOptions)
             .then(response => response.json())
             .then(data => {
+                this.checkForErrors(data)
                 let trips = []
                 data.forEach(element => {
                     let trip = {
@@ -132,6 +147,10 @@ class TiApi {
 
         let response = await fetch(`${this.api}/task`, requestOptions)
             .then(resp => resp.status)
+            .then(data => {
+                this.checkForErrors(data)
+                return data
+            })
             .catch(error => { throw new Error(`addTask error ${error}`) })
 
         return response
@@ -176,6 +195,10 @@ class TiApi {
 
         let response = await fetch(`${this.api}/assignee`, requestOptions)
             .then(resp => resp.status)
+            .then(data => {
+                this.checkForErrors(data)
+                return data
+            })
             .catch(error => { throw new Error(`addAssignee error ${error}`) })
 
         return response
@@ -199,6 +222,14 @@ class TiApi {
 
         return await fetch(`${this.api}/trip?tripUrl=${tripUrl}`, requestOptions)
             .catch(error => { throw new Error(`deleteTrip error ${error}`) })
+    }
+
+    checkForErrors(resp) {
+        if (typeof resp.status != "undefined") {
+            if (resp.status === 401) {
+                throw new Error("Unauthorized")
+            }
+        }
     }
 }
 

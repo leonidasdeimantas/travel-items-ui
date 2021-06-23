@@ -281,6 +281,8 @@ function getWarningMessage(warning) {
         return "Can't login, please check username and password"
     } else if (warning === "trip") {
         return "Can't find requested trip, please check trip ID or make it public"
+    } else if (warning === "acc") {
+        return "Unauthorized, please login"
     }
     return null
 }

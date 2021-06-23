@@ -27,6 +27,7 @@ function App(props) {
     const [tripLoc, setTripLoc] = useState("");
     const [tripPublic, setTripPublic] = useState("");
     const [tripFound, setTripFound] = useState(false);
+    const [tripOwner, setTripOwner] = useState(false);
     const [recents, setRecents] = useState({});
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(undefined);
@@ -66,6 +67,17 @@ function App(props) {
         fetchAllTrips()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
+
+    useEffect(() => {
+        setTripOwner(false)
+        if  (currentUserTrips.length > 0) {
+            currentUserTrips.forEach(t => {
+                if (t.url === tripUrl) {
+                    setTripOwner(true)
+                }
+            })
+        }
+    }, [currentUserTrips, tripUrl]);
 
     const fetchAllTrips = async () => {
         let userTrips = {}
@@ -112,6 +124,7 @@ function App(props) {
                     .then(() => setRecents(getRecentTrips()))
                     .then(() => setLoading(false))
                     .then(() => setWarning(""))
+
             }
 
         } catch (error) {
@@ -235,11 +248,16 @@ function App(props) {
     }
 
     const handleFetchError = (error) => {
+        if (error.message.includes("Unauthorized")) {
+            handleLogout()
+            setWarning("acc")
+        } else {
+            setWarning("trip")
+        }
         setPage("main")
         setTripFound(false)
         setLoading(false)
-        setWarning("trip")
-        console.log("Can't fetch data: " + error)
+        console.log("Can't fetch data: " + error.message)
     }
 
     const handleLogin = (usr, pw) => {
@@ -248,6 +266,7 @@ function App(props) {
                 setWarning("login")
             } else {
                 setCurrentUser(getCurrentUser())
+                setWarning("")
             }
         })
     }
@@ -269,6 +288,7 @@ function App(props) {
     const handleLogout = () => {
         authApi.logout()
         setCurrentUser(getCurrentUser())
+        setTripFound(false)
     }
 
     return (
@@ -278,6 +298,7 @@ function App(props) {
                 peopleCnt={people.length}
                 page={page}
                 tripFound={tripFound}
+                tripOwner={tripOwner}
                 handleChangePage={handleChangePage}
             />
             {

@@ -21,9 +21,12 @@ export default function Header(props) {
                             People
                             <span className="badge badge-pill bg-light align-text-bottom">{props.peopleCnt}</span>
                         </a>
-                        <a className={"nav-link " + (props.page === "settings" ? "active" : "")} href="# " onClick={() => props.handleChangePage("settings")}>
-                            Settings
-                        </a>
+                        {
+                            (props.tripOwner) &&
+                            <a className={"nav-link " + (props.page === "settings" ? "active" : "")} href="# " onClick={() => props.handleChangePage("settings")}>
+                                Settings
+                            </a>
+                        }
                     </nav>
                 </div>
             }
