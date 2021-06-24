@@ -69,6 +69,31 @@ class TiApi {
             .catch(error => { throw new Error(`getAllAssignees error ${error}`) })
     }
 
+    async getAllNotes(tripUrl) {
+        const requestOptions = {
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/notes/all?tripUrl=${tripUrl}`, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.checkForErrors(data)
+                let notes = []
+                data.forEach(element => {
+                    let note = {
+                        id: element.id,
+                        note: element.note,
+                        time: element.time,
+                        name: element.userName
+                    }
+                    notes.push(note)
+                })
+                console.log(notes)
+                return notes.reverse()
+            })
+            .catch(error => { throw new Error(`getAllNotes error ${error}`) })
+    }
+
     async addTrip(trip) {
         const requestOptions = {
             method: 'POST',
@@ -233,6 +258,37 @@ class TiApi {
 
         return await fetch(`${this.api}/assignee?tripUrl=${tripUrl}&assigneeId=${assigneeId}`, requestOptions)
             .catch(error => { throw new Error(`deleteAssignee error ${error}`) })
+    }
+
+    async addNote(note) {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': getAuthToken() 
+            },
+            body: JSON.stringify(note)
+        }
+
+        let response = await fetch(`${this.api}/notes`, requestOptions)
+            .then(resp => resp.status)
+            .then(data => {
+                this.checkForErrors(data)
+                return data
+            })
+            .catch(error => { throw new Error(`addNote error ${error}`) })
+
+        return response
+    }
+
+    async deleteNote(tripUrl, noteId) {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/notes?tripUrl=${tripUrl}&noteId=${noteId}`, requestOptions)
+            .catch(error => { throw new Error(`deleteNote error ${error}`) })
     }
 
     async deleteTrip(tripUrl) {

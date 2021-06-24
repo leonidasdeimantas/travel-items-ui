@@ -21,6 +21,7 @@ const API_URL = 'https://deimantas.tech/ti-api'
 function App(props) {
     const [items, setItems] = useState([]);
     const [people, setPeople] = useState([]);
+    const [notes, setNotes] = useState([]);
     const [page, setPage] = useState("");
     const [tripUrl, setTripUrl] = useState("");
     const [tripName, setTripName] = useState("");
@@ -111,10 +112,12 @@ function App(props) {
                 let newPage = (page === "main" || page === "") ? "trip" : page
                 let newItems = await tiApi.getAllTasks(tripUrl)
                 let newAssignees = await tiApi.getAllAssignees(tripUrl)
+                let newNotes = await tiApi.getAllNotes(tripUrl)
     
                 Promise.resolve()
                     .then(() => setItems(newItems))
                     .then(() => setPeople(newAssignees))
+                    .then(() => setNotes(newNotes))
                     .then(() => setTripName(trip.name))
                     .then(() => setTripLoc(trip.location))
                     .then(() => setTripPublic(trip.public))
@@ -197,6 +200,28 @@ function App(props) {
                 tiApi.deleteAssignee(tripUrl, id)
                     .then(() => { fetchAllData() })
                     .catch(error => handleFetchError(`handleRemoveAssingee: ${error}`))
+            })
+    }
+
+    const handleAddNote = (text) => {
+        let newNote = { note: text, tripUrl: tripUrl }
+
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.addNote(newNote)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleAddNote: ${error}`))
+            })
+    }
+
+    const handleRemoveNote = (id) => {
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.deleteNote(tripUrl, id)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleRemoveNote: ${error}`))
             })
     }
 
@@ -332,6 +357,7 @@ function App(props) {
                 <main role="main" className="container">
                     <TripPage 
                         items={items}
+                        notes={notes}
                         handleChangePage={handleChangePage}
                         peopleCnt={people.length}
                         tripOwner={tripOwner}
@@ -342,6 +368,8 @@ function App(props) {
                         handleChangePublic={handleChangePublic}
                         handleChangeLocation={handleChangeLocation}
                         handleDeleteTrip={handleDeleteTrip}
+                        handleAddNote={handleAddNote}
+                        handleRemoveNote={handleRemoveNote}
                     />
                 </main>
             }

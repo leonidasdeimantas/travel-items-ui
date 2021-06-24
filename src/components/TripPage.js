@@ -5,6 +5,7 @@ import TripHeader from '../components/TripHeader';
 
 export default function TripPage(props) {
     const msgRefLocation = useRef(null)
+    const msgRefNote = useRef(null)
 
     const handleCopyUrl = () => { copyToClipboard(window.location.href) }
     const handleCopyID = () => { copyToClipboard(props.tripUrl) }
@@ -13,6 +14,17 @@ export default function TripPage(props) {
         let location = msgRefLocation.current.value
         props.handleChangeLocation(location)
     }
+
+    const handleNoteButton = () => {
+        let note = msgRefNote.current.value
+        props.handleAddNote(note)
+    }
+
+    const list_notes = props.notes.map(note => <NotesItem
+        key={note.id}
+        note={note}
+        remove={props.handleRemoveNote}
+    />)
 
 
     return (
@@ -65,16 +77,7 @@ export default function TripPage(props) {
                         </div>
                         <div className="card-body">
                             <ul className="list-group">
-                                <li href="#" className="list-group-item list-group-item-action flex-column align-items-start">
-                                    <div className="d-flex w-100 justify-content-between">
-                                        <p className="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                        <p><span className="material-icons-outlined">close</span></p>
-                                    </div>
-                                    <div className="d-flex w-100 justify-content-between">
-                                        <small className="font-weight-bold">Donec id elit non mi porta.</small>
-                                        <small>3 days ago</small>
-                                    </div>
-                                </li>
+                                {list_notes}
                             </ul>
                         </div>
                         <br />
@@ -202,6 +205,44 @@ export default function TripPage(props) {
                 </div>
             </div>
 
+            <div className="modal fade" id="NotesModal" tabIndex="-1" aria-labelledby="NotesModal" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="NotesModal">Add note</h5>
+                        </div>
+                        <div className="modal-body">
+
+                                <div className="form-group">
+                                    <textarea className="form-control border-light bg-light" maxLength="250" placeholder="Note" ref={msgRefNote} required />
+                                </div>
+
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-secondary float-right btn-1 brd-1" data-dismiss="modal" onClick={() => handleNoteButton()}>Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+    );
+}
+
+function NotesItem(props) {
+    let date = new Date(props.note.time)
+
+    return (
+        <li href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+            <div className="d-flex w-100 justify-content-between">
+                <p className="mb-1 text-break">{props.note.note}</p>
+                <p><span className="material-icons-outlined" onClick={() => props.remove(props.note.id)}>close</span></p>
+            </div>
+            <div className="d-flex w-100 justify-content-between">
+                <small className="font-weight-bold">{props.note.name}</small>
+                <small>{date.toDateString()}</small>
+            </div>
+        </li>
     );
 }
