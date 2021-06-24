@@ -53,6 +53,33 @@ export default function TripPage(props) {
                         </div>
                     </div>
                     <br />
+                    <div className="card border-light box-shadow">
+                        <div className="card-header border-white bg-white">
+                            <h4>Notes
+                            <span>
+                                <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target="#NotesModal">
+                                    <span className="material-icons-outlined">edit</span>
+                                </button>
+                            </span>
+                            </h4>
+                        </div>
+                        <div className="card-body">
+                            <ul className="list-group">
+                                <li href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div className="d-flex w-100 justify-content-between">
+                                        <p className="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                                        <p><span className="material-icons-outlined">close</span></p>
+                                    </div>
+                                    <div className="d-flex w-100 justify-content-between">
+                                        <small className="font-weight-bold">Donec id elit non mi porta.</small>
+                                        <small>3 days ago</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <br />
+                    </div>
+                    <br />
                 </div>
 
                 <div className="col-sm">
@@ -80,16 +107,6 @@ export default function TripPage(props) {
                                 No location provided
                             </div>
                         }
-                        <br />
-                    </div>
-                    <br />
-                    <div className="card border-light box-shadow">
-                        <div className="card-header border-white bg-white">
-                            <h4>Notes</h4>
-                        </div>
-                        <div className="card-body">
-                            Not working :(
-                        </div>
                         <br />
                     </div>
                     <br />
