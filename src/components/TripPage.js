@@ -17,6 +17,7 @@ export default function TripPage(props) {
 
     const handleNoteButton = () => {
         let note = msgRefNote.current.value
+        msgRefNote.current.value = ""
         props.handleAddNote(note)
     }
 
