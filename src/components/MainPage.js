@@ -66,14 +66,12 @@ export default function MainPage(props) {
                     { props.currentUser &&
                         <div>
                             <div className="card border-light box-shadow">
-                                <div className="card-header border-white bg-white">
+                                <div className="card-body d-flex flex-row justify-content-between">
                                     <h4>Logged in as <span className="txt-1">{props.currentUser.username}</span>
-                                    <span>
+                                    </h4>
                                         <button type="button" className="btn btn-sm CItemButtonRight" onClick={() => props.handleLogout()}>
                                             <span className="material-icons-outlined">logout</span>
                                         </button>
-                                    </span>
-                                    </h4>
                                 </div>
                             </div>
                             <br />
