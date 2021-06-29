@@ -53,7 +53,8 @@ export default function MainPage(props) {
     }
 
     return (
-        <div className="C5procTop"  style={{paddingBottom:"10%"}}>
+        <div style={{paddingBottom:"10%"}}>
+            <br />
             { getWarningMessage(props.warning) &&
                 <div className="alert alert-danger" role="alert">
                     {getWarningMessage(props.warning)}
