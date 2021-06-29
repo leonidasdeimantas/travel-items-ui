@@ -309,6 +309,8 @@ function App(props) {
     const handleRegister = (usr, eml, pw) => {
         if (pw.length < 6) {
             setRegStatus("Password must be at least 6 characters long")
+        }else if (usr.length > 20) {
+            setRegStatus("Too long username")
         } else {
             authApi.register(usr, eml, pw).then((resp) => {
                 setRegStatus(resp.message)
