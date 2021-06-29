@@ -21,6 +21,11 @@ export default function TripPage(props) {
         props.handleAddNote(note)
     }
 
+    let remaining_items = 0
+    props.items.forEach(element => {
+        if (!element.completed) remaining_items++
+    });
+
     const list_notes = props.notes.map(note => <NotesItem
         key={note.id}
         note={note}
@@ -43,13 +48,21 @@ export default function TripPage(props) {
                             <h4>Trip summary</h4>
                         </div>
                         <div className="card-body">
-                            <div className="row">
+                        <div className="row">
                                 <div className="col-8">
-                                    Number of items
+                                    Total items
                                 </div>
                                 <div className="col-4 d-flex flex-row-reverse">
-                                    <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePage("items")}>Add</button>
                                     <h5><span className="badge badge-info btn-1" style={{marginRight:"20px"}}>{props.items.length}</span></h5>
+                                </div>
+                            </div>
+                            <hr className="my-2"></hr>
+                            <div className="row">
+                                <div className="col-8">
+                                    Remaining items
+                                </div>
+                                <div className="col-4 d-flex flex-row-reverse">
+                                    <h5><span className="badge badge-info btn-1" style={{marginRight:"20px"}}>{remaining_items}</span></h5>
                                 </div>
                             </div>
                             <hr className="my-2"></hr>
@@ -58,7 +71,6 @@ export default function TripPage(props) {
                                     Number of people
                                 </div>
                                 <div className="col-4 d-flex flex-row-reverse">
-                                    <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePage("people")}>Add</button>
                                     <h5><span className="badge badge-info btn-1" style={{marginRight:"20px"}}>{props.peopleCnt}</span></h5>
                                 </div>
                             </div>
@@ -125,7 +137,7 @@ export default function TripPage(props) {
                                     <div>
                                         <div className="row">
                                             <div className="col-6 txt-1">
-                                                This trip is public <span className="material-icons-outlined txt-1">public</span>
+                                                This trip is public
                                             </div>
                                             <div className="col-6">
                                                 <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePublic()}>Make private</button>
@@ -154,7 +166,7 @@ export default function TripPage(props) {
                                 { !props.tripPublic &&
                                     <div className="row">
                                         <div className="col-6">
-                                            This trip is private <span className="material-icons-outlined text-secondary">lock</span>
+                                            This trip is private
                                         </div>
                                         <div className="col-6">
                                             <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => props.handleChangePublic()}>Make public</button>

@@ -88,7 +88,6 @@ class TiApi {
                     }
                     notes.push(note)
                 })
-                console.log(notes)
                 return notes.reverse()
             })
             .catch(error => { throw new Error(`getAllNotes error ${error}`) })
