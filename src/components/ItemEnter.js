@@ -17,12 +17,14 @@ export default function ItemEnter(props) {
     return (
         <div>
             
-            <TripHeader 
-                tripName={props.tripName}
-                tripPublic={props.tripPublic}
-            />
+            { !props.hideLabel && 
+                <TripHeader 
+                    tripName={props.tripName}
+                    tripPublic={props.tripPublic}
+                />
+            }
 
-            <form className="input-group mb-3 C5procTop" onSubmit={e => handleButton(e)}>
+            <form className={"input-group mb-3" + (props.hideLabel ? "" : " C5procTop")} onSubmit={e => handleButton(e)}>
                 <input id="ItemEnterInputID" type="textbox" className="form-control border-white" maxLength={props.item === "assignee" ? "20" : ""} placeholder={"Add " + props.item + "..."} ref={msgRef} />
                 <div className="input-group-append">
                     <input type="submit" className="btn btn-outline-secondary" value="Add" />

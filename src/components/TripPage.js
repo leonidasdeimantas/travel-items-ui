@@ -2,10 +2,13 @@ import React, { useRef }  from 'react';
 import { copyToClipboard } from '../utils/Utils'
 import ShareButton from './ShareButton';
 import TripHeader from '../components/TripHeader';
+import ItemEnter from '../components/ItemEnter'
+import Assignees from '../components/Assignees'
 
 export default function TripPage(props) {
     const msgRefLocation = useRef(null)
     const msgRefNote = useRef(null)
+    const msgRefListName = useRef(null)
 
     const handleCopyUrl = () => { copyToClipboard(window.location.href) }
     const handleCopyID = () => { copyToClipboard(props.tripUrl) }
@@ -21,6 +24,12 @@ export default function TripPage(props) {
         props.handleAddNote(note)
     }
 
+    const handleListButton = () => {
+        let listName = msgRefListName.current.value
+        msgRefListName.current.value = ""
+        props.handleAddList(listName)
+    }
+
     let remaining_items = 0
     props.items.forEach(element => {
         if (!element.completed) remaining_items++
@@ -30,6 +39,12 @@ export default function TripPage(props) {
         key={note.id}
         note={note}
         remove={props.handleRemoveNote}
+    />)
+
+    const list_lists = props.lists.map(list => <ListItem
+        key={list.id}
+        list={list}
+        handleRemoveList={props.handleRemoveList}
     />)
 
 
@@ -44,11 +59,35 @@ export default function TripPage(props) {
             <div className="row C5procTop" >
                 <div className="col-sm">
                     <div className="card border-light box-shadow">
+                        <div className="card-body">
+                            <button className="btn btn-secondary btn-1 brd-1 stretch" data-toggle="modal" data-target="#ListsModal">
+                                 Create new list <span className="material-icons-outlined">add</span> 
+                            </button>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div className="card border-light box-shadow">
                         <div className="card-header border-white bg-white">
-                            <h4>Trip summary</h4>
+                            <h4>Trip summary
+                            <span>
+                                <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target="#SummaryModal">
+                                    <span className="material-icons-outlined text-muted">edit</span>
+                                </button>
+                            </span>
+                            </h4>
                         </div>
                         <div className="card-body">
-                        <div className="row">
+                            <div className="row">
+                                <div className="col-8">
+                                    Created lists
+                                </div>
+                                <div className="col-4 d-flex flex-row-reverse">
+                                    <h5><span className="badge badge-info btn-1" style={{marginRight:"20px"}}>{props.lists.length}</span></h5>
+                                </div>
+                            </div>
+                            <hr className="my-2"></hr>
+                            <div className="row">
                                 <div className="col-8">
                                     Total items
                                 </div>
@@ -83,7 +122,7 @@ export default function TripPage(props) {
                             <h4>Notes
                             <span>
                                 <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target="#NotesModal">
-                                    <span className="material-icons-outlined">edit</span>
+                                    <span className="material-icons-outlined text-muted">edit</span>
                                 </button>
                             </span>
                             </h4>
@@ -92,6 +131,9 @@ export default function TripPage(props) {
                             <ul className="list-group">
                                 {list_notes}
                             </ul>
+                            {list_notes.length === 0 &&
+                                <p className="text-center font-italic text-muted">No notes</p>
+                            }
                         </div>
                         <br />
                     </div>
@@ -105,7 +147,7 @@ export default function TripPage(props) {
                             <h4>Location
                             <span>
                                 <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target="#LocationModal">
-                                    <span className="material-icons-outlined">edit</span>
+                                    <span className="material-icons-outlined text-muted">edit</span>
                                 </button>
                             </span>
                             </h4>
@@ -119,10 +161,35 @@ export default function TripPage(props) {
                             </div>
                         }
                         { (!props.tripLoc || props.tripLoc === "") && 
-                            <div className="card-body d-flex justify-content-between align-items-center">
-                                No location provided
+                            <div className="card-body">
+                                <p className="text-center font-italic text-muted">No location added</p>
                             </div>
                         }
+                        <br />
+                    </div>
+                    <br />
+
+                    <div className="card border-light box-shadow">
+                        <div className="card-header border-white bg-white">
+                            <h4>Participants</h4>
+                        </div>
+                        <div className="card-body">
+                            <ItemEnter
+                                tripPublic={props.tripPublic}
+                                handleChangePublic={props.handleChangePublic}
+                                handleAddItem={props.handleAddAssignee}
+                                tripUrl={props.tripUrl}
+                                tripName={props.tripName}
+                                tripLoc={props.tripLoc}
+                                hideLabel={true}
+                                item="participant" />
+                            <Assignees
+                                people={props.people}
+                                handleRemove={props.handleRemoveAssignee} />
+                            {props.people.length === 0 &&
+                                <p className="text-center font-italic text-muted">No participants</p>
+                            }
+                        </div>
                         <br />
                     </div>
                     <br />
@@ -136,7 +203,7 @@ export default function TripPage(props) {
                                 { props.tripPublic &&
                                     <div>
                                         <div className="row">
-                                            <div className="col-6 txt-1">
+                                            <div className="col-6">
                                                 This trip is public
                                             </div>
                                             <div className="col-6">
@@ -239,6 +306,46 @@ export default function TripPage(props) {
                 </div>
             </div>
 
+            <div className="modal fade" id="ListsModal" tabIndex="-1" aria-labelledby="ListsModal" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="ListsModal">Add list</h5>
+                        </div>
+                        <div className="modal-body">
+
+                                <div className="form-group">
+                                    <input className="form-control border-light bg-light" maxLength="15" placeholder="List name" ref={msgRefListName} required />
+                                </div>
+
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-secondary float-right btn-1 brd-1" data-dismiss="modal" onClick={() => handleListButton()}>Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="SummaryModal" tabIndex="-1" aria-labelledby="SummaryModal" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="SummaryModal">Edit lists</h5>
+                        </div>
+                        <div className="modal-body">
+                            {list_lists}
+                            {list_lists.length === 0 &&
+                                <p className="text-center font-italic text-muted">No lists</p>
+                            }
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 }
@@ -257,5 +364,21 @@ function NotesItem(props) {
                 <small>{date.toDateString()}</small>
             </div>
         </li>
+    );
+}
+
+function ListItem(props) {
+    return (
+        <div>
+            <div className="row">
+                <div className="col-8">
+                    {props.list.name}
+                </div>
+                <div className="col-4 d-flex flex-row-reverse">
+                    <button className="btn btn-outline-danger btn-sm float-right" onClick={() => props.handleRemoveList(props.list.id)}><span className="material-icons-outlined mr-1">delete_forever</span></button>
+                </div>
+            </div>
+            <hr className="my-2"></hr>
+        </div>
     );
 }

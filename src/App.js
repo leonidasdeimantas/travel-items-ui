@@ -6,7 +6,6 @@ import ItemList from './components/ItemList'
 import ItemEnter from './components/ItemEnter'
 import MainPage from './components/MainPage'
 import Header from './components/Header'
-import Assignees from './components/Assignees'
 import Spinner from './components/Spinner';
 import TripPage from './components/TripPage'
 
@@ -21,6 +20,8 @@ const API_URL = 'https://deimantas.tech/ti-api'
 function App(props) {
     const [items, setItems] = useState([]);
     const [people, setPeople] = useState([]);
+    const [lists, setLists] = useState([]);
+    const [listSelected, setListSelected] = useState(-1);
     const [notes, setNotes] = useState([]);
     const [page, setPage] = useState("");
     const [tripUrl, setTripUrl] = useState("");
@@ -112,11 +113,13 @@ function App(props) {
                 let newPage = (page === "main" || page === "") ? "trip" : page
                 let newItems = await tiApi.getAllTasks(tripUrl)
                 let newAssignees = await tiApi.getAllAssignees(tripUrl)
+                let newLists = await tiApi.getAllLists(tripUrl)
                 let newNotes = await tiApi.getAllNotes(tripUrl)
     
                 Promise.resolve()
                     .then(() => setItems(newItems))
                     .then(() => setPeople(newAssignees))
+                    .then(() => setLists(newLists))
                     .then(() => setNotes(newNotes))
                     .then(() => setTripName(trip.name))
                     .then(() => setTripLoc(trip.location))
@@ -148,7 +151,7 @@ function App(props) {
     }
 
     const handleAddItem = (text) => {
-        let newTask = { task: text, tripUrl: tripUrl }
+        let newTask = { task: text, tripUrl: tripUrl, listId: listSelected }
 
         Promise.resolve()
             .then(() => { setLoading(true) })
@@ -193,13 +196,35 @@ function App(props) {
             })
     }
 
-    const handleRemoveAssingee = (id) => {
+    const handleRemoveAssignee = (id) => {
         Promise.resolve()
             .then(() => { setLoading(true) })
             .then(() => {
                 tiApi.deleteAssignee(tripUrl, id)
                     .then(() => { fetchAllData() })
-                    .catch(error => handleFetchError(`handleRemoveAssingee: ${error}`))
+                    .catch(error => handleFetchError(`handleRemoveAssignee: ${error}`))
+            })
+    }
+
+    const handleAddList = (listName) => {
+        let newList = { name: listName, tripUrl: tripUrl }
+
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.addList(newList)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleAddList: ${error}`))
+            })
+    }
+
+    const handleRemoveList = (id) => {
+        Promise.resolve()
+            .then(() => { setLoading(true) })
+            .then(() => {
+                tiApi.deleteList(tripUrl, id)
+                    .then(() => { fetchAllData() })
+                    .catch(error => handleFetchError(`handleRemoveList: ${error}`))
             })
     }
 
@@ -273,8 +298,9 @@ function App(props) {
         handleUpdateItem(item)
     }
 
-    const handleChangePage = (page) => {
+    const handleChangePage = (page, id) => {
         setPage(page)
+        setListSelected(id)
     }
 
     const handleClearRecents = () => {
@@ -333,6 +359,9 @@ function App(props) {
             <Header
                 itemCnt={items.length}
                 peopleCnt={people.length}
+                lists={lists}
+                listSelected={listSelected}
+                setListSelected={setListSelected}
                 page={page}
                 tripFound={tripFound}
                 handleChangePage={handleChangePage}
@@ -372,7 +401,12 @@ function App(props) {
                         handleDeleteTrip={handleDeleteTrip}
                         handleAddNote={handleAddNote}
                         handleRemoveNote={handleRemoveNote}
-                    />
+                        handleAddList={handleAddList}
+                        handleRemoveList={handleRemoveList}
+                        handleAddAssignee={handleAddAssignee}
+                        people={people}
+                        lists={lists}
+                        handleRemoveAssignee={handleRemoveAssignee} />
                 </main>
             }
             {
@@ -385,10 +419,12 @@ function App(props) {
                         tripUrl={tripUrl}
                         tripName={tripName}
                         tripLoc={tripLoc}
+                        hideLabel={false}
                         item="item" />
                     {
                         (items.length > 0) &&
                         <ItemList
+                            listSelected={listSelected}
                             items={items}
                             people={people}
                             handleDone={handleDone}
@@ -396,22 +432,6 @@ function App(props) {
                             handleRemoveItem={handleRemoveItem}
                         />
                     }
-                </main>
-            }
-            {
-                (page === "people") &&
-                <main role="main" className="container">
-                    <ItemEnter
-                        tripPublic={tripPublic}
-                        handleChangePublic={handleChangePublic}
-                        handleAddItem={handleAddAssignee}
-                        tripUrl={tripUrl}
-                        tripName={tripName}
-                        tripLoc={tripLoc}
-                        item="assignee" />
-                    <Assignees
-                        people={people}
-                        handleRemove={handleRemoveAssingee} />
                 </main>
             }
             <Spinner loading={loading}/>

@@ -2,7 +2,8 @@ import React from 'react';
 import Item from './Item'
 
 export default function ItemList(props) {
-    const list_remaining = props.items.map(item => !item.completed && <Item
+    const list_remaining = props.items.filter(item => item.list === props.listSelected && !item.completed).map(item => 
+    <Item
         key={item.id}
         item={item}
         people={props.people}
@@ -11,7 +12,8 @@ export default function ItemList(props) {
         handleRemoveItem={props.handleRemoveItem}
     />)
 
-    const list_completed = props.items.map(item => item.completed && <Item
+    const list_completed = props.items.filter(item => item.list === props.listSelected && item.completed).map(item => 
+    <Item
         key={item.id}
         item={item}
         people={props.people}

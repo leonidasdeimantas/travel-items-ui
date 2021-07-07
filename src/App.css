@@ -193,3 +193,7 @@ input[type=number] {
   padding-bottom: .75rem;
   font-size: .875rem;
 }
+
+.stretch {
+  width: 100%
+}

@@ -36,7 +36,8 @@ class TiApi {
                         text: element.task,
                         assignee: element.assigneeId,
                         price: element.price,
-                        completed: element.completed
+                        completed: element.completed,
+                        list: element.listId
                     }
                     tasks.push(task)
                 })
@@ -67,6 +68,29 @@ class TiApi {
                 return assignees.reverse()
             })
             .catch(error => { throw new Error(`getAllAssignees error ${error}`) })
+    }
+
+    async getAllLists(tripUrl) {
+        const requestOptions = {
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/list/all?tripUrl=${tripUrl}`, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                this.checkForErrors(data)
+                let lists = []
+                data.forEach(element => {
+                    let list = {
+                        id: element.id,
+                        name: element.name
+                    }
+                    lists.push(list)
+                })
+
+                return lists.reverse()
+            })
+            .catch(error => { throw new Error(`getAllLists error ${error}`) })
     }
 
     async getAllNotes(tripUrl) {
@@ -257,6 +281,37 @@ class TiApi {
 
         return await fetch(`${this.api}/assignee?tripUrl=${tripUrl}&assigneeId=${assigneeId}`, requestOptions)
             .catch(error => { throw new Error(`deleteAssignee error ${error}`) })
+    }
+
+    async addList(list) {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': getAuthToken() 
+            },
+            body: JSON.stringify(list)
+        }
+
+        let response = await fetch(`${this.api}/list`, requestOptions)
+            .then(resp => resp.status)
+            .then(data => {
+                this.checkForErrors(data)
+                return data
+            })
+            .catch(error => { throw new Error(`addList error ${error}`) })
+
+        return response
+    }
+
+    async deleteList(tripUrl, listId) {
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Authorization': getAuthToken() }
+        }
+
+        return await fetch(`${this.api}/list?tripUrl=${tripUrl}&listId=${listId}`, requestOptions)
+            .catch(error => { throw new Error(`deleteList error ${error}`) })
     }
 
     async addNote(note) {
