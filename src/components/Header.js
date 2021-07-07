@@ -1,11 +1,11 @@
 import React from 'react';
 
 export default function Header(props) {
-
     const list_lists = props.lists.map(list => <ListItem
         key={list.id}
         list={list}
         selected={props.listSelected}
+        itemCnt={props.items.filter(item => item.list === list.id).length}
         handleChangePage={props.handleChangePage}
     />)
 

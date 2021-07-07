@@ -357,8 +357,7 @@ function App(props) {
     return (
         <div className="App">
             <Header
-                itemCnt={items.length}
-                peopleCnt={people.length}
+                items={items}
                 lists={lists}
                 listSelected={listSelected}
                 setListSelected={setListSelected}
