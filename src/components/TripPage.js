@@ -30,10 +30,10 @@ export default function TripPage(props) {
         props.handleAddList(listName)
     }
 
-    let remaining_items = 0
-    props.items.forEach(element => {
-        if (!element.completed) remaining_items++
-    });
+    let remaining_items = props.items.filter(item => !item.completed).length
+    let done_items = props.items.filter(item => item.completed).length
+    let items_amount_left = props.items.filter(item => !item.completed).reduce((acc, item) => acc += item.price ? parseFloat(item.price) : 0, 0)
+    let items_amount_spent = props.items.filter(item => item.completed).reduce((acc, item) => acc += item.price ? parseFloat(item.price) : 0, 0)
 
     const list_notes = props.notes.map(note => <NotesItem
         key={note.id}
@@ -80,24 +80,6 @@ export default function TripPage(props) {
                         <div className="card-body">
                             <div className="row">
                                 <div className="col-8">
-                                    Created lists
-                                </div>
-                                <div className="col-4 d-flex flex-row-reverse">
-                                    <h5><span className="badge badge-info btn-1" style={{marginRight:"20px"}}>{props.lists.length}</span></h5>
-                                </div>
-                            </div>
-                            <hr className="my-2"></hr>
-                            <div className="row">
-                                <div className="col-8">
-                                    Total items
-                                </div>
-                                <div className="col-4 d-flex flex-row-reverse">
-                                    <h5><span className="badge badge-info btn-1" style={{marginRight:"20px"}}>{props.items.length}</span></h5>
-                                </div>
-                            </div>
-                            <hr className="my-2"></hr>
-                            <div className="row">
-                                <div className="col-8">
                                     Remaining items
                                 </div>
                                 <div className="col-4 d-flex flex-row-reverse">
@@ -107,10 +89,46 @@ export default function TripPage(props) {
                             <hr className="my-2"></hr>
                             <div className="row">
                                 <div className="col-8">
+                                    Remaining amount
+                                </div>
+                                <div className="col-4 d-flex flex-row-reverse">
+                                    <h5><span className="badge badge-info btn-1" style={{marginRight:"20px"}}>{items_amount_left}€</span></h5>
+                                </div>
+                            </div>
+                            <hr className="my-2"></hr>
+                            <div className="row">
+                                <div className="col-8">
+                                    Items done
+                                </div>
+                                <div className="col-4 d-flex flex-row-reverse">
+                                    <h5><span className="badge badge-secondary btn-2" style={{marginRight:"20px"}}>{done_items}</span></h5>
+                                </div>
+                            </div>
+                            <hr className="my-2"></hr>
+                            <div className="row">
+                                <div className="col-8">
+                                    Total amount spent
+                                </div>
+                                <div className="col-4 d-flex flex-row-reverse">
+                                    <h5><span className="badge badge-secondary btn-2" style={{marginRight:"20px"}}>{items_amount_spent}€</span></h5>
+                                </div>
+                            </div>
+                            <hr className="my-2"></hr>
+                            <div className="row">
+                                <div className="col-8">
+                                    Created lists
+                                </div>
+                                <div className="col-4 d-flex flex-row-reverse">
+                                    <h5><span className="badge badge-secondary btn-2" style={{marginRight:"20px"}}>{props.lists.length}</span></h5>
+                                </div>
+                            </div>
+                            <hr className="my-2"></hr>
+                            <div className="row">
+                                <div className="col-8">
                                     Number of people
                                 </div>
                                 <div className="col-4 d-flex flex-row-reverse">
-                                    <h5><span className="badge badge-info btn-1" style={{marginRight:"20px"}}>{props.peopleCnt}</span></h5>
+                                    <h5><span className="badge badge-secondary btn-2" style={{marginRight:"20px"}}>{props.peopleCnt}</span></h5>
                                 </div>
                             </div>
                             <br />
@@ -155,7 +173,7 @@ export default function TripPage(props) {
                         { (props.tripLoc && props.tripLoc !== "") && 
                             <div className="card-body d-flex justify-content-between align-items-center">
                                 {props.tripLoc} 
-                                <button className="btn btn-outline-secondary btn-sm float-right" onClick={() => window.open("https://www.google.com/maps/search/?api=1&query="+props.tripLoc.split(' ').join('+'), "_blank")}>
+                                <button className="btn btn-outline-secondary btn-sm float-right brd-3 txt-2" onClick={() => window.open("https://www.google.com/maps/search/?api=1&query="+props.tripLoc.split(' ').join('+'), "_blank")}>
                                     Directions <span className="material-icons-outlined">near_me</span> 
                                 </button>
                             </div>
@@ -338,10 +356,10 @@ export default function TripPage(props) {
                             {list_lists.length === 0 &&
                                 <p className="text-center font-italic text-muted">No lists</p>
                             }
+                            <br />
+                            <button type="button" className="btn btn-secondary float-right" data-dismiss="modal">Close</button>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

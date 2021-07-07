@@ -167,6 +167,10 @@ input[type=number] {
   border-color: #63c49b;
 }
 
+.brd-3 {
+  border-color: #679ad4;
+}
+
 .brd-2 {
   border-color: #9fd8c0;
   border-width: 4px;
@@ -174,6 +178,10 @@ input[type=number] {
 
 .txt-1 {
   color: #63c49b;
+}
+
+.txt-2 {
+  color: #679ad4;
 }
 
 .ico-1 {
