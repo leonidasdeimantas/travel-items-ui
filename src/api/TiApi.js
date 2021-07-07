@@ -88,7 +88,7 @@ class TiApi {
                     lists.push(list)
                 })
 
-                return lists.reverse()
+                return lists
             })
             .catch(error => { throw new Error(`getAllLists error ${error}`) })
     }
