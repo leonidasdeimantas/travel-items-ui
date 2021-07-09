@@ -38,13 +38,13 @@ export default function Header(props) {
                                 </a>
                             </li>
 
-                            <li class="nav-item">
+                            <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
                                 <a className={"nav-link " + (props.page === "trip" ? "active" : "")} href="# " onClick={() => props.handleChangePage("trip", -1)}>
                                     Trip info
                                 </a>
                             </li>
 
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown ">
                                 <a class="nav-link dropdown-toggle" href="# " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lists</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     {list_lists}
@@ -83,7 +83,7 @@ export default function Header(props) {
 
 function ListItem(props) {
     return (
-        <a className={"dropdown-item " + (props.selected === props.list.id ? "active" : "")} href="# " onClick={() => props.handleChangePage("items", props.list.id)}>
+        <a className={"dropdown-item " + (props.selected === props.list.id ? "active" : "")} href="# " onClick={() => props.handleChangePage("items", props.list.id)} data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
             {props.list.name} <span className="badge badge-pill bg-secondary align-text-bottom">{props.itemCnt}</span>
         </a>
     );
