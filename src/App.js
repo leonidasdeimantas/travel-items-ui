@@ -359,6 +359,7 @@ function App(props) {
             <Header
                 items={items}
                 lists={lists}
+                handleRemoveList={handleRemoveList}
                 listSelected={listSelected}
                 setListSelected={setListSelected}
                 page={page}
@@ -401,7 +402,6 @@ function App(props) {
                         handleAddNote={handleAddNote}
                         handleRemoveNote={handleRemoveNote}
                         handleAddList={handleAddList}
-                        handleRemoveList={handleRemoveList}
                         handleAddAssignee={handleAddAssignee}
                         people={people}
                         lists={lists}

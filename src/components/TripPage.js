@@ -41,12 +41,6 @@ export default function TripPage(props) {
         remove={props.handleRemoveNote}
     />)
 
-    const list_lists = props.lists.map(list => <ListItem
-        key={list.id}
-        list={list}
-        handleRemoveList={props.handleRemoveList}
-    />)
-
 
     return (
         <div style={{paddingBottom:"10%"}}>
@@ -69,13 +63,7 @@ export default function TripPage(props) {
 
                     <div className="card border-light box-shadow">
                         <div className="card-header border-white bg-white">
-                            <h4>Trip summary
-                            <span>
-                                <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target="#SummaryModal">
-                                    <span className="material-icons-outlined text-muted">edit</span>
-                                </button>
-                            </span>
-                            </h4>
+                            <h4>Trip summary</h4>
                         </div>
                         <div className="card-body">
                             <div className="row">
@@ -140,7 +128,7 @@ export default function TripPage(props) {
                             <h4>Notes
                             <span>
                                 <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target="#NotesModal">
-                                    <span className="material-icons-outlined text-muted">edit</span>
+                                    <span className="material-icons-outlined text-muted">add_comment</span>
                                 </button>
                             </span>
                             </h4>
@@ -150,7 +138,7 @@ export default function TripPage(props) {
                                 {list_notes}
                             </ul>
                             {list_notes.length === 0 &&
-                                <p className="text-center font-italic text-muted">No notes</p>
+                                <p className="text-center font-italic text-muted">No notes <span className="material-icons-outlined text-muted">search_off</span></p>
                             }
                         </div>
                         <br />
@@ -180,7 +168,7 @@ export default function TripPage(props) {
                         }
                         { (!props.tripLoc || props.tripLoc === "") && 
                             <div className="card-body">
-                                <p className="text-center font-italic text-muted">No location added</p>
+                                <p className="text-center font-italic text-muted">No location added <span className="material-icons-outlined text-muted">search_off</span></p>
                             </div>
                         }
                         <br />
@@ -205,7 +193,7 @@ export default function TripPage(props) {
                                 people={props.people}
                                 handleRemove={props.handleRemoveAssignee} />
                             {props.people.length === 0 &&
-                                <p className="text-center font-italic text-muted">No participants</p>
+                                <p className="text-center font-italic text-muted">No participants <span className="material-icons-outlined text-muted">search_off</span></p>
                             }
                         </div>
                         <br />
@@ -345,25 +333,6 @@ export default function TripPage(props) {
                 </div>
             </div>
 
-            <div className="modal fade" id="SummaryModal" tabIndex="-1" aria-labelledby="SummaryModal" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="SummaryModal">Edit lists</h5>
-                        </div>
-                        <div className="modal-body">
-                            {list_lists}
-                            {list_lists.length === 0 &&
-                                <p className="text-center font-italic text-muted">No lists</p>
-                            }
-                            <br />
-                            <button type="button" className="btn btn-secondary float-right" data-dismiss="modal">Close</button>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-
         </div>
     );
 }
@@ -382,21 +351,5 @@ function NotesItem(props) {
                 <small>{date.toDateString()}</small>
             </div>
         </li>
-    );
-}
-
-function ListItem(props) {
-    return (
-        <div>
-            <div className="row">
-                <div className="col-8">
-                    {props.list.name}
-                </div>
-                <div className="col-4 d-flex flex-row-reverse">
-                    <button className="btn btn-outline-danger btn-sm float-right" onClick={() => props.handleRemoveList(props.list.id)}><span className="material-icons-outlined mr-1">delete_forever</span></button>
-                </div>
-            </div>
-            <hr className="my-2"></hr>
-        </div>
     );
 }
