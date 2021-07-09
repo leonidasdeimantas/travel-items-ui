@@ -17,15 +17,8 @@ export default function Header(props) {
 
     return (
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#151515" }}>
-                {
-                    (!props.tripFound) &&
-                    <a className="navbar-brand mx-auto order-0 CLogoText" href="# ">Travel items</a>
-                }  
-                {
-                    (props.tripFound) &&
-                    <a className="navbar-brand mx-auto order-0 CLogoText" href="# ">Ti</a>
-                }
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a className="navbar-brand CLogoText" href="# ">Travel items</a>
 
                 {
                     (props.tripFound) &&
@@ -36,10 +29,10 @@ export default function Header(props) {
 
                 {
                     (props.tripFound) &&
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style={{ paddingLeft: "20px" }}>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
 
-                            <li class="nav-item">
+                            <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
                                 <a className={"nav-link " + (props.page === "main" ? "active" : "")} href="# " onClick={() => props.handleChangePage("main", -1)}>
                                     Home
                                 </a>

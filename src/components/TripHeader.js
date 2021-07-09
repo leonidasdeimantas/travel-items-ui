@@ -3,7 +3,6 @@ import React from 'react';
 export default function TripHeader(props) {
     return (
         <div>
-            <br />
             <div className="row" >
                 <div className="col-sm">
                     <div className="card border-light box-shadow">

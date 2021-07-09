@@ -54,7 +54,6 @@ export default function MainPage(props) {
 
     return (
         <div style={{paddingBottom:"10%"}}>
-            <br />
             { getWarningMessage(props.warning) &&
                 <div className="alert alert-danger" role="alert">
                     {getWarningMessage(props.warning)}
