@@ -121,7 +121,6 @@ input[type=number] {
 
 .CShareBtn {
   position: fixed;
-  bottom: 20px;
   right: 20px;
   z-index: 999;
 }
@@ -209,4 +208,42 @@ input[type=number] {
 
 .stretch {
   width: 100%
+}
+
+@media (max-width: 576px) {
+  .testfooter {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
+    padding: 8px 16px 30px 16px;
+  }
+  .bigScreen {
+    display:none;
+  }
+  .smallScreen {
+    display:block;
+  }
+  .CShareBtn {
+    bottom: 85px;
+  }
+  .footerPadding {
+    padding-bottom: 40%;
+  }
+}
+
+@media (min-width: 577px) {
+  .bigScreen {
+    display:block;
+  }
+  .smallScreen {
+    display:none;
+  }
+  .CShareBtn {
+    bottom: 20px;
+  }
+  .footerPadding {
+    padding-bottom: 10%;
+  }
 }

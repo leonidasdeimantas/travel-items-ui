@@ -15,41 +15,50 @@ export default function Header(props) {
         handleRemoveList={props.handleRemoveList}
     />)
 
+    const handleBackButton = () => {
+        if (props.page === "items") {
+            props.handleChangePage("trip", -1)
+        } else {
+            props.handleChangePage("main", -1)
+        }
+    }
+
     return (
         <div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <br className='smallScreen' />
+            <nav className="navbar navbar-expand-sm navbar-light bg-light testfooter">
                 <a className="navbar-brand CLogoText" href="# ">Travel items</a>
 
                 {
-                    (props.tripFound) &&
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                    (props.tripFound && props.page !== "main") &&
+                    <button className="navbar-toggler" type="button" onClick={() => handleBackButton()} aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="material-icons-outlined" style={{paddingRight: "5px"}}>arrow_back</span> 
                     </button>
-                }           
+                }         
 
                 {
                     (props.tripFound) &&
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav mr-auto">
 
-                            <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
+                            <li className="nav-item">
                                 <a className={"nav-link " + (props.page === "main" ? "active" : "")} href="# " onClick={() => props.handleChangePage("main", -1)}>
                                     Home
                                 </a>
                             </li>
 
-                            <li class="nav-item" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
+                            <li className="nav-item">
                                 <a className={"nav-link " + (props.page === "trip" ? "active" : "")} href="# " onClick={() => props.handleChangePage("trip", -1)}>
                                     Trip info
                                 </a>
                             </li>
 
-                            <li class="nav-item dropdown ">
-                                <a class="nav-link dropdown-toggle" href="# " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lists</a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li className="nav-item dropdown ">
+                                <a className="nav-link dropdown-toggle" href="# " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lists</a>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     {list_lists}
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="# " data-toggle="modal" data-target="#SummaryModal">Edit lists</a>
+                                    <div className="dropdown-divider"></div>
+                                    <a className="dropdown-item" href="# " data-toggle="modal" data-target="#SummaryModal">Edit lists</a>
                                 </div>
                             </li>
 
@@ -83,7 +92,7 @@ export default function Header(props) {
 
 function ListItem(props) {
     return (
-        <a className={"dropdown-item " + (props.selected === props.list.id ? "active" : "")} href="# " onClick={() => props.handleChangePage("items", props.list.id)} data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
+        <a className={"dropdown-item " + (props.selected === props.list.id ? "active" : "")} href="# " onClick={() => props.handleChangePage("items", props.list.id)}>
             {props.list.name} <span className="badge badge-pill bg-secondary align-text-bottom">{props.itemCnt}</span>
         </a>
     );
