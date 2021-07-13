@@ -3,6 +3,7 @@ import React from 'react';
 export default function TripHeader(props) {
     return (
         <div>
+            <br />
             <div className="row" >
                 <div className="col-sm">
                     <div className="card border-light box-shadow">
@@ -17,9 +18,16 @@ export default function TripHeader(props) {
                             }
                             </p>
                         </div>
+                        {
+                            props.listName && 
+                            <div className="card-footer d-flex justify-content-center">
+                                <h6>{props.listName}</h6>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
+            <br />
         </div>
     );
 }

@@ -25,8 +25,7 @@ export default function Header(props) {
 
     return (
         <div>
-            <br className='smallScreen' />
-            <nav className="navbar navbar-expand-sm navbar-light bg-light testfooter">
+            <nav className="navbar navbar-expand-sm navbar-dark testfooter" style={{ backgroundColor: "#151515" }}>
                 <a className="navbar-brand CLogoText" href="# ">Travel items</a>
 
                 {

@@ -58,20 +58,36 @@ export default function TripPage(props) {
 
             <div className="row C5procTop" >
                 <div className="col-sm">
-                    <div className="card border-light box-shadow">
-                        <div className="card-body">
-                            <button className="btn btn-secondary btn-1 brd-1 stretch" data-toggle="modal" data-target="#ListsModal">
-                                 Create new list <span className="material-icons-outlined">add</span> 
-                            </button>
+
+                    {   (props.lists.length === 0) &&
+                        <div>
+                            <div className="card border-light box-shadow">
+                                <div className="card-body">
+                                    <button className="btn btn-secondary btn-1 brd-1 stretch" data-toggle="modal" data-target="#ListsModal">
+                                        Create new list <span className="material-icons-outlined">add</span> 
+                                    </button>
+                                </div>
+                            </div>
+                            <br />
                         </div>
-                    </div>
-                    <br />
+                    }
 
                     {   (props.lists.length > 0) &&
                         <div>
                             <div className="card border-light box-shadow">
                                 <div className="card-header border-white bg-white">
-                                    <h4>Lists</h4>
+                                    <h4>Lists
+                                    <span>
+                                        <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target="#SummaryModal">
+                                            <span className="material-icons-outlined text-muted">edit</span>
+                                        </button>
+                                    </span>
+                                    <span>
+                                        <button type="button" className="btn btn-sm CItemButtonRight" data-toggle="modal" data-target="#ListsModal">
+                                            <span className="material-icons-outlined text-muted">add</span>
+                                        </button>
+                                    </span>
+                                    </h4>
                                 </div>
                                 <div className="card-body">
                                     <div style={{ borderTop: "0 none" }}>

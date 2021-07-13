@@ -54,6 +54,7 @@ export default function MainPage(props) {
 
     return (
         <div className='footerPadding'>
+            <br />
             { getWarningMessage(props.warning) &&
                 <div className="alert alert-danger" role="alert">
                     {getWarningMessage(props.warning)}
@@ -69,7 +70,7 @@ export default function MainPage(props) {
                                     <h4>Logged in as <span className="txt-1">{props.currentUser.username}</span>
                                     </h4>
                                         <button type="button" className="btn btn-sm CItemButtonRight" onClick={() => props.handleLogout()}>
-                                            <span className="material-icons-outlined">logout</span>
+                                            <span className="material-icons-outlined text-danger">logout</span>
                                         </button>
                                 </div>
                             </div>
@@ -162,7 +163,7 @@ export default function MainPage(props) {
                                     recentsFound &&
                                     <span>
                                         <button type="button" className="btn btn-sm CItemButtonRight" onClick={() => props.handleClearRecents()}>
-                                            <span className="material-icons-outlined txt-1">clear</span>
+                                            <span className="material-icons-outlined text-muted">clear</span>
                                         </button>
                                     </span>
                                 }

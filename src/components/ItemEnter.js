@@ -4,6 +4,11 @@ import TripHeader from '../components/TripHeader';
 
 export default function ItemEnter(props) {
     const msgRef = useRef(null)
+    let listName = null;
+
+    if (!props.hideLabel && props.lists.length !== 0) {
+        listName = props.lists.find(list => list.id === props.listSelected).name
+    }
 
     const handleButton = (event) => {
         event.preventDefault()
@@ -21,8 +26,10 @@ export default function ItemEnter(props) {
                 <TripHeader 
                     tripName={props.tripName}
                     tripPublic={props.tripPublic}
+                    listName={listName}
                 />
             }
+
 
             <form className={"input-group mb-3" + (props.hideLabel ? "" : " C5procTop")} onSubmit={e => handleButton(e)}>
                 <input id="ItemEnterInputID" type="textbox" className="form-control border-white" maxLength={props.item === "assignee" ? "20" : ""} placeholder={"Add " + props.item + "..."} ref={msgRef} />

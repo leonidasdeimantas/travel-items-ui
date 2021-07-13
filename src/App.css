@@ -106,11 +106,10 @@ input[type=number] {
 }
 
 .C5procTop {
-  margin-top: 3%;
+  margin-top: 0%;
 }
 
 .CItemButtonRight {
-  margin-left: 5px;
   float: right;
 }
 

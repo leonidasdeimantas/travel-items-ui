@@ -419,6 +419,8 @@ function App(props) {
                         tripName={tripName}
                         tripLoc={tripLoc}
                         hideLabel={false}
+                        lists={lists}
+                        listSelected={listSelected}
                         item="item" />
                     {
                         (items.length > 0) &&
