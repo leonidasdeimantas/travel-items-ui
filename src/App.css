@@ -5,6 +5,7 @@ body {
 
 body {
   padding-top: 56px;
+  padding-right: 0 !important
 }
 
 @media (max-width: 767.98px) {
